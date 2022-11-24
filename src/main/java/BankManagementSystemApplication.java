@@ -1,4 +1,5 @@
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -93,21 +94,7 @@ public class BankManagementSystemApplication {
                     }
 
                 } else if (input.equals("3")) {
-                    System.out.println("Enter your name: ");
-                    String name = scanner.nextLine();
-
-                    System.out.println("Enter the ID: ");
-                    String id = scanner.nextLine();
-
-                    System.out.println("Enter the Password: ");
-                    String pw = scanner.nextLine();
-
-                    String accountNumber = "123-123456";
-                    customerList.add(new Customer(id, pw, name, accountNumber));
-                    bank.register(new Account(id, pw, name, bank.getName(), accountNumber, 0));
-
-                    System.out.println("Your account has been created!");
-                    System.out.printf("ID: %s name: %s account number: %s%n", id, name, accountNumber);
+                    bank.register();
                 } else if (input.equals("4")) {
                     break;
                 } else if (input.equals("manage")) {
@@ -133,10 +120,10 @@ public class BankManagementSystemApplication {
                 } else {
                     throw new RuntimeException("Invalid number.");
                 }
-            } catch (NumberFormatException e) {
-                System.out.println(e.getMessage());
             } catch (RuntimeException e) {
                 System.out.println(e.getMessage());
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
             }
 
         }

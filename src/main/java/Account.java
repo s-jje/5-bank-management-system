@@ -11,9 +11,11 @@ public class Account {
     private long balance;
     private List<TransactionalInfo> transactionalInfoList;
 
+
     public Account(String name, String id, String password, String bankName, String accountNumber, long balance) {
         this.id = id;
         this.password = password;
+
         this.name = name;
         this.bankName = bankName;
         this.accountNumber = accountNumber;
@@ -21,20 +23,20 @@ public class Account {
         this.transactionalInfoList = new ArrayList<>();
     }
 
-    public long deposit(long amount) {
+    public long deposit ( long amount){
         return -1L;
     }
 
-    public long withdrawal(long amount) {
+    public long withdrawal ( long amount){
         return -1L;
     }
 
-    public long checkBalance(String id, String password) {
+    public long checkBalance (String id, String password){
 
         return 0;
     }
 
-    public List<TransactionalInfo> getAllTransactionalInfos() {
+    public List<TransactionalInfo> getAllTransactionalInfos () {
 
         return null;
     }
