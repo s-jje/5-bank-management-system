@@ -1,5 +1,3 @@
-package main.java;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -11,7 +9,7 @@ public class Account {
     private long balance;
     private List<TransactionalInfo> transactionalInfoList;
 
-    public Account(UUID uuid, String name, String accountNumber, long balance) {
+    public Account(UUID uuid, String name, String accountNumber, long balance, List<TransactionalInfo> transactionalInfos) {
         this.uuid = uuid;
         this.name = name;
         this.accountNumber = accountNumber;

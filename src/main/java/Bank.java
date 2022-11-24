@@ -1,40 +1,12 @@
-package main.java;
-
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.UUID;
 
 public class Bank {
 
     private List<Account> accountList;
-    public Bank() {
-        this.accountList = new ArrayList<Account>();
-    }
 
-    public void register() throws ParseException {
-        Scanner scanner = new Scanner(System.in);
+    public void register() {
 
-        UUID uuid = UUID.randomUUID();
-        System.out.println("uuid: " + uuid.toString());
-
-        System.out.println("Enter your name: ");
-        String name = scanner.nextLine();
-
-        System.out.println("Enter your accountNumber: ");
-        String accountNumber = scanner.nextLine();
-
-        DecimalFormat df = new DecimalFormat();  // 계좌번호를 정규 표현식으로 나타내기
-        Number num = df.parse("###-#######-####");
-        System.out.println(num.doubleValue());
-
-
-        System.out.println("Enter your balance: ");
-        long balance = Long.parseLong(scanner.nextLine());
-
-        this.accountList.add(new Account(uuid, name, accountNumber, balance));
     }
 
     public void update() {
