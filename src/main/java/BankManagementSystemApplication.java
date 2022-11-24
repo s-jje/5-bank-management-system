@@ -39,12 +39,18 @@ public class BankManagementSystemApplication {
             String pw = scanner.nextLine();
             bank.getAccount(id, pw).checkBalance(id, pw);
         } else if (input.equals("3")) {
-            UUID uuid = UUID.randomUUID();
             System.out.println("Enter your name: ");
             String name = scanner.nextLine();
+
+            System.out.println("Enter your ID: ");
+            String id = scanner.nextLine();
+
+            System.out.println("Enter your PW: ");
+            String pw = scanner.nextLine();
+
             String accountNumber = "123-123456";
 
-            Customer customer = new Customer(uuid, name, accountNumber);
+            Customer customer = new Customer(name, id, pw, accountNumber);
             System.out.println("Your account has been created!");
             System.out.printf("name:%s account number: %s", name, accountNumber);
         } else if (input.equals("4")) {

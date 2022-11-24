@@ -3,15 +3,17 @@ import java.util.ArrayList;
 
 public class Account {
 
-    private String name;
-    private String password;
-    private String accountNumber;
+    private final String name;
+    private final String id;
+    private final String password;
+    private final String accountNumber;
     private long balance;
 
     private List<TransactionalInfo> transactionalInfoList;
 
-    public Account(String name, String password, String accountNumber, long balance) {
+    public Account(String name, String id, String password, String accountNumber, long balance) {
         this.name = name;
+        this.id = id;
         this.password = password;
         this.accountNumber = accountNumber;
         this.balance = balance;

@@ -1,8 +1,13 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Bank {
 
-    private List<Account> accountList;
+    private final List<Account> accountList;
+
+    public Bank() {
+        this.accountList = new ArrayList<>();
+    }
 
     public void register() {
 
