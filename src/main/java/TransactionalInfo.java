@@ -1,3 +1,5 @@
+package main.java;
+
 public class TransactionalInfo {
     private final String date;
     private final String accountNumber;
@@ -11,5 +13,15 @@ public class TransactionalInfo {
         this.isDeposit = isDeposit;
         this.amount = amount;
         this.bank = bank;
+    }
+
+    @Override
+    public String toString() {
+        return "TransactionalInfo{" +
+                "date='" + date + '\'' +
+                ", accountNumber='" + accountNumber + '\'' +
+                ", amount=" + amount +
+                ", bank='" + bank + '\'' +
+                '}';
     }
 }
