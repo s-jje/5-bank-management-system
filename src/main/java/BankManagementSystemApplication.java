@@ -48,7 +48,7 @@ public class BankManagementSystemApplication {
                             long balance = account.deposit(amount);
 
                             System.out.println("Deposit success!");
-                            System.out.printf("Your balance is ₩%s%n", Formatter.getFormattedBalance(balance));
+                            System.out.printf("Your balance is ₩%s%n", Formatter.formatToWon(balance));
                         } else {
                             System.out.println("You can deposit more than ₩0.");
                         }
@@ -69,7 +69,7 @@ public class BankManagementSystemApplication {
 
                             if (balance >= 0) {
                                 System.out.println("Withdrawal success!");
-                                System.out.printf("Your balance is ₩%s%n", Formatter.getFormattedBalance(balance));
+                                System.out.printf("Your balance is ₩%s%n", Formatter.formatToWon(balance));
                                 bank.getAccount(id, pw).withdrawal(amount);
                             } else {
                                 System.out.printf("Withdrawal failed. You have ₩%s in your account.%n", balance);
@@ -93,7 +93,7 @@ public class BankManagementSystemApplication {
                     } else if (balance == -2) {
 
                     } else {
-                        System.out.printf("Your balance is ₩%s%n", Formatter.getFormattedBalance(balance));
+                        System.out.printf("Your balance is ₩%s%n", Formatter.formatToWon(balance));
                     }
 
                 } else if (input.equals("3")) {

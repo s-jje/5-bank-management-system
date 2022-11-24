@@ -36,8 +36,36 @@ public class Account {
         return 0;
     }
 
-    public List<TransactionData> getAllTransactionalInfos() {
+    public List<TransactionData> showAllTransactionData() {
 
         return null;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public long getBalance() {
+        return balance;
+    }
+
+    public List<TransactionData> getTransactionDataList() {
+        return transactionDataList;
     }
 }
