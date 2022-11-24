@@ -32,40 +32,10 @@ public class Account {
     }
 
     public long checkBalance(String id, String password) {
-
         return 0;
     }
 
-    public List<TransactionData> showAllTransactionData() {
+    public void showAllTransactionData() {
 
-        return null;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getBankName() {
-        return bankName;
-    }
-
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public long getBalance() {
-        return balance;
-    }
-
-    public List<TransactionData> getTransactionDataList() {
-        return transactionDataList;
     }
 }
