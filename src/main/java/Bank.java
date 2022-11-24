@@ -36,7 +36,7 @@ public class Bank {
                 return account;
             }
         }
-        throw new NoSuchElementException("해당 uuid와 name은 존재하지 않습니다")
+        throw new NoSuchElementException("해당 uuid와 name은 존재하지 않습니다");
     }
 
     public void checkAllAccounts() {
