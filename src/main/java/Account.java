@@ -6,25 +6,27 @@ public class Account {
     private final String id;
     private final String password;
     private final String name;
+    private final String bankName;
     private final String accountNumber;
     private long balance;
     private List<TransactionalInfo> transactionalInfoList;
 
-    public Account(String name, String id, String password, String accountNumber, long balance) {
-        this.name = name;
+    public Account(String name, String id, String password, String bankName, String accountNumber, long balance) {
         this.id = id;
         this.password = password;
+        this.name = name;
+        this.bankName = bankName;
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.transactionalInfoList = new ArrayList<>();
     }
 
-    public void deposit(long amount) {
-
+    public long deposit(long amount) {
+        return -1L;
     }
 
-    public void withdrawal(long amount) {
-
+    public long withdrawal(long amount) {
+        return -1L;
     }
 
     public long checkBalance(String id, String password) {
