@@ -7,6 +7,7 @@ public class Account {
     private String name;
     private String accountNumber;
     private long balance;
+
     private List<TransactionalInfo> transactionalInfoList;
 
     public Account(UUID uuid, String name, String accountNumber, long balance, List<TransactionalInfo> transactionalInfos) {
@@ -20,7 +21,7 @@ public class Account {
 
     }
 
-    public void withdrawl() {
+    public void withdrawal() {
 
     }
 
@@ -29,7 +30,7 @@ public class Account {
         return 0;
     }
 
-    public List<TransactionalInfo> getAllTranscationalInfos() {
+    public List<TransactionalInfo> getAllTransactionalInfos() {
 
         return null;
     }
