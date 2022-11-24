@@ -18,7 +18,7 @@ public class Bank {
     }
 
     public void deleteAccount(Account account) {
-
+        this.accountList.remove(account);
     }
 
     public Account getAccount(String accountNumber) {
