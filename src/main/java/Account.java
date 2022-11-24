@@ -2,39 +2,45 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
+import java.util.ArrayList;
 
 public class Account {
-
-    private UUID uuid;
-    private String name;
-
-    private String accountNumber;
-
+    private final String name;
+    private final String id;
+    private final String password;
+    private final String accountNumber;
     private long balance;
+
     private List<TransactionalInfo> transactionalInfoList;
-    public Account(UUID uuid, String name, String accountNumber, long balance, List<TransactionalInfo> transactionalInfos) {
-        this.uuid = uuid;
+
+
+    public Account(String name, String id, String password, String accountNumber, long balance) {
         this.name = name;
+        this.id = id;
+        this.password = password;
         this.accountNumber = accountNumber;
         this.balance = balance;
+        this.transactionalInfoList = new ArrayList<>();
     }
 
     public void deposit() {
 
     }
 
-    public void withdrawl() {
+    public void withdrawal() {
 
     }
 
-    public long checkBalance(UUID uuid, String name) {
-
+    public long checkBalance(String name, String password) {
         return 0;
     }
 
-    public UUID getUuid() {
-        return uuid;
+    public String getId() {
+        return id;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getName() {
@@ -49,7 +55,7 @@ public class Account {
      * 계좌내의 TransactionalInfo 객체를 불러와서 toString 메서드 실행
      * @return searchTransactionalInfo List
      */
-    public void getAllTranscationalInfos() {
+    public void getAllTransactionalInfos() {
         for (TransactionalInfo transactionalInfo : this.transactionalInfoList) {
             System.out.println(transactionalInfo.toString());
         }

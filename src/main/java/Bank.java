@@ -7,10 +7,12 @@ import java.util.UUID;
 
 public class Bank {
 
-    private List<Account> accountList;
-    public Bank(){
+    private final List<Account> accountList;
+
+    public Bank() {
         this.accountList = new ArrayList<>();
     }
+
 
     public void register() {
 
@@ -26,7 +28,7 @@ public class Bank {
 
     public Account getAccount(String accountNumber) {
         for (Account account : this.accountList) {
-            if(account.getAccountNumber() == accountNumber){
+            if (account.getAccountNumber() == accountNumber) {
                 return account;
 
             }
@@ -34,9 +36,9 @@ public class Bank {
         throw new NoSuchElementException("해당 계좌번호는 없는 번호 입니다");
     }
 
-    public Account getAccount(UUID uuid, String name) {
+    public Account getAccount(String id, String password) {
         for (Account account : this.accountList) {
-            if(account.getUuid() == uuid && account.getName()==name){
+            if (account.getPassword() == password && account.getId() == id) {
                 return account;
             }
         }
