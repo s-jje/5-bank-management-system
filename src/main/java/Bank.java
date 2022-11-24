@@ -17,7 +17,7 @@ public class Bank {
 
     }
 
-    public Account getAccount(int accountNumber) {
+    public Account getAccount(String accountNumber) {
 
         return null;
     }
