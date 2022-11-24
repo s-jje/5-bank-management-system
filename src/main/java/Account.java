@@ -5,12 +5,16 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Account {
+<<<<<<< HEAD
     private final String name;
+=======
+
+>>>>>>> origin/develop
     private final String id;
     private final String password;
+    private final String name;
     private final String accountNumber;
     private long balance;
-
     private List<TransactionalInfo> transactionalInfoList;
 
 
@@ -24,14 +28,18 @@ public class Account {
     }
 
     public void deposit() {
+    public void deposit(long amount) {
 
     }
 
     public void withdrawal() {
+    public void withdrawal(long amount) {
 
     }
 
     public long checkBalance(String name, String password) {
+    public long checkBalance(String id, String password) {
+
         return 0;
     }
 

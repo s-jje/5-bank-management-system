@@ -1,6 +1,7 @@
 
 
 public class TransactionalInfo {
+
     private final String date;
     private final String accountNumber;
     private final boolean isDeposit;

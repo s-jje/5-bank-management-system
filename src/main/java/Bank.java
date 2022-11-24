@@ -13,16 +13,22 @@ public class Bank {
         this.accountList = new ArrayList<>();
     }
 
+<<<<<<< HEAD
 
     public void register() {
+=======
+    public void register(Account account) {
+>>>>>>> origin/develop
 
     }
 
     public void update() {
+    public void updateAccount(Account account) {
 
     }
 
     public void delete() {
+    public void deleteAccount(Account account) {
 
     }
 
@@ -50,5 +56,7 @@ public class Bank {
             System.out.println(account.toString());
         }
 
+    public List<Account> showAllAccounts() {
+        return null;
     }
 }
