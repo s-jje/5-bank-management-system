@@ -1,5 +1,6 @@
 package main.java;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -7,6 +8,9 @@ import java.util.UUID;
 public class Bank {
 
     private List<Account> accountList;
+    public Bank(){
+        this.accountList = new ArrayList<>();
+    }
 
     public void register() {
 
