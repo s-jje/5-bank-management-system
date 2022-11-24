@@ -1,3 +1,5 @@
+package account;
+
 public class TransactionalInfo {
 
     private final String date;

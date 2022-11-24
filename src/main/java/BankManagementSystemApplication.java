@@ -1,3 +1,6 @@
+import account.Account;
+import bank.Bank;
+import customer.Customer;
 import util.Formatter;
 
 import java.util.ArrayList;
@@ -7,10 +10,10 @@ import java.util.Scanner;
 public class BankManagementSystemApplication {
 
     public static void main(String[] args) {
-        Bank bank = new Bank("KB Bank");
+        Bank bank = new Bank("KB bank.Bank");
         List<Customer> customerList = new ArrayList<>();
 
-        System.out.println("Welcome to Bank!");
+        System.out.println("Welcome to bank.Bank!");
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
