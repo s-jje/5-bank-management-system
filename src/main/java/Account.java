@@ -1,37 +1,42 @@
-package main.java;
-
 import java.util.List;
-import java.util.UUID;
+import java.util.ArrayList;
 
 public class Account {
 
-    private UUID uuid;
-    private String name;
-    private String accountNumber;
+    private final String id;
+    private final String password;
+    private final String name;
+    private final String bankName;
+    private final String accountNumber;
     private long balance;
     private List<TransactionalInfo> transactionalInfoList;
 
-    public Account(UUID uuid, String name, String accountNumber, long balance) {
-        this.uuid = uuid;
+
+    public Account(String name, String id, String password, String bankName, String accountNumber, long balance) {
+        this.id = id;
+        this.password = password;
+
         this.name = name;
+        this.bankName = bankName;
         this.accountNumber = accountNumber;
         this.balance = balance;
+        this.transactionalInfoList = new ArrayList<>();
     }
 
-    public void deposit() {
-
+    public long deposit ( long amount){
+        return -1L;
     }
 
-    public void withdrawl() {
-
+    public long withdrawal ( long amount){
+        return -1L;
     }
 
-    public long checkBalance(UUID uuid, String name) {
+    public long checkBalance (String id, String password){
 
         return 0;
     }
 
-    public List<TransactionalInfo> getAllTranscationalInfos() {
+    public List<TransactionalInfo> getAllTransactionalInfos () {
 
         return null;
     }
