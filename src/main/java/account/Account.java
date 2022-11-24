@@ -11,7 +11,7 @@ public class Account {
     private final String bankName;
     private final String accountNumber;
     private long balance;
-    private List<TransactionalInfo> transactionalInfoList;
+    private List<TransactionData> transactionDataList;
 
     public Account(String name, String id, String password, String bankName, String accountNumber, long balance) {
         this.id = id;
@@ -20,7 +20,7 @@ public class Account {
         this.bankName = bankName;
         this.accountNumber = accountNumber;
         this.balance = balance;
-        this.transactionalInfoList = new ArrayList<>();
+        this.transactionDataList = new ArrayList<>();
     }
 
     public long deposit(long amount) {
@@ -36,7 +36,7 @@ public class Account {
         return 0;
     }
 
-    public List<TransactionalInfo> getAllTransactionalInfos() {
+    public List<TransactionData> getAllTransactionalInfos() {
 
         return null;
     }

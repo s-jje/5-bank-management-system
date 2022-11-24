@@ -1,6 +1,6 @@
 package account;
 
-public class TransactionalInfo {
+public class TransactionData {
 
     private final String date;
     private final String accountNumber;
@@ -8,7 +8,7 @@ public class TransactionalInfo {
     private final long amount;
     private final String bank;
 
-    public TransactionalInfo(String date, String accountNumber, boolean isDeposit, long amount, String bank) {
+    public TransactionData(String date, String accountNumber, boolean isDeposit, long amount, String bank) {
         this.date = date;
         this.accountNumber = accountNumber;
         this.isDeposit = isDeposit;
