@@ -1,64 +1,105 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.UUID;
 
 public class BankManagementSystemApplication {
 
     public static void main(String[] args) {
-        System.out.println("Welcome to Bank!");
-        System.out.println("1. Transaction");
-        System.out.println("2. Balance check");
-        System.out.println("3. Create an account");
-        System.out.println("4. Exit");
-        System.out.println("Please enter a number 1 ~ 5.");
-
         Bank bank = new Bank();
         List<Customer> customerList = new ArrayList<>();
 
+        System.out.println("Welcome to Bank!");
         Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine();
 
-        if (input.equals("1")) {
-            System.out.println("1. Deposit");
-            System.out.println("2. Withdrawal");
-            System.out.println("Please enter a number 1 ~ 2.");
-            input = scanner.nextLine();
+        while (true) {
+            System.out.println("1. Transaction");
+            System.out.println("2. Balance check");
+            System.out.println("3. Create an account");
+            System.out.println("4. Exit");
+            System.out.println("Please enter a number 1 ~ 5.");
 
-            if (input.equals("1")) {
+            String input = scanner.nextLine();
 
-            } else if (input.equals("2")) {
+            try {
+                if (input.equals("1")) {
+                    System.out.println("1. Deposit");
+                    System.out.println("2. Withdrawal");
+                    System.out.println("Please enter a number 1 ~ 2.");
+                    input = scanner.nextLine();
 
-            } else {
+                    System.out.println("Enter your ID: ");
+                    String id = scanner.nextLine();
 
+                    System.out.println("Enter your Password: ");
+                    String pw = scanner.nextLine();
+
+                    if (input.equals("1")) {
+                        System.out.println("Please enter the amount you want to deposit: ");
+                        long amount = Long.parseLong(scanner.nextLine());
+                        bank.getAccount(id, pw).deposit(amount);
+                    } else if (input.equals("2")) {
+                        System.out.println("Please enter the amount you want to withdrawal: ");
+                        long amount = Long.parseLong(scanner.nextLine());
+                        bank.getAccount(id, pw).withdrawal(amount);
+                    } else {
+                        throw new RuntimeException("Invalid number.");
+                    }
+                } else if (input.equals("2")) {
+                    System.out.println("Enter your ID: ");
+                    String id = scanner.nextLine();
+
+                    System.out.println("Enter your Password: ");
+                    String pw = scanner.nextLine();
+
+                    bank.getAccount(id, pw).checkBalance(id, pw);
+                } else if (input.equals("3")) {
+                    System.out.println("Enter your name: ");
+                    String name = scanner.nextLine();
+
+                    System.out.println("Enter the ID: ");
+                    String id = scanner.nextLine();
+
+                    System.out.println("Enter the Password: ");
+                    String pw = scanner.nextLine();
+
+                    String accountNumber = "123-123456";
+                    customerList.add(new Customer(id, pw, name, accountNumber));
+                    bank.register(new Account(id, pw, name, accountNumber, 0));
+
+                    System.out.println("Your account has been created!");
+                    System.out.printf("ID:%s name:%s account number: %s", id, name, accountNumber);
+                } else if (input.equals("4")) {
+                    break;
+                } else if (input.equals("manage")) {
+                    System.out.println("1. Update account");
+                    System.out.println("2. Delete account");
+                    System.out.println("3. Show all accounts");
+
+                    input = scanner.nextLine();
+
+                    if (input.equals("1")) {
+                        System.out.println("Enter the account number to update: ");
+                        String accountNumber = scanner.nextLine();
+                        bank.updateAccount(bank.getAccount(accountNumber));
+                    } else if (input.equals("2")) {
+                        System.out.println("Enter the account number to delete: ");
+                        String accountNumber = scanner.nextLine();
+                        bank.deleteAccount(bank.getAccount(accountNumber));
+                    } else if (input.equals("3")) {
+                        bank.showAllAccounts();
+                    } else {
+                        throw new RuntimeException("Invalid number.");
+                    }
+                } else {
+                    throw new RuntimeException("Invalid number.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println(e.getMessage());
+            } catch (RuntimeException e) {
+                System.out.println(e.getMessage());
             }
-        } else if (input.equals("2")) {
-            System.out.println("Enter your ID: ");
-            String id = scanner.nextLine();
-            System.out.println("Enter your PW: ");
-            String pw = scanner.nextLine();
-            bank.getAccount(id, pw).checkBalance(id, pw);
-        } else if (input.equals("3")) {
-            System.out.println("Enter your name: ");
-            String name = scanner.nextLine();
 
-            System.out.println("Enter your ID: ");
-            String id = scanner.nextLine();
-
-            System.out.println("Enter your PW: ");
-            String pw = scanner.nextLine();
-
-            String accountNumber = "123-123456";
-
-            Customer customer = new Customer(name, id, pw, accountNumber);
-            System.out.println("Your account has been created!");
-            System.out.printf("name:%s account number: %s", name, accountNumber);
-        } else if (input.equals("4")) {
-
-        } else if (input.equals("manage")) {
-
-        } else {
-
+            scanner.close();
         }
     }
 }

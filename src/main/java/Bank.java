@@ -9,15 +9,15 @@ public class Bank {
         this.accountList = new ArrayList<>();
     }
 
-    public void register() {
+    public void register(Account account) {
 
     }
 
-    public void update() {
+    public void updateAccount(Account account) {
 
     }
 
-    public void delete() {
+    public void deleteAccount(Account account) {
 
     }
 
@@ -30,7 +30,7 @@ public class Bank {
         return null;
     }
 
-    public List<Account> checkAllAccounts() {
+    public List<Account> showAllAccounts() {
         return null;
     }
 }
