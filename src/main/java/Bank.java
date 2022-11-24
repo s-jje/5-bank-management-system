@@ -4,8 +4,9 @@ import java.util.List;
 public class Bank {
 
     private final List<Account> accountList;
-
-    public Bank() {
+    private final String name;
+    public Bank(String name) {
+        this.name = name;
         this.accountList = new ArrayList<>();
     }
 
@@ -19,6 +20,10 @@ public class Bank {
 
     public void deleteAccount(Account account) {
         this.accountList.remove(account);
+    }
+
+    public String getName() {
+        return this.name;
     }
 
     public Account getAccount(String accountNumber) {

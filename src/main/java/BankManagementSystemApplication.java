@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -5,7 +6,7 @@ import java.util.Scanner;
 public class BankManagementSystemApplication {
 
     public static void main(String[] args) {
-        Bank bank = new Bank();
+        Bank bank = new Bank("KB Bank");
         List<Customer> customerList = new ArrayList<>();
 
         System.out.println("Welcome to Bank!");
@@ -27,20 +28,51 @@ public class BankManagementSystemApplication {
                     System.out.println("Please enter a number 1 ~ 2.");
                     input = scanner.nextLine();
 
-                    System.out.println("Enter your ID: ");
-                    String id = scanner.nextLine();
-
-                    System.out.println("Enter your Password: ");
-                    String pw = scanner.nextLine();
-
                     if (input.equals("1")) {
+                        System.out.println("Enter your ID: ");
+                        String id = scanner.nextLine();
+
+                        System.out.println("Enter your Password: ");
+                        String pw = scanner.nextLine();
+
+                        Account account = bank.getAccount(id, pw);
+
                         System.out.println("Please enter the amount you want to deposit: ");
                         long amount = Long.parseLong(scanner.nextLine());
-                        bank.getAccount(id, pw).deposit(amount);
+
+                        if (amount > 0) {
+                            long balance = account.deposit(amount);
+
+                            System.out.println("Deposit success!");
+                            System.out.printf("Your balance is ₩%s%n", getFormattedBalance(balance));
+                        } else {
+                            System.out.println("You can deposit more than ₩0.");
+                        }
                     } else if (input.equals("2")) {
+                        System.out.println("Enter your ID: ");
+                        String id = scanner.nextLine();
+
+                        System.out.println("Enter your Password: ");
+                        String pw = scanner.nextLine();
+
+                        Account account = bank.getAccount(id, pw);
+
                         System.out.println("Please enter the amount you want to withdrawal: ");
                         long amount = Long.parseLong(scanner.nextLine());
-                        bank.getAccount(id, pw).withdrawal(amount);
+
+                        if (amount > 0) {
+                            long balance = account.withdrawal(amount);
+
+                            if (balance >= 0) {
+                                System.out.println("Withdrawal success!");
+                                System.out.printf("Your balance is ₩%s%n", getFormattedBalance(balance));
+                                bank.getAccount(id, pw).withdrawal(amount);
+                            } else {
+                                System.out.printf("Withdrawal failed. You have ₩%s in your account.%n", balance);
+                            }
+                        } else {
+                            System.out.println("You can deposit more than ₩0.");
+                        }
                     } else {
                         throw new RuntimeException("Invalid number.");
                     }
@@ -51,7 +83,15 @@ public class BankManagementSystemApplication {
                     System.out.println("Enter your Password: ");
                     String pw = scanner.nextLine();
 
-                    bank.getAccount(id, pw).checkBalance(id, pw);
+                    long balance = bank.getAccount(id, pw).checkBalance(id, pw);
+                    if (balance == -1) {
+
+                    } else if (balance == -2) {
+
+                    } else {
+                        System.out.printf("Your balance is ₩%s%n", getFormattedBalance(balance));
+                    }
+
                 } else if (input.equals("3")) {
                     System.out.println("Enter your name: ");
                     String name = scanner.nextLine();
@@ -64,10 +104,10 @@ public class BankManagementSystemApplication {
 
                     String accountNumber = "123-123456";
                     customerList.add(new Customer(id, pw, name, accountNumber));
-                    bank.register(new Account(id, pw, name, accountNumber, 0));
+                    bank.register(new Account(id, pw, name, bank.getName(), accountNumber, 0));
 
                     System.out.println("Your account has been created!");
-                    System.out.printf("ID:%s name:%s account number: %s", id, name, accountNumber);
+                    System.out.printf("ID: %s name: %s account number: %s%n", id, name, accountNumber);
                 } else if (input.equals("4")) {
                     break;
                 } else if (input.equals("manage")) {
@@ -99,7 +139,13 @@ public class BankManagementSystemApplication {
                 System.out.println(e.getMessage());
             }
 
-            scanner.close();
         }
+
+        scanner.close();
+    }
+
+    private static String getFormattedBalance(long balance) {
+        DecimalFormat decimalFormat = new DecimalFormat("###,###");
+        return decimalFormat.format(balance);
     }
 }
