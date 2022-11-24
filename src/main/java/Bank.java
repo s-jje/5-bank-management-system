@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.UUID;
 
 public class Bank {
 
@@ -17,12 +16,12 @@ public class Bank {
 
     }
 
-    public Account getAccount(int accountNumber) {
+    public Account getAccount(String accountNumber) {
 
         return null;
     }
 
-    public Account getAccount(UUID uuid, String name) {
+    public Account getAccount(String id, String password) {
         return null;
     }
 
