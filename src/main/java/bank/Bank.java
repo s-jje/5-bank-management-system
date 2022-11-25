@@ -2,7 +2,6 @@ package bank;
 
 import account.Account;
 import customer.Customer;
-import customer.CustomerList;
 
 import java.util.ArrayList;
 import java.util.List;

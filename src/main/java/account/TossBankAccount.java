@@ -2,7 +2,6 @@ package account;
 
 import bank.Bank;
 import bank.TossBank;
-
 import util.BankingSystem;
 import util.MoneyFormatter;
 import util.TimeFormatter;
@@ -128,9 +127,9 @@ public class TossBankAccount extends Account {
         if (prevTime == 0) {
             setPrevTime(epochSecond);
         }
-        long interset = (long) (INTEREST_RATE * (epochSecond - prevTime));
-        setBalance(getBalance() + interset);
+        long interest = (long) (INTEREST_RATE * (epochSecond - prevTime));
+        setBalance(getBalance() + interest);
         setPrevTime(epochSecond);
-        return interset;
+        return interest;
     }
 }
