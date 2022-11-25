@@ -1,4 +1,3 @@
-
 import account.Account;
 import bank.Bank;
 import customer.Customer;
@@ -11,10 +10,10 @@ import java.util.Scanner;
 public class BankManagementSystemApplication {
 
     public static void main(String[] args) {
-        Bank bank = new Bank("KB bank.Bank");
+        Bank bank = new Bank("KB bank.");
         List<Customer> customerList = new ArrayList<>();
 
-        System.out.println("Welcome to bank.Bank!");
+        System.out.println("Welcome to bank.");
         Scanner scanner = new Scanner(System.in);
 
 
@@ -22,7 +21,8 @@ public class BankManagementSystemApplication {
             System.out.println("1. Transaction");
             System.out.println("2. Balance check");
             System.out.println("3. Create an account");
-            System.out.println("4. Exit");
+            System.out.println("4. Show all transactions");
+            System.out.println("5. Exit");
             System.out.println("Please enter a number 1 ~ 5.");
 
             String input = scanner.nextLine();
@@ -115,6 +115,14 @@ public class BankManagementSystemApplication {
                     System.out.println("Your account has been created!");
                     System.out.printf("ID: %s name: %s account number: %s%n", id, name, accountNumber);
                 } else if (input.equals("4")) {
+                    System.out.println("Enter the ID: ");
+                    String id = scanner.nextLine();
+
+                    System.out.println("Enter the Password: ");
+                    String pw = scanner.nextLine();
+
+                    bank.getAccount(id, pw).showAllTransactionData();
+                } else if (input.equals("5")) {
                     break;
                 } else if (input.equals("manage")) {
                     System.out.println("1. Update account");
