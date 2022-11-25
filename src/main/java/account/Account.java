@@ -1,10 +1,9 @@
 package account;
 
-import account.TransactionData;
-import bank.Bank;
+import util.Formatter;
 
-import java.time.LocalDate;
-
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,18 +12,20 @@ public class Account {
     private final String name;
     private final String id;
     private final String password;
+    private final String name;
     private final String bankName;
     private final String accountNumber;
-    private long balance;
-    private List<TransactionData> transactionDataList;
+    private final long balance;
+    private final List<TransactionData> transactionDataList;
 
 
     /**
      * 생성자
      *
-     * @param name
      * @param id
      * @param password
+     * @param name
+     * @param bankName
      * @param accountNumber
      * @param balance
      */
@@ -32,7 +33,8 @@ public class Account {
 //        this.name = name;
 //    }
 
-    public Account(String name, String id, String password, String bankName, String accountNumber, long balance) {
+    public Account(String id, String password, String name, String bankName, String accountNumber, long balance) {
+
         this.id = id;
         this.password = password;
 
@@ -74,6 +76,25 @@ public class Account {
     }
 
     public void showAllTransactionData() {
+        System.out.printf("%-15s %-20s %-15s%40s%20s%n", this.bankName, this.accountNumber, this.name, " ", getCurrentTime());
+        System.out.printf("================================================================================================================%n");
+        System.out.printf("         Date        |      Description     |       Deposits       |     Withdrawals     |       Balance        %n");
+        System.out.printf("----------------------------------------------------------------------------------------------------------------%n");
+
+        if (this.transactionDataList.size() < 1) {
+            System.out.printf("%44sThere is no transaction.%44s%n", " ", " ");
+            System.out.printf("================================================================================================================%n");
+            return;
+        }
+
+        for (TransactionData data : this.transactionDataList) {
+            if (data.isDeposit()) {
+                System.out.printf("%20s%3s%-20s%3s%20s%24s%20s%3s%n", data.getDate(), " ", data.getDestination(), " ", Formatter.formatToWon(data.getAmount()), " ", Formatter.formatToWon(data.getBalance()), " ");
+            } else {
+                System.out.printf("%20s%3s%-20s%25s%20s%2s%20s%3s%n", data.getDate(), " ", data.getDestination(), " ", Formatter.formatToWon(data.getAmount()), " ", Formatter.formatToWon(data.getBalance()), " ");
+            }
+        }
+        System.out.printf("================================================================================================================%n");
     }
 
     public String getId() {
@@ -93,16 +114,6 @@ public class Account {
     }
 
     /***
-     * 계좌내의 TransactionalInfo 객체를 불러와서 toString 메서드 실행
-     * @return searchTransactionalInfo List
-     */
-    public void getAllTransactionalInfos() {
-        for (TransactionData transactionalData : this.transactionDataList) {
-            System.out.println(transactionDataList.toString());
-        }
-    }
-
-    /***
      * 계좌 내의 정보 출력을 위한 메서드
      */
     @Override
@@ -112,5 +123,10 @@ public class Account {
                 ", accountNumber='" + accountNumber + '\'' +
                 ", balance=" + balance +
                 '}';
+    }
+}
+    private String getCurrentTime() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return dateTimeFormatter.format(ZonedDateTime.now());
     }
 }

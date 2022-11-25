@@ -16,9 +16,13 @@ public class Bank {
         this.accountList = new ArrayList<>();
     }
 
+
     public void register() throws ParseException {
 
         Scanner scanner = new Scanner(System.in);
+
+    public void register(Account account) {
+
 
         System.out.println("Enter your Name: ");
         String name = scanner.nextLine();
@@ -76,7 +80,6 @@ public class Bank {
         }
         throw new NoSuchElementException("해당 id와 password는 존재하지 않습니다");
     }
-
 
     public void showAllAccounts() {
         for (Account account : this.accountList) {
