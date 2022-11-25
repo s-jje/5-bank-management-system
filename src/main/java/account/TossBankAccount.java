@@ -14,7 +14,7 @@ import static util.Time.getCurrentDateTime;
 
 public class TossBankAccount extends Account {
 
-    private final double INTEREST_RATE = 5.5;
+    private final double INTEREST_RATE_PER_SECOND = 3.1709792e-9;
     private long prevTime;
 
     public TossBankAccount(String name, String id, String password, String bankName, String accountNumber, long balance) {
@@ -28,11 +28,18 @@ public class TossBankAccount extends Account {
         long amount = Long.parseLong(scanner.nextLine());
 
         if (amount > 0) {
+            ZonedDateTime zonedDateTime = getCurrentDateTime();
+            long epochSecond = convertDateTimeToSecond(zonedDateTime);
+
+            if (prevTime == 0) {
+                setPrevTime(epochSecond);
+            }
+
             long balance = getBalance() + amount;
             setBalance(balance);
 
-            addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), getAccountNumber(), true, amount, balance, "Toss Bank"));
-            System.out.printf("%nDeposit successful!%n%n");
+            addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), getAccountNumber(), true, amount, balance, "Toss Bank"));
+            System.out.printf("%nDeposit successful! Interest rate is %.1f%%.%n%n", INTEREST_RATE_PER_SECOND * 100.0 * 60.0 * 60.0 * 24.0 * 365.0);
         } else {
             System.out.printf("%nYou can deposit more than ₩0.%n%n");
         }
@@ -74,8 +81,9 @@ public class TossBankAccount extends Account {
         System.out.print("Please enter the account number: ");
         Scanner scanner = new Scanner(System.in);
 
-        String accountNumber = scanner.nextLine();
-        Account dstAccount = dstBank.getAccount(accountNumber);
+        String srcNum = getAccountNumber();
+        String dstNum = scanner.nextLine();
+        Account dstAccount = dstBank.getAccount(dstNum);
 
         if (getBalance() > 0) {
             System.out.print("Please enter the amount you want to transfer: ");
@@ -85,11 +93,11 @@ public class TossBankAccount extends Account {
                 long balance = getBalance() - amount;
 
                 if (balance >= 0) {
-                    dstAccount.receive(accountNumber, amount);
+                    dstAccount.receive(getBankName(), srcNum, dstNum, amount);
                     setBalance(balance);
 
-                    String dst = dstAccount.getBankName() + " " + dstAccount.getAccountNumber();
-                    addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), getAccountNumber(), false, amount, balance, dst));
+                    StringBuilder dstStr = new StringBuilder(dstAccount.getBankName() + " " + dstNum);
+                    addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), srcNum, false, amount, balance, dstStr.toString()));
                     System.out.printf("%nTransfer successful!%n%n");
                 } else {
                     System.out.printf("%nTransfer failed.%n%n");
@@ -103,9 +111,13 @@ public class TossBankAccount extends Account {
     }
 
     @Override
-    public void receive(String accountNumber, long amount) {
+    public void receive(String srcBank, String srcAccount, String dst, long amount) {
         Bank bank = TossBank.getInstance();
-        bank.getAccount(accountNumber).setBalance(getBalance() + amount);
+        Account account = bank.getAccount(dst);
+
+        long balance = getBalance() + amount;
+        account.setBalance(balance);
+        account.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), dst, true, amount, balance, srcBank + " " + srcAccount));
     }
 
     @Override
@@ -113,9 +125,7 @@ public class TossBankAccount extends Account {
         ZonedDateTime zonedDateTime = getCurrentDateTime();
         long epochSecond = convertDateTimeToSecond(zonedDateTime);
         long interest = applyInterest(epochSecond);
-        if (interest > 0) {
-            addTransactionData(new TransactionData("-", getAccountNumber(), true, interest, getBalance(), "Toss Bank Interest"));
-        }
+        addTransactionData(new TransactionData("-", getAccountNumber(), true, interest, getBalance(), "Toss Bank Interest"));
         System.out.printf("%nYour balance is ₩%s.%n%n", MoneyFormatter.formatToWon(getBalance()));
     }
 
@@ -124,11 +134,9 @@ public class TossBankAccount extends Account {
     }
 
     private long applyInterest(long epochSecond) {
-        if (prevTime == 0) {
-            setPrevTime(epochSecond);
-        }
-        long interest = (long) (INTEREST_RATE * (epochSecond - prevTime));
-        setBalance(getBalance() + interest);
+        long balance = getBalance();
+        long interest = (long) (balance * (INTEREST_RATE_PER_SECOND * (epochSecond - prevTime)));
+        setBalance(balance + interest);
         setPrevTime(epochSecond);
         return interest;
     }

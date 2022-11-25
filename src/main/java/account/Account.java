@@ -35,12 +35,12 @@ public abstract class Account {
 
     public abstract void transfer();
 
-    public abstract void receive(String accountNumber, long amount);
+    public abstract void receive(String srcBank, String srcAccountNumber, String dstAccountNumber, long amount);
 
     public abstract void showBalance();
 
     public void showAllTransactionData() {
-        System.out.printf("%n%-15s %-20s %-15s%40s%20s%n", bankName, accountNumber, name, " ", TimeFormatter.format(Time.getCurrentDateTime()));
+        System.out.printf("%n%-16s%-20s%-16s%40s%20s%n", bankName, accountNumber, name, " ", TimeFormatter.format(Time.getCurrentDateTime()));
         System.out.printf("================================================================================================================%n");
         System.out.printf("         Date        |      Description     |       Deposits       |     Withdrawals     |       Balance        %n");
         System.out.printf("----------------------------------------------------------------------------------------------------------------%n");
@@ -53,9 +53,9 @@ public abstract class Account {
 
         for (TransactionData data : transactionDataList) {
             if (data.isDeposit()) {
-                System.out.printf("%20s%3s%-20s%3s%20s%24s%20s%3s%n", data.getDate(), " ", data.getDestination(), " ", MoneyFormatter.formatToWon(data.getAmount()), " ", MoneyFormatter.formatToWon(data.getBalance()), " ");
+                System.out.printf("%20s%3s%-20s%3s%20s%24s%20s%3s%n", data.getDate(), " ", data.getDescription(), " ", MoneyFormatter.formatToWon(data.getAmount()), " ", MoneyFormatter.formatToWon(data.getBalance()), " ");
             } else {
-                System.out.printf("%20s%3s%-20s%25s%20s%2s%20s%3s%n", data.getDate(), " ", data.getDestination(), " ", MoneyFormatter.formatToWon(data.getAmount()), " ", MoneyFormatter.formatToWon(data.getBalance()), " ");
+                System.out.printf("%20s%3s%-20s%25s%20s%2s%20s%3s%n", data.getDate(), " ", data.getDescription(), " ", MoneyFormatter.formatToWon(data.getAmount()), " ", MoneyFormatter.formatToWon(data.getBalance()), " ");
             }
         }
         System.out.printf("================================================================================================================%n%n");
