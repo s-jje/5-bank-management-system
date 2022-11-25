@@ -7,15 +7,18 @@ import util.TimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+// 추상 클래스
 public abstract class Account {
 
+    // 클래스를 이루는 변수들
     private String name;
     private final String id;
     private String password;
     private final String bankName;
-    private String accountNumber;
-    private long balance;
-    private final List<TransactionData> transactionDataList;
+    private final String accountNumber; // 계좌번호
+    private long balance; // 예금
+    private final List<TransactionData> transactionDataList; // 거래내역 저장을 위한 리스트
+
 
     public Account(String name, String id, String password, String bankName, String accountNumber, long balance) {
         this.name = name;
