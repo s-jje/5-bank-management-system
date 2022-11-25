@@ -1,4 +1,7 @@
 
+package bank;
+
+import account.Account;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +11,10 @@ import java.util.UUID;
 public class Bank {
 
     private final List<Account> accountList;
+    private final String name;
 
-    public Bank() {
+    public Bank(String name) {
+        this.name = name;
         this.accountList = new ArrayList<>();
     }
 
@@ -25,7 +30,11 @@ public class Bank {
 
 
     public void deleteAccount(Account account) {
+        this.accountList.remove(account);
+    }
 
+    public String getName() {
+        return this.name;
     }
 
     public Account getAccount(String accountNumber) {
