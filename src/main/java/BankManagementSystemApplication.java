@@ -1,3 +1,4 @@
+
 import account.Account;
 import bank.Bank;
 import customer.Customer;
@@ -15,6 +16,7 @@ public class BankManagementSystemApplication {
 
         System.out.println("Welcome to bank.Bank!");
         Scanner scanner = new Scanner(System.in);
+
 
         while (true) {
             System.out.println("1. Transaction");
@@ -141,6 +143,8 @@ public class BankManagementSystemApplication {
                 System.out.println(e.getMessage());
             } catch (RuntimeException e) {
                 System.out.println(e.getMessage());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
 
         }
