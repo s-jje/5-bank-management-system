@@ -33,11 +33,12 @@ public class TossBank extends Bank {
         System.out.print("Please enter the Password: ");
         String pw = scanner.nextLine();
 
+        System.out.println();
         String accountNumber = "123-123456";
 
         getAccountList().add(new TossBankAccount(name, id, pw, getName(), accountNumber, 0L));
         getCustomerList().add(new Customer(name, id, pw, accountNumber));
-        System.out.println("Account registration successful!");
+        System.out.printf("Account registration successful!%n%n");
     }
 
     @Override
