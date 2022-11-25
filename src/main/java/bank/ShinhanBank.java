@@ -8,7 +8,7 @@ public class ShinhanBank extends Bank {
 
     static ShinhanBank instance;
 
-    public ShinhanBank() {
+    private ShinhanBank() {
         super("Shinhan Bank");
     }
 

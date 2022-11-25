@@ -15,4 +15,19 @@ public class HanaBankAccount extends Account {
     public void withdrawal() {
 
     }
+
+    @Override
+    public void transfer() {
+
+    }
+
+    @Override
+    public void receive(String accountNumber, long amount) {
+
+    }
+
+    @Override
+    public void showBalance() {
+
+    }
 }

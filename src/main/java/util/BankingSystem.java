@@ -1,4 +1,6 @@
-import bank.Bank;
+package util;
+
+import bank.*;
 import customer.Customer;
 
 import java.util.Scanner;
@@ -16,7 +18,7 @@ public class BankingSystem {
         System.out.println("| 5. Hana Bank        |");
         System.out.println("| 6. Exit             |");
         System.out.println("=======================");
-        System.out.print("Please enter a number 1 ~ 6: ");
+        System.out.print("Please enter a number (1 ~ 6): ");
 
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
@@ -33,7 +35,7 @@ public class BankingSystem {
         System.out.println("| 5. Return to previous     |");
         System.out.println("| 6. Exit                   |");
         System.out.println("=============================");
-        System.out.print("Please enter a number 1 ~ 6: ");
+        System.out.print("Please enter a number (1 ~ 6): ");
 
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
@@ -45,8 +47,9 @@ public class BankingSystem {
         System.out.println("-----------------");
         System.out.println("| 1. Deposit    |");
         System.out.println("| 2. Withdrawal |");
+        System.out.println("| 3. Transfer   |");
         System.out.println("=================");
-        System.out.print("Please enter a number 1 ~ 2: ");
+        System.out.print("Please enter a number (1 ~ 3): ");
 
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
@@ -58,9 +61,27 @@ public class BankingSystem {
         } else if (input.equals("2")) {
             Customer customer = getCustomer(bank);
             bank.getAccount(customer.getId(), customer.getPassword()).withdrawal();
+        } else if (input.equals("3")) {
+            Customer customer = getCustomer(bank);
+            bank.getAccount(customer.getId(), customer.getPassword()).transfer();
         } else {
             throw new RuntimeException("Invalid number.");
         }
+    }
+
+    public static Bank setDstBank(String bankNumber) {
+        if (bankNumber.equals("1")) {
+            return TossBank.getInstance();
+        } else if (bankNumber.equals("2")) {
+            return KbKookminBank.getInstance();
+        } else if (bankNumber.equals("3")) {
+            return ShinhanBank.getInstance();
+        } else if (bankNumber.equals("4")) {
+            return WooriBank.getInstance();
+        } else if (bankNumber.equals("5")) {
+            return HanaBank.getInstance();
+        }
+        throw new RuntimeException("Invalid Number.");
     }
 
     public static void checkBalance(Bank bank) {

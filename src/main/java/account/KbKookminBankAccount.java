@@ -16,5 +16,18 @@ public class KbKookminBankAccount extends Account {
 
     }
 
+    @Override
+    public void transfer() {
 
+    }
+
+    @Override
+    public void receive(String accountNumber, long amount) {
+
+    }
+
+    @Override
+    public void showBalance() {
+
+    }
 }

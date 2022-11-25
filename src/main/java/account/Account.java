@@ -1,6 +1,7 @@
 package account;
 
 import util.MoneyFormatter;
+import util.Time;
 import util.TimeFormatter;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public abstract class Account {
     private long balance; // 예금
     private final List<TransactionData> transactionDataList; // 거래내역 저장을 위한 리스트
 
+
     public Account(String name, String id, String password, String bankName, String accountNumber, long balance) {
         this.name = name;
         this.id = id;
@@ -32,12 +34,14 @@ public abstract class Account {
 
     public abstract void withdrawal();
 
-    public void showBalance() {
-        System.out.printf("%nYour balance is ₩%s.%n%n", MoneyFormatter.formatToWon(balance));
-    }
+    public abstract void transfer();
+
+    public abstract void receive(String accountNumber, long amount);
+
+    public abstract void showBalance();
 
     public void showAllTransactionData() {
-        System.out.printf("%n%-15s %-20s %-15s%40s%20s%n", bankName, accountNumber, name, " ", TimeFormatter.getCurrentTime());
+        System.out.printf("%n%-15s %-20s %-15s%40s%20s%n", bankName, accountNumber, name, " ", TimeFormatter.format(Time.getCurrentDateTime()));
         System.out.printf("================================================================================================================%n");
         System.out.printf("         Date        |      Description     |       Deposits       |     Withdrawals     |       Balance        %n");
         System.out.printf("----------------------------------------------------------------------------------------------------------------%n");
@@ -86,8 +90,12 @@ public abstract class Account {
         return balance;
     }
 
-    public List<TransactionData> getTransactionDataList() {
-        return transactionDataList;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     public void setName(String name) {

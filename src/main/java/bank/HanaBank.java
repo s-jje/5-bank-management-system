@@ -6,7 +6,7 @@ public class HanaBank extends Bank {
 
     static HanaBank instance;
 
-    public HanaBank() {
+    private HanaBank() {
         super("Hana Bank");
     }
 
