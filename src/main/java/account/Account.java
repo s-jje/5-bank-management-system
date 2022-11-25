@@ -1,6 +1,5 @@
 package account;
 
-import customer.Customer;
 import util.MoneyFormatter;
 import util.TimeFormatter;
 
@@ -9,9 +8,9 @@ import java.util.List;
 
 public abstract class Account {
 
-    private final String name;
+    private String name;
     private final String id;
-    private final String password;
+    private String password;
     private final String bankName;
     private final String accountNumber;
     private long balance;
@@ -27,16 +26,16 @@ public abstract class Account {
         this.transactionDataList = new ArrayList<>();
     }
 
-    public abstract void deposit(Customer customer);
+    public abstract void deposit();
 
-    public abstract void withdrawal(Customer customer);
+    public abstract void withdrawal();
 
-    public void showBalance(Customer customer) {
-
+    public void showBalance() {
+        System.out.printf("%nYour balance is ₩%s.%n%n", MoneyFormatter.formatToWon(balance));
     }
 
     public void showAllTransactionData() {
-        System.out.printf("%-15s %-20s %-15s%40s%20s%n", bankName, accountNumber, name, " ", TimeFormatter.getCurrentTime());
+        System.out.printf("%n%-15s %-20s %-15s%40s%20s%n", bankName, accountNumber, name, " ", TimeFormatter.getCurrentTime());
         System.out.printf("================================================================================================================%n");
         System.out.printf("         Date        |      Description     |       Deposits       |     Withdrawals     |       Balance        %n");
         System.out.printf("----------------------------------------------------------------------------------------------------------------%n");
@@ -54,7 +53,7 @@ public abstract class Account {
                 System.out.printf("%20s%3s%-20s%25s%20s%2s%20s%3s%n", data.getDate(), " ", data.getDestination(), " ", MoneyFormatter.formatToWon(data.getAmount()), " ", MoneyFormatter.formatToWon(data.getBalance()), " ");
             }
         }
-        System.out.printf("================================================================================================================%n");
+        System.out.printf("================================================================================================================%n%n");
     }
 
     public void addTransactionData(TransactionData data) {
@@ -87,6 +86,14 @@ public abstract class Account {
 
     public List<TransactionData> getTransactionDataList() {
         return transactionDataList;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setBalance(long balance) {

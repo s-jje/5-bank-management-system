@@ -18,6 +18,8 @@ public class BankManagementSystemApplication {
         while (true) {
             try {
                 String bankNumber = BankingSystem.chooseBank();
+                System.out.println();
+
                 Bank bank;
 
                 if (bankNumber.equals("1")) {
@@ -54,7 +56,7 @@ public class BankManagementSystemApplication {
                         } else if (input.equals("6")) {
                             return;
                         } else if (input.equals("manage")) {
-                            BankingSystem.mangement(bank);
+                            BankingSystem.management(bank);
                         } else {
                             throw new RuntimeException("Invalid number.");
                         }
