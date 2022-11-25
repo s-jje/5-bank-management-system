@@ -32,7 +32,8 @@ public abstract class Bank {
     }
 
     public void showAllAccounts() {
-
+        System.out.println(getName());
+        accountList.showAllAccounts();
     }
 
     public String getName() {

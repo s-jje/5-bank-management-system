@@ -40,4 +40,14 @@ public class AccountList {
         }
         throw new NoSuchElementException("ID not found.");
     }
+
+    public void showAllAccounts() {
+        System.out.println("===============================");
+        System.out.println("   Name      Account Number    ");
+        System.out.println("-------------------------------");
+        for (Account account : accountList) {
+            System.out.printf(" %10s %15s %n", account.getName(), account.getAccountNumber());
+        }
+        System.out.println("===============================");
+    }
 }
