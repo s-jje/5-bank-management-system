@@ -41,4 +41,15 @@ public class TransactionData {
     public String getDestination() {
         return destination;
     }
+
+    @Override
+    public String toString() {
+        return "TransactionData{" +
+                "date='" + date + '\'' +
+                ", accountNumber='" + accountNumber + '\'' +
+                ", amount=" + amount +
+                ", balance=" + balance +
+                ", destination='" + destination + '\'' +
+                '}';
+    }
 }

@@ -1,13 +1,10 @@
-<<<<<<< HEAD
+import bank.Bank;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-=======
 import account.Account;
-import bank.Bank;
 import customer.Customer;
 import util.Formatter;
 
->>>>>>> 32878b176c7d8921a951813de2d3a9a369f3107c
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,13 +12,12 @@ import java.util.Scanner;
 public class BankManagementSystemApplication {
 
     public static void main(String[] args) {
-        Bank bank = new Bank("KB Bank");
         Bank bank = new Bank("KB bank.Bank");
         List<Customer> customerList = new ArrayList<>();
 
-        System.out.println("Welcome to Bank!");
         System.out.println("Welcome to bank.Bank!");
         Scanner scanner = new Scanner(System.in);
+
 
         while (true) {
             System.out.println("1. Transaction");
@@ -55,7 +51,6 @@ public class BankManagementSystemApplication {
                             long balance = account.deposit(amount);
 
                             System.out.println("Deposit success!");
-                            System.out.printf("Your balance is ₩%s%n", getFormattedBalance(balance));
                             System.out.printf("Your balance is ₩%s%n", Formatter.formatToWon(balance));
                         } else {
                             System.out.println("You can deposit more than ₩0.");
@@ -77,7 +72,6 @@ public class BankManagementSystemApplication {
 
                             if (balance >= 0) {
                                 System.out.println("Withdrawal success!");
-                                System.out.printf("Your balance is ₩%s%n", getFormattedBalance(balance));
                                 System.out.printf("Your balance is ₩%s%n", Formatter.formatToWon(balance));
                                 bank.getAccount(id, pw).withdrawal(amount);
                             } else {
@@ -102,7 +96,6 @@ public class BankManagementSystemApplication {
                     } else if (balance == -2) {
 
                     } else {
-                        System.out.printf("Your balance is ₩%s%n", getFormattedBalance(balance));
                         System.out.printf("Your balance is ₩%s%n", Formatter.formatToWon(balance));
                     }
 
@@ -136,16 +129,12 @@ public class BankManagementSystemApplication {
             } catch (RuntimeException e) {
                 System.out.println(e.getMessage());
             } catch (ParseException e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
 
         }
 
         scanner.close();
-    }
-
-    private static String getFormattedBalance(long balance) {
-        DecimalFormat decimalFormat = new DecimalFormat("###,###");
-        return decimalFormat.format(balance);
     }
 }

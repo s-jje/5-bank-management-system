@@ -1,18 +1,11 @@
-<<<<<<< HEAD:src/main/java/Bank.java
+package bank;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-=======
-package bank;
-
 import account.Account;
->>>>>>> 32878b176c7d8921a951813de2d3a9a369f3107c:src/main/java/bank/Bank.java
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.NoSuchElementException;
 
 public class Bank {
 
@@ -67,15 +60,32 @@ public class Bank {
     }
 
     public Account getAccount(String accountNumber) {
-
-        return null;
+        for (Account account : this.accountList) {
+            if (account.getAccountNumber().equals(accountNumber)) {
+                return account;
+            }
+        }
+        throw new NoSuchElementException("해당 계좌번호는 없는 번호 입니다");
     }
 
     public Account getAccount(String id, String password) {
-        return null;
+        for (Account account : this.accountList) {
+            if (account.getPassword().equals(password) && account.getId().equals(id)) {
+                return account;
+            }
+        }
+        throw new NoSuchElementException("해당 id와 password는 존재하지 않습니다");
     }
 
-    public List<Account> showAllAccounts() {
-        return null;
+
+    public void showAllAccounts() {
+        for (Account account : this.accountList) {
+            System.out.println(account.toString());
+        }
+    }
+
+    public void shotMoney(Account giveAccount, Account sendAccount, long amount) {
+
+
     }
 }
