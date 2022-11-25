@@ -1,6 +1,5 @@
 package account;
 
-import customer.Customer;
 import util.MoneyFormatter;
 
 import java.util.Scanner;

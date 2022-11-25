@@ -1,7 +1,7 @@
 package account;
 
-import customer.Customer;
 import util.MoneyFormatter;
+import util.Time;
 import util.TimeFormatter;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public abstract class Account {
     }
 
     public void showAllTransactionData() {
-        System.out.printf("%n%-15s %-20s %-15s%40s%20s%n", bankName, accountNumber, name, " ", TimeFormatter.getCurrentTime());
+        System.out.printf("%n%-15s %-20s %-15s%40s%20s%n", bankName, accountNumber, name, " ", TimeFormatter.format(Time.getCurrentDateTime()));
         System.out.printf("================================================================================================================%n");
         System.out.printf("         Date        |      Description     |       Deposits       |     Withdrawals     |       Balance        %n");
         System.out.printf("----------------------------------------------------------------------------------------------------------------%n");

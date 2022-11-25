@@ -4,8 +4,8 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class TimeFormatter {
-    public static String getCurrentTime() {
+    public static String format(ZonedDateTime zonedDateTime) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return dateTimeFormatter.format(ZonedDateTime.now());
+        return dateTimeFormatter.format(zonedDateTime.now());
     }
 }
