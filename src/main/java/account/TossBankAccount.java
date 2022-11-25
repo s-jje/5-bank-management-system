@@ -74,8 +74,9 @@ public class TossBankAccount extends Account {
         System.out.print("Please enter the account number: ");
         Scanner scanner = new Scanner(System.in);
 
-        String accountNumber = scanner.nextLine();
-        Account dstAccount = dstBank.getAccount(accountNumber);
+        String srcNum = getAccountNumber();
+        String dstNum = scanner.nextLine();
+        Account dstAccount = dstBank.getAccount(dstNum);
 
         if (getBalance() > 0) {
             System.out.print("Please enter the amount you want to transfer: ");
@@ -85,11 +86,11 @@ public class TossBankAccount extends Account {
                 long balance = getBalance() - amount;
 
                 if (balance >= 0) {
-                    dstAccount.receive(accountNumber, amount);
+                    dstAccount.receive(getBankName(), srcNum, dstNum, amount);
                     setBalance(balance);
 
-                    StringBuilder dst = new StringBuilder(dstAccount.getBankName() + " " + dstAccount.getAccountNumber());
-                    addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), getAccountNumber(), false, amount, balance, dst.toString()));
+                    StringBuilder dstStr = new StringBuilder(dstAccount.getBankName() + " " + dstNum);
+                    addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), srcNum, false, amount, balance, dstStr.toString()));
                     System.out.printf("%nTransfer successful!%n%n");
                 } else {
                     System.out.printf("%nTransfer failed.%n%n");
@@ -103,9 +104,13 @@ public class TossBankAccount extends Account {
     }
 
     @Override
-    public void receive(String accountNumber, long amount) {
+    public void receive(String srcBank, String srcAccount, String dst, long amount) {
         Bank bank = TossBank.getInstance();
-        bank.getAccount(accountNumber).setBalance(getBalance() + amount);
+        Account account = bank.getAccount(dst);
+
+        long balance = getBalance() + amount;
+        account.setBalance(balance);
+        account.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), dst, true, amount, balance, srcBank + " " + srcAccount));
     }
 
     @Override
@@ -127,6 +132,7 @@ public class TossBankAccount extends Account {
         if (prevTime == 0) {
             setPrevTime(epochSecond);
         }
+        
         long interest = (long) (INTEREST_RATE * (epochSecond - prevTime));
         setBalance(getBalance() + interest);
         setPrevTime(epochSecond);

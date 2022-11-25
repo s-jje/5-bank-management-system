@@ -57,7 +57,7 @@ public class TossBank extends Bank {
             customerAccountListMap.put(customer, list);
         }
 
-        System.out.printf("Account registration successful!%n%n");
+        System.out.printf("Account registration successful! Your account number is %s%n%n", accountNumber);
     }
 
     @Override
