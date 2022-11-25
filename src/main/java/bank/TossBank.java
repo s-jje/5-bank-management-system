@@ -56,8 +56,6 @@ public class TossBank extends Bank {
             customerAccountListMap.put(customer, list);
         }
 
-        System.out.printf("떳냐: %s%n", getAccount(accountNumber).getAccountNumber());
-
         System.out.printf("Account registration successful!%n%n");
     }
 

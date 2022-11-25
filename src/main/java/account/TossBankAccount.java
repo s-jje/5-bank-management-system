@@ -77,8 +77,6 @@ public class TossBankAccount extends Account {
         String accountNumber = scanner.nextLine();
         Account dstAccount = dstBank.getAccount(accountNumber);
 
-        dstAccount.deposit();
-
         if (getBalance() > 0) {
             System.out.print("Please enter the amount you want to transfer: ");
             long amount = Long.parseLong(scanner.nextLine());
@@ -87,8 +85,10 @@ public class TossBankAccount extends Account {
                 long balance = getBalance() - amount;
 
                 if (balance >= 0) {
+                    dstAccount.receive(accountNumber, amount);
                     setBalance(balance);
-                    String dst = dstAccount.getBankName() + dstAccount.getAccountNumber();
+
+                    String dst = dstAccount.getBankName() + " " + dstAccount.getAccountNumber();
                     addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), getAccountNumber(), false, amount, balance, dst));
                     System.out.printf("%nTransfer successful!%n%n");
                 } else {
