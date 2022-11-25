@@ -88,8 +88,8 @@ public class TossBankAccount extends Account {
                     dstAccount.receive(accountNumber, amount);
                     setBalance(balance);
 
-                    String dst = dstAccount.getBankName() + " " + dstAccount.getAccountNumber();
-                    addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), getAccountNumber(), false, amount, balance, dst));
+                    StringBuilder dst = new StringBuilder(dstAccount.getBankName() + " " + dstAccount.getAccountNumber());
+                    addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), getAccountNumber(), false, amount, balance, dst.toString()));
                     System.out.printf("%nTransfer successful!%n%n");
                 } else {
                     System.out.printf("%nTransfer failed.%n%n");
