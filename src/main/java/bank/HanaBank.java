@@ -4,16 +4,13 @@ import account.Account;
 
 public class HanaBank extends Bank {
 
-    static HanaBank instance;
+    static HanaBank instance = new HanaBank();
 
-    public HanaBank() {
+    private HanaBank() {
         super("Hana Bank");
     }
 
     public static HanaBank getInstance() {
-        if (instance == null) {
-            return new HanaBank();
-        }
         return instance;
     }
 

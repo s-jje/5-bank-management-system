@@ -8,16 +8,13 @@ import java.util.Scanner;
 
 public class ShinhanBank extends Bank {
 
-    static ShinhanBank instance;
+    static ShinhanBank instance = new ShinhanBank();
 
-    public ShinhanBank() {
+    private ShinhanBank() {
         super("Shinhan Bank");
     }
 
     public static ShinhanBank getInstance() {
-        if (instance == null) {
-            return new ShinhanBank();
-        }
         return instance;
     }
 

@@ -3,21 +3,23 @@ package bank;
 import account.Account;
 import account.TossBankAccount;
 import customer.Customer;
+import util.RandomNumberGenerator;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class TossBank extends Bank {
 
-    static TossBank instance;
+    private static TossBank instance = new TossBank();
 
-    public TossBank() {
+    private final int MAX_ACCOUNT_NUM = 3;
+    private final Map<Customer, List<Account>> customerAccountListMap;
+
+    private TossBank() {
         super("Toss Bank");
+        this.customerAccountListMap = new HashMap<>();
     }
 
     public static TossBank getInstance() {
-        if (instance == null) {
-            return new TossBank();
-        }
         return instance;
     }
 
@@ -33,15 +35,41 @@ public class TossBank extends Bank {
         System.out.print("Please enter the Password: ");
         String pw = scanner.nextLine();
 
-        String accountNumber = "123-123456";
+        System.out.println();
+        String accountNumber = generateAccountNumber();
 
-        getAccountList().add(new TossBankAccount(name, id, pw, getName(), accountNumber, 0L));
-        getCustomerList().add(new Customer(name, id, pw, accountNumber));
-        System.out.println("Account registration successful!");
+        Customer customer = new Customer(name, id, pw, accountNumber);
+        Account account = new TossBankAccount(name, id, pw, getName(), accountNumber, 0L);
+
+        if (customerAccountListMap.containsKey(customer)) {
+            if (customerAccountListMap.get(customer).size() < 3) {
+                addAccount(account);
+                customerAccountListMap.get(customer).add(account);
+            } else {
+                System.out.printf("You already have 3 accounts.%n%n");
+                return;
+            }
+        } else {
+            addAccount(account);
+            addCustomer(customer);
+            List<Account> list = new ArrayList<>(MAX_ACCOUNT_NUM);
+            list.add(account);
+            customerAccountListMap.put(customer, list);
+        }
+
+        System.out.printf("Account registration successful! Your account number is %s%n%n", accountNumber);
     }
 
     @Override
     public void updateAccount(Account account) {
 
+    }
+
+    private String generateAccountNumber() {
+        String first = RandomNumberGenerator.generateAccountNumber(2);
+        String second = RandomNumberGenerator.generateAccountNumber(3);
+        String third = RandomNumberGenerator.generateAccountNumber(2);
+        StringBuilder sb = new StringBuilder(first + "-" + second + "-" + third);
+        return sb.toString();
     }
 }

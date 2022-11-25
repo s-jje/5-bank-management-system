@@ -4,16 +4,13 @@ import account.Account;
 
 public class WooriBank extends Bank {
 
-    static WooriBank instance;
+    static WooriBank instance = new WooriBank();
 
-    public WooriBank() {
+    private WooriBank() {
         super("Woori Bank");
     }
 
     public static WooriBank getInstance() {
-        if (instance == null) {
-            instance = new WooriBank();
-        }
         return instance;
     }
     @Override

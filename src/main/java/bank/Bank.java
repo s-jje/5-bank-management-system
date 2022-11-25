@@ -1,18 +1,21 @@
 package bank;
 
 import account.Account;
-import account.AccountList;
-import customer.CustomerList;
+import customer.Customer;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 public abstract class Bank {
 
     private final String name;
-    private final AccountList accountList;
-    private final CustomerList customerList;
+    private final List<Account> accountList;
+    private final List<Customer> customerList;
     public Bank(String name) {
         this.name = name;
-        this.accountList = new AccountList();
-        this.customerList = new CustomerList();
+        this.accountList = new ArrayList<>();
+        this.customerList = new ArrayList<>();
     }
 
     public abstract void register();
@@ -24,27 +27,66 @@ public abstract class Bank {
     }
 
     public Account getAccount(String accountNumber) {
-        return accountList.getAccount(accountNumber);
+        for (Account account : accountList) {
+            if (accountNumber.equals(account.getAccountNumber())) {
+                return account;
+            }
+        }
+        throw new NoSuchElementException("Account not found.");
     }
 
     public Account getAccount(String id, String password) {
-        return accountList.getAccount(id, password);
+        for (Account account : accountList) {
+            if (account.getId().equals(id)) {
+                if (account.getPassword().equals(password)) {
+                    return account;
+                }
+                throw new NoSuchElementException("Incorrect password.");
+            }
+        }
+        throw new NoSuchElementException("ID not found.");
     }
 
     public void showAllAccounts() {
-        System.out.println(getName());
-        accountList.showAllAccounts();
+        System.out.printf(" %s%n", name);
+        System.out.println("===============================");
+        System.out.println("   Name      Account Number    ");
+        System.out.println("-------------------------------");
+        for (Account account : accountList) {
+            System.out.printf(" %10s %15s %n", account.getName(), account.getAccountNumber());
+        }
+        System.out.println("===============================");
+    }
+
+    public void addAccount(Account account) {
+        accountList.add(account);
+    }
+
+    public void addCustomer(Customer customer) {
+        customerList.add(customer);
     }
 
     public String getName() {
         return name;
     }
 
-    public AccountList getAccountList() {
+    public List<Account> getAccountList() {
         return accountList;
     }
 
-    public CustomerList getCustomerList() {
+    public List<Customer> getCustomerList() {
         return customerList;
+    }
+
+    public Customer getCustomer(String id, String password) {
+        for (Customer customer : customerList) {
+            if (customer.getId().equals(id)) {
+                if (customer.getPassword().equals(password)) {
+                    return customer;
+                }
+                throw new NoSuchElementException("Incorrect password.");
+            }
+        }
+        throw new NoSuchElementException("Customer not found.");
     }
 }

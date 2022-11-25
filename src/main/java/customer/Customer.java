@@ -1,17 +1,23 @@
 package customer;
 
+import java.util.ArrayList;
+import java.util.List;
 public class Customer {
 
+    private String name;
     private final String id;
-    private final String password;
-    private final String name;
-    private final String accountNumber;
+    private String password;
+    private final List<String> accountNumber = new ArrayList<>();
 
     public Customer(String name, String id, String password, String accountNumber) {
         this.name = name;
         this.id = id;
         this.password = password;
-        this.accountNumber = accountNumber;
+        this.accountNumber.add(accountNumber);
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getId() {
@@ -22,11 +28,7 @@ public class Customer {
         return password;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getAccountNumber() {
+    public List<String> getAccountNumber() {
         return accountNumber;
     }
 }

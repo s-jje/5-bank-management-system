@@ -1,4 +1,5 @@
 import bank.*;
+import util.BankingSystem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,15 +62,15 @@ public class BankManagementSystemApplication {
                             throw new RuntimeException("Invalid number.");
                         }
                     } catch (NumberFormatException e) {
-                        System.out.println(e.getMessage());
+                        System.out.printf("%n%s%n%n", e.getMessage());
                     } catch (RuntimeException e) {
-                        System.out.println(e.getMessage());
+                        System.out.printf("%n%s%n%n", e.getMessage());
                     }
                 }
             } catch (NumberFormatException e) {
-                System.out.println(e.getMessage());
+                System.out.printf("%n%s%n%n", e.getMessage());
             } catch (RuntimeException e) {
-                System.out.println(e.getMessage());
+                System.out.printf("%n%s%n%n", e.getMessage());
             }
         }
     }
