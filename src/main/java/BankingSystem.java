@@ -41,13 +41,14 @@ public class BankingSystem {
 
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
+        System.out.println();
 
         if (input.equals("1")) {
             Customer customer = getCustomer(bank);
-            bank.getAccount(customer.getId(), customer.getPassword()).deposit(customer);
+            bank.getAccount(customer.getId(), customer.getPassword()).deposit();
         } else if (input.equals("2")) {
             Customer customer = getCustomer(bank);
-            bank.getAccount(customer.getId(), customer.getPassword()).withdrawal(customer);
+            bank.getAccount(customer.getId(), customer.getPassword()).withdrawal();
         } else {
             throw new RuntimeException("Invalid number.");
         }
@@ -55,7 +56,7 @@ public class BankingSystem {
 
     public static void checkBalance(Bank bank) {
         Customer customer = getCustomer(bank);
-        bank.getAccount(customer.getId(), customer.getPassword()).showBalance(customer);
+        bank.getAccount(customer.getId(), customer.getPassword()).showBalance();
     }
 
     public static void checkAllTransactions(Bank bank) {
@@ -67,7 +68,7 @@ public class BankingSystem {
         bank.register();
     }
 
-    public static void mangement(Bank bank) {
+    public static void management(Bank bank) {
 
     }
 

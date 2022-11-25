@@ -1,7 +1,5 @@
 package account;
 
-import customer.Customer;
-
 public class HanaBankAccount extends Account {
 
     public HanaBankAccount(String name, String id, String password, String bankName, String accountNumber, long balance) {
@@ -9,12 +7,12 @@ public class HanaBankAccount extends Account {
     }
 
     @Override
-    public void deposit(Customer customer) {
+    public void deposit() {
 
     }
 
     @Override
-    public void withdrawal(Customer customer) {
+    public void withdrawal() {
 
     }
 }

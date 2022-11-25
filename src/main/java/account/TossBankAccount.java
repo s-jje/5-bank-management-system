@@ -1,6 +1,5 @@
 package account;
 
-import customer.Customer;
 import util.MoneyFormatter;
 
 import java.util.Scanner;
@@ -12,7 +11,7 @@ public class TossBankAccount extends Account {
     }
 
     @Override
-    public void deposit(Customer customer) {
+    public void deposit() {
         System.out.print("Please enter the amount you want to deposit: ");
         Scanner scanner = new Scanner(System.in);
         long amount = Long.parseLong(scanner.nextLine());
@@ -20,7 +19,7 @@ public class TossBankAccount extends Account {
         if (amount > 0) {
             long balance = getBalance() + amount;
             setBalance(balance);
-            addTransactionData(new TransactionData(customer.getAccountNumber(), true, amount, balance, "Toss Bank"));
+            addTransactionData(new TransactionData(getAccountNumber(), true, amount, balance, "Toss Bank"));
             System.out.println("Deposit successful!");
             System.out.printf("Your balance is ₩%s%n", MoneyFormatter.formatToWon(balance));
         } else {
@@ -29,7 +28,7 @@ public class TossBankAccount extends Account {
     }
 
     @Override
-    public void withdrawal(Customer customer) {
+    public void withdrawal() {
         System.out.print("Please enter the amount you want to withdrawal: ");
         Scanner scanner = new Scanner(System.in);
         long amount = Long.parseLong(scanner.nextLine());
@@ -39,7 +38,7 @@ public class TossBankAccount extends Account {
 
             if (balance >= 0) {
                 setBalance(balance);
-                addTransactionData(new TransactionData(customer.getAccountNumber(), false, amount, balance, "Toss Bank"));
+                addTransactionData(new TransactionData(getAccountNumber(), false, amount, balance, "Toss Bank"));
                 System.out.println("Withdrawal successful!");
                 System.out.printf("Your balance is ₩%s%n", MoneyFormatter.formatToWon(balance));
             } else {

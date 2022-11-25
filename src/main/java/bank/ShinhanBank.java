@@ -1,6 +1,8 @@
 package bank;
 
 import account.Account;
+import account.ShinhanBankAccount;
+import customer.Customer;
 
 import java.util.Scanner;
 
@@ -30,24 +32,16 @@ public class ShinhanBank extends Bank {
         String id = scanner.nextLine();
 
         System.out.println("Enter your Password: ");
-        String password = scanner.nextLine();
+        String pw = scanner.nextLine();
 
-        System.out.println("Enter your BankName: ");
-        String bankName = scanner.nextLine();
+        // 계좌번호 랜덤 생성
+        String accountNumber = "110-" + (int) ((Math.random() * 999) + 1) + "-" + (int) ((Math.random() * 999999) + 1);
 
-        System.out.println("Enter your AccountNumber: ");
-        System.out.println("###-###### 이 형식으로 적어주세요");
-        String accountNumber = scanner.nextLine();
+        getAccountList().add(new ShinhanBankAccount(name, id, pw, getName(), accountNumber, 0L));
+        getCustomerList().add(new Customer(name, id, pw, accountNumber));
 
-//        DecimalFormat df = new DecimalFormat();
-//        Number num = df.parse("000-000000");
-//
-//        System.out.println("Enter your Balance: ");
-//        long balance = Long.parseLong(scanner.nextLine());
-//
-//        this.accountList.add(new Account(name, id, password, bankName, accountNumber, balance));
-//        System.out.println("Your account has been created!");
-//        System.out.printf("ID: %s name: %s account number: %s%n", id, name, accountNumber);
+        // 계좌번호 출력
+        System.out.printf("Account registration successful! Account Number is %s%n%n", accountNumber);
     }
 
     @Override
