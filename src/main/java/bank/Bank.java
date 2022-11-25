@@ -17,12 +17,10 @@ public class Bank {
     }
 
 
-    public void register() throws ParseException {
-
-        Scanner scanner = new Scanner(System.in);
 
     public void register(Account account) {
 
+        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter your Name: ");
         String name = scanner.nextLine();

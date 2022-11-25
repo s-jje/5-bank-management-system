@@ -12,7 +12,6 @@ public class Account {
     private final String name;
     private final String id;
     private final String password;
-    private final String name;
     private final String bankName;
     private final String accountNumber;
     private final long balance;
@@ -124,7 +123,7 @@ public class Account {
                 ", balance=" + balance +
                 '}';
     }
-}
+
     private String getCurrentTime() {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return dateTimeFormatter.format(ZonedDateTime.now());

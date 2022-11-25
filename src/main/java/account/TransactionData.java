@@ -4,7 +4,7 @@ public class TransactionData {
 
     private final String date;
     private final String accountNumber;
-    private final boolean isDeposit;
+    private final boolean isDeposit; // 입 / 출금
     private final long amount;
     private final long balance;
     private final String destination;
