@@ -1,9 +1,15 @@
+<<<<<<< HEAD:src/main/java/Bank.java
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+=======
+package bank;
+
+import account.Account;
+>>>>>>> 32878b176c7d8921a951813de2d3a9a369f3107c:src/main/java/bank/Bank.java
 
 import java.util.ArrayList;
 import java.util.List;

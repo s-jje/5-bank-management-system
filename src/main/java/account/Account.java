@@ -1,5 +1,7 @@
-import java.util.List;
+package account;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class Account {
 
@@ -9,7 +11,7 @@ public class Account {
     private final String bankName;
     private final String accountNumber;
     private long balance;
-    private List<TransactionalInfo> transactionalInfoList;
+    private List<TransactionData> transactionDataList;
 
 
     public Account(String name, String id, String password, String bankName, String accountNumber, long balance) {
@@ -20,7 +22,7 @@ public class Account {
         this.bankName = bankName;
         this.accountNumber = accountNumber;
         this.balance = balance;
-        this.transactionalInfoList = new ArrayList<>();
+        this.transactionDataList = new ArrayList<>();
     }
 
     public long deposit ( long amount){
@@ -31,13 +33,20 @@ public class Account {
         return -1L;
     }
 
+<<<<<<< HEAD:src/main/java/Account.java
     public long checkBalance (String id, String password){
 
         return 0;
     }
 
     public List<TransactionalInfo> getAllTransactionalInfos () {
+=======
+    public long checkBalance(String id, String password) {
+        return 0;
+    }
 
-        return null;
+    public void showAllTransactionData() {
+>>>>>>> 32878b176c7d8921a951813de2d3a9a369f3107c:src/main/java/account/Account.java
+
     }
 }
