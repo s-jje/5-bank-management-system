@@ -1,5 +1,7 @@
 package account;
 
+import util.TimeFormatter;
+
 public class TransactionData {
 
     private final String date;
@@ -9,8 +11,8 @@ public class TransactionData {
     private final long balance;
     private final String destination;
 
-    public TransactionData(String date, String accountNumber, boolean isDeposit, long amount, long balance, String destination) {
-        this.date = date;
+    public TransactionData(String accountNumber, boolean isDeposit, long amount, long balance, String destination) {
+        this.date = TimeFormatter.getCurrentTime();
         this.accountNumber = accountNumber;
         this.isDeposit = isDeposit;
         this.amount = amount;
@@ -40,16 +42,5 @@ public class TransactionData {
 
     public String getDestination() {
         return destination;
-    }
-
-    @Override
-    public String toString() {
-        return "TransactionData{" +
-                "date='" + date + '\'' +
-                ", accountNumber='" + accountNumber + '\'' +
-                ", amount=" + amount +
-                ", balance=" + balance +
-                ", destination='" + destination + '\'' +
-                '}';
     }
 }
