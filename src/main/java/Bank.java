@@ -13,30 +13,25 @@ public class Bank {
         this.accountList = new ArrayList<>();
     }
 
-<<<<<<< HEAD
 
-    public void register() {
-=======
     public void register(Account account) {
->>>>>>> origin/develop
 
     }
 
-    public void update() {
+
     public void updateAccount(Account account) {
 
     }
 
-    public void delete() {
+
     public void deleteAccount(Account account) {
 
     }
 
     public Account getAccount(String accountNumber) {
         for (Account account : this.accountList) {
-            if (account.getAccountNumber() == accountNumber) {
+            if (account.getAccountNumber().equals(accountNumber)) {
                 return account;
-
             }
         }
         throw new NoSuchElementException("해당 계좌번호는 없는 번호 입니다");
@@ -44,19 +39,23 @@ public class Bank {
 
     public Account getAccount(String id, String password) {
         for (Account account : this.accountList) {
-            if (account.getPassword() == password && account.getId() == id) {
+            if (account.getPassword().equals(password) && account.getId().equals(id)) {
                 return account;
             }
         }
-        throw new NoSuchElementException("해당 uuid와 name은 존재하지 않습니다");
+        throw new NoSuchElementException("해당 id와 password는 존재하지 않습니다");
     }
 
-    public void checkAllAccounts() {
+
+    public void showAllAccounts() {
         for (Account account : this.accountList) {
             System.out.println(account.toString());
         }
+    }
 
-    public List<Account> showAllAccounts() {
-        return null;
+    public void shotMoney(Account giveAccount, Account sendAccount, long amount) {
+
+
     }
 }
+

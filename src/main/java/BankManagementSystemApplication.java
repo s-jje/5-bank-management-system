@@ -4,12 +4,15 @@ import java.util.Scanner;
 
 public class BankManagementSystemApplication {
 
+
+    Object
     public static void main(String[] args) {
         Bank bank = new Bank();
         List<Customer> customerList = new ArrayList<>();
 
         System.out.println("Welcome to Bank!");
         Scanner scanner = new Scanner(System.in);
+
 
         while (true) {
             System.out.println("1. Transaction");
@@ -97,6 +100,8 @@ public class BankManagementSystemApplication {
                 System.out.println(e.getMessage());
             } catch (RuntimeException e) {
                 System.out.println(e.getMessage());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
 
             scanner.close();

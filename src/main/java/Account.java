@@ -1,18 +1,13 @@
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.ArrayList;
 
 public class Account {
-<<<<<<< HEAD
     private final String name;
-=======
 
->>>>>>> origin/develop
     private final String id;
     private final String password;
-    private final String name;
     private final String accountNumber;
     private long balance;
     private List<TransactionalInfo> transactionalInfoList;
@@ -27,20 +22,38 @@ public class Account {
         this.transactionalInfoList = new ArrayList<>();
     }
 
-    public void deposit() {
+
+    /***
+     * 돈을 넣으면
+     * 입금시간 / 계좌번호 / isdeposit
+     * @param
+     */
     public void deposit(long amount) {
-
+        String date = String.valueOf(LocalDate.now());
+//        TransactionalInfo transactionalInfo = new TransactionalInfo() ;
+//        transactionalInfoList.add(transactionalInfo);
+        this.balance += amount;
     }
 
-    public void withdrawal() {
     public void withdrawal(long amount) {
+        this.balance -= amount;
 
     }
 
-    public long checkBalance(String name, String password) {
-    public long checkBalance(String id, String password) {
+    public long checkBalance(String id, String password) throws Exception {
+        Bank bank = new Bank();
+        Account account = bank.getAccount(id, password);
+        Long balance = validation_getBalance(id, password, account);
+        if (balance != null) return balance;
+        throw new RuntimeException("잘못된 id/ pw를 입력했습니다");
+    }
 
-        return 0;
+    private Long validation_getBalance(String id, String password, Account account) {
+        if (account.getId().equals(id) && account.getPassword().equals(password)) {
+
+            return account.balance;
+        }
+        return null;
     }
 
     public String getId() {
@@ -80,4 +93,6 @@ public class Account {
                 ", balance=" + balance +
                 '}';
     }
+
+
 }
