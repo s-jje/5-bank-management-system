@@ -31,6 +31,10 @@ public abstract class Account {
 
     public abstract void withdrawal();
 
+    public abstract void transfer();
+
+    public abstract void receive(String accountNumber, long amount);
+
     public abstract void showBalance();
 
     public void showAllTransactionData() {
@@ -83,8 +87,12 @@ public abstract class Account {
         return balance;
     }
 
-    public List<TransactionData> getTransactionDataList() {
-        return transactionDataList;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     public void setBalance(long balance) {

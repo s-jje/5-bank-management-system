@@ -5,9 +5,9 @@ import java.util.List;
 
 public class Customer {
 
-    private final String name;
+    private String name;
     private final String id;
-    private final String password;
+    private String password;
     private final List<String> accountNumber = new ArrayList<>();
 
     public Customer(String name, String id, String password, String accountNumber) {

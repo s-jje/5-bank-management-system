@@ -6,7 +6,7 @@ public class WooriBank extends Bank {
 
     static WooriBank instance;
 
-    public WooriBank() {
+    private WooriBank() {
         super("Woori Bank");
     }
 
