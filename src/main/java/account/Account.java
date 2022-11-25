@@ -19,7 +19,6 @@ public abstract class Account {
     private long balance; // 예금
     private final List<TransactionData> transactionDataList; // 거래내역 저장을 위한 리스트
 
-
     public Account(String name, String id, String password, String bankName, String accountNumber, long balance) {
         this.name = name;
         this.id = id;
