@@ -9,12 +9,12 @@ public class ShinhanBankAccount extends Account {
     }
 
     @Override
-    public void deposit(Customer customer) {
+    public void deposit() {
 
     }
 
     @Override
-    public void withdrawal(Customer customer) {
+    public void withdrawal() {
 
     }
 }
