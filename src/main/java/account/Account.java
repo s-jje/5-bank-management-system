@@ -17,7 +17,7 @@ public abstract class Account {
     private long balance;
     private final List<TransactionData> transactionDataList;
 
-    public Account(String name, String id, String password,String bankName, String accountNumber, long balance) {
+    public Account(String name, String id, String password, String bankName, String accountNumber, long balance) {
         this.name = name;
         this.id = id;
         this.password = password;

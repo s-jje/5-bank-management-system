@@ -1,33 +1,74 @@
-import bank.Bank;
+import bank.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class BankManagementSystemApplication {
 
     public static void main(String[] args) {
-        try {
-            while (true) {
-                Bank bank = BankingSystem.chooseBank();
-                String input = BankingSystem.chooseMenu();
+        List<Bank> bankList = new ArrayList<>(Arrays.asList(
+                TossBank.getInstance(), KbKookminBank.getInstance(),
+                ShinhanBank.getInstance(), WooriBank.getInstance(),
+                HanaBank.getInstance()
+        ));
 
-                if (input.equals("1")) {
-                    BankingSystem.transaction(bank);
-                } else if (input.equals("2")) {
-                    BankingSystem.checkBalance(bank);
-                } else if (input.equals("3")) {
-                    BankingSystem.checkAllTransactions(bank);
-                } else if (input.equals("4")) {
-                    BankingSystem.createAccount(bank);
-                } else if (input.equals("5")) {
+        System.out.println("Welcome to bank management system!");
+
+        while (true) {
+            try {
+                String bankNumber = BankingSystem.chooseBank();
+                Bank bank;
+
+                if (bankNumber.equals("1")) {
+                    bank = bankList.get(0);
+                } else if (bankNumber.equals("2")) {
+                    bank = bankList.get(1);
+                } else if (bankNumber.equals("3")) {
+                    bank = bankList.get(2);
+                } else if (bankNumber.equals("4")) {
+                    bank = bankList.get(3);
+                } else if (bankNumber.equals("5")) {
+                    bank = bankList.get(4);
+                } else if (bankNumber.equals("6")) {
                     break;
-                } else if (input.equals("manage")) {
-                    BankingSystem.mangement(bank);
                 } else {
                     throw new RuntimeException("Invalid number.");
                 }
+
+                while (true) {
+                    try {
+                        String input = BankingSystem.chooseMenu();
+                        System.out.println();
+
+                        if (input.equals("1")) {
+                            BankingSystem.transaction(bank);
+                        } else if (input.equals("2")) {
+                            BankingSystem.checkBalance(bank);
+                        } else if (input.equals("3")) {
+                            BankingSystem.checkAllTransactions(bank);
+                        } else if (input.equals("4")) {
+                            BankingSystem.createAccount(bank);
+                        } else if (input.equals("5")) {
+                            break;
+                        } else if (input.equals("6")) {
+                            return;
+                        } else if (input.equals("manage")) {
+                            BankingSystem.mangement(bank);
+                        } else {
+                            throw new RuntimeException("Invalid number.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println(e.getMessage());
+                    } catch (RuntimeException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+            } catch (NumberFormatException e) {
+                System.out.println(e.getMessage());
+            } catch (RuntimeException e) {
+                System.out.println(e.getMessage());
             }
-        } catch (NumberFormatException e) {
-            System.out.println(e.getMessage());
-        } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
         }
     }
 }

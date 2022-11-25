@@ -1,6 +1,10 @@
 package bank;
 
 import account.Account;
+import account.TossBankAccount;
+import customer.Customer;
+
+import java.util.Scanner;
 
 public class TossBank extends Bank {
 
@@ -19,7 +23,21 @@ public class TossBank extends Bank {
 
     @Override
     public void register() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Please enter your name: ");
+        String name = scanner.nextLine();
 
+        System.out.print("Please enter the ID: ");
+        String id = scanner.nextLine();
+
+        System.out.print("Please enter the Password: ");
+        String pw = scanner.nextLine();
+
+        String accountNumber = "123-123456";
+
+        getAccountList().add(new TossBankAccount(name, id, pw, getName(), accountNumber, 0L));
+        getCustomerList().add(new Customer(name, id, pw, accountNumber));
+        System.out.println("Account registration successful!");
     }
 
     @Override

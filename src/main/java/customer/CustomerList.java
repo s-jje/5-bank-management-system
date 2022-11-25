@@ -11,6 +11,13 @@ public class CustomerList {
         this.customerList = new ArrayList<>();
     }
 
+    public void add(Customer customer) {
+        customerList.add(customer);
+    }
+
+    public void remove(Customer customer) {
+        customerList.remove(customer);
+    }
     public Customer getCustomer(String id, String pw) {
         for (Customer customer : customerList) {
             if (id.equals(customer.getId()) && pw.equals(customer.getPassword())) {

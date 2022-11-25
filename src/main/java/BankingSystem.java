@@ -1,57 +1,43 @@
-import bank.*;
+import bank.Bank;
 import customer.Customer;
 
 import java.util.Scanner;
 
 public class BankingSystem {
 
-    public static Bank chooseBank() {
-        System.out.println("Welcome to bank management system.");
-        System.out.println("Choose a bank.");
-        System.out.println("1. KB Kookmin Bank");
-        System.out.println("2. Shinhan Bank");
-        System.out.println("3. Woori Bank");
-        System.out.println("4. Hana Bank");
-        System.out.println("5. Toss Bank");
+    public static String chooseBank() {
+        System.out.println("[Available bank list]");
+        System.out.println("1. Toss Bank");
+        System.out.println("2. KB Kookmin Bank");
+        System.out.println("3. Shinhan Bank");
+        System.out.println("4. Woori Bank");
+        System.out.println("5. Hana Bank");
         System.out.println("6. Exit");
-        System.out.println("Please enter a number 1 ~ 6.");
+        System.out.print("Please enter a number 1 ~ 6: ");
 
         Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine();
-
-        if (input.equals("1")) {
-            return KbKookminBank.getInstance();
-        } else if (input.equals("2")) {
-            return ShinhanBank.getInstance();
-        } else if (input.equals("3")) {
-            return WooriBank.getInstance();
-        } else if (input.equals("4")) {
-            return HanaBank.getInstance();
-        } else if (input.equals("5")) {
-            return TossBank.getInstance();
-        } else if (input.equals("6")) {
-            throw new RuntimeException("Exit");
-        } else {
-            throw new RuntimeException("Invalid number.");
-        }
+        return scanner.nextLine();
     }
 
     public static String chooseMenu() {
+        System.out.println("[Menu list]");
         System.out.println("1. Transaction");
         System.out.println("2. Check balance");
         System.out.println("3. Check all transactions");
         System.out.println("4. Create an account");
-        System.out.println("5. Exit");
-        System.out.println("Please enter a number 1 ~ 5.");
+        System.out.println("5. Return to previous menu");
+        System.out.println("6. Exit");
+        System.out.print("Please enter a number 1 ~ 6: ");
 
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
 
     public static void transaction(Bank bank) {
+        System.out.println("Transaction");
         System.out.println("1. Deposit");
         System.out.println("2. Withdrawal");
-        System.out.println("Please enter a number 1 ~ 2.");
+        System.out.print("Please enter a number 1 ~ 2: ");
 
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
@@ -88,10 +74,10 @@ public class BankingSystem {
     private static Customer getCustomer(Bank bank) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Enter your ID: ");
+        System.out.print("Please enter your ID: ");
         String id = scanner.nextLine();
 
-        System.out.println("Enter your Password: ");
+        System.out.print("Please enter your Password: ");
         String pw = scanner.nextLine();
 
         return bank.getCustomerList().getCustomer(id, pw);
