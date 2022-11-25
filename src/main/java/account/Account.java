@@ -1,6 +1,5 @@
 package account;
 
-import customer.Customer;
 import util.MoneyFormatter;
 import util.TimeFormatter;
 
@@ -9,9 +8,9 @@ import java.util.List;
 
 public abstract class Account {
 
-    private final String name;
+    private String name;
     private final String id;
-    private final String password;
+    private String password;
     private final String bankName;
     private final String accountNumber;
     private long balance;
@@ -87,6 +86,14 @@ public abstract class Account {
 
     public List<TransactionData> getTransactionDataList() {
         return transactionDataList;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setBalance(long balance) {
