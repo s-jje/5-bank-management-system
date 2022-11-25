@@ -1,4 +1,3 @@
-
 package bank;
 
 import account.Account;
@@ -6,7 +5,6 @@ import account.Account;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.UUID;
 
 public class Bank {
 
@@ -18,16 +16,13 @@ public class Bank {
         this.accountList = new ArrayList<>();
     }
 
-
     public void register(Account account) {
 
     }
 
-
     public void updateAccount(Account account) {
 
     }
-
 
     public void deleteAccount(Account account) {
         this.accountList.remove(account);
@@ -54,7 +49,6 @@ public class Bank {
         }
         throw new NoSuchElementException("해당 id와 password는 존재하지 않습니다");
     }
-
 
     public void showAllAccounts() {
         for (Account account : this.accountList) {
