@@ -11,7 +11,7 @@ public abstract class Account {
 
     private String name;
     private final String id;
-    private final String password;
+    private String password;
     private final String bankName;
     private String accountNumber;
     private long balance;
@@ -93,6 +93,14 @@ public abstract class Account {
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setBalance(long balance) {
