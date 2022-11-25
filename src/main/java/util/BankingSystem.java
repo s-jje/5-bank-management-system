@@ -55,14 +55,13 @@ public class BankingSystem {
         String input = scanner.nextLine();
         System.out.println();
 
+        Customer customer = getValidCustomer(bank);
+
         if (input.equals("1")) {
-            Customer customer = getCustomer(bank);
             bank.getAccount(customer.getId(), customer.getPassword()).deposit();
         } else if (input.equals("2")) {
-            Customer customer = getCustomer(bank);
             bank.getAccount(customer.getId(), customer.getPassword()).withdrawal();
         } else if (input.equals("3")) {
-            Customer customer = getCustomer(bank);
             bank.getAccount(customer.getId(), customer.getPassword()).transfer();
         } else {
             throw new RuntimeException("Invalid number.");
@@ -85,12 +84,12 @@ public class BankingSystem {
     }
 
     public static void checkBalance(Bank bank) {
-        Customer customer = getCustomer(bank);
+        Customer customer = getValidCustomer(bank);
         bank.getAccount(customer.getId(), customer.getPassword()).showBalance();
     }
 
     public static void checkAllTransactions(Bank bank) {
-        Customer customer = getCustomer(bank);
+        Customer customer = getValidCustomer(bank);
         bank.getAccount(customer.getId(), customer.getPassword()).showAllTransactionData();
     }
 
@@ -102,7 +101,7 @@ public class BankingSystem {
 
     }
 
-    private static Customer getCustomer(Bank bank) {
+    private static Customer getValidCustomer(Bank bank) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Please enter your ID: ");
@@ -111,6 +110,6 @@ public class BankingSystem {
         System.out.print("Please enter your Password: ");
         String pw = scanner.nextLine();
 
-        return bank.getCustomerList().getCustomer(id, pw);
+        return bank.getCustomer(id, pw);
     }
 }

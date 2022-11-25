@@ -74,7 +74,15 @@ public abstract class Bank {
         return accountList;
     }
 
-    public List<Customer> getCustomerList() {
-        return customerList;
+    public Customer getCustomer(String id, String password) {
+        for (Customer customer : customerList) {
+            if (customer.getId().equals(id)) {
+                if (customer.getPassword().equals(password)) {
+                    return customer;
+                }
+                throw new NoSuchElementException("Incorrect password.");
+            }
+        }
+        throw new NoSuchElementException("Customer not found.");
     }
 }
