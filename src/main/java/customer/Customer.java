@@ -13,4 +13,20 @@ public class Customer {
         this.password = password;
         this.accountNumber = accountNumber;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
 }
