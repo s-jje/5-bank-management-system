@@ -8,13 +8,16 @@ import java.util.Scanner;
 
 public class KbKookminBank extends Bank {
 
-    static KbKookminBank instance = new KbKookminBank();
+    static KbKookminBank instance;
 
     private KbKookminBank() {
         super("KB Kookmin Bank");
     }
 
     public static KbKookminBank getInstance() {
+        if (instance == null) {
+            instance = new KbKookminBank();
+        }
         return instance;
     }
 

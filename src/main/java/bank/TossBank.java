@@ -9,7 +9,7 @@ import java.util.*;
 
 public class TossBank extends Bank {
 
-    private static TossBank instance = new TossBank();
+    private static TossBank instance;
 
     private final int MAX_ACCOUNT_NUM = 3;
     private final Map<Customer, List<Account>> customerAccountListMap;
@@ -20,6 +20,9 @@ public class TossBank extends Bank {
     }
 
     public static TossBank getInstance() {
+        if (instance == null) {
+            instance = new TossBank();
+        }
         return instance;
     }
 
