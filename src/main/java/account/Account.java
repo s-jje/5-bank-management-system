@@ -9,11 +9,11 @@ import java.util.List;
 
 public abstract class Account {
 
-    private final String name;
+    private String name;
     private final String id;
     private final String password;
     private final String bankName;
-    private final String accountNumber;
+    private String accountNumber;
     private long balance;
     private final List<TransactionData> transactionDataList;
 
@@ -31,9 +31,7 @@ public abstract class Account {
 
     public abstract void withdrawal();
 
-    public void showBalance() {
-        System.out.printf("%nYour balance is ₩%s.%n%n", MoneyFormatter.formatToWon(balance));
-    }
+    public abstract void showBalance();
 
     public void showAllTransactionData() {
         System.out.printf("%n%-15s %-20s %-15s%40s%20s%n", bankName, accountNumber, name, " ", TimeFormatter.format(Time.getCurrentDateTime()));

@@ -4,14 +4,17 @@ import account.Account;
 import account.TossBankAccount;
 import customer.Customer;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class TossBank extends Bank {
 
+    private final int MAX_ACCOUNT_NUM = 3;
+    private final Map<Customer, List<Account>> customerAccountListMap;
     static TossBank instance;
 
     public TossBank() {
         super("Toss Bank");
+        this.customerAccountListMap = new HashMap<>();
     }
 
     public static TossBank getInstance() {
@@ -36,8 +39,25 @@ public class TossBank extends Bank {
         System.out.println();
         String accountNumber = "123-123456";
 
-        getAccountList().add(new TossBankAccount(name, id, pw, getName(), accountNumber, 0L));
-        getCustomerList().add(new Customer(name, id, pw, accountNumber));
+        Customer customer = new Customer(name, id, pw, accountNumber);
+        Account account = new TossBankAccount(name, id, pw, getName(), accountNumber, 0L);
+
+        getCustomerList().add(customer);
+        getAccountList().add(account);
+
+        if (customerAccountListMap.containsKey(customer)) {
+            if (customerAccountListMap.get(customer).size() < 3) {
+                customerAccountListMap.get(customer).add(account);
+            } else {
+                System.out.printf("You already have 3 accounts.%n%n");
+                return;
+            }
+        } else {
+            List<Account> list = new ArrayList<>(MAX_ACCOUNT_NUM);
+            list.add(account);
+            customerAccountListMap.put(customer, list);
+        }
+
         System.out.printf("Account registration successful!%n%n");
     }
 

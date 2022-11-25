@@ -21,6 +21,15 @@ public class TransactionData {
         this.destination = destination;
     }
 
+    public TransactionData(String date, String accountNumber, boolean isDeposit, long amount, long balance, String destination) {
+        this.date = date;
+        this.accountNumber = accountNumber;
+        this.isDeposit = isDeposit;
+        this.amount = amount;
+        this.balance = balance;
+        this.destination = destination;
+    }
+
     public String getDate() {
         return date;
     }

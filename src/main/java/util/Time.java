@@ -6,7 +6,6 @@ import java.time.ZonedDateTime;
 public class Time {
 
     public static long convertDateTimeToSecond(ZonedDateTime zonedDateTime) {
-        Instant instant = Instant.ofEpochSecond(zonedDateTime.toEpochSecond());
         return zonedDateTime.toEpochSecond();
     }
 

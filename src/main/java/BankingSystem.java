@@ -16,7 +16,7 @@ public class BankingSystem {
         System.out.println("| 5. Hana Bank        |");
         System.out.println("| 6. Exit             |");
         System.out.println("=======================");
-        System.out.print("Please enter a number 1 ~ 6: ");
+        System.out.print("Please enter a number (1 ~ 6): ");
 
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
@@ -33,7 +33,7 @@ public class BankingSystem {
         System.out.println("| 5. Return to previous     |");
         System.out.println("| 6. Exit                   |");
         System.out.println("=============================");
-        System.out.print("Please enter a number 1 ~ 6: ");
+        System.out.print("Please enter a number (1 ~ 6): ");
 
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
@@ -46,7 +46,7 @@ public class BankingSystem {
         System.out.println("| 1. Deposit    |");
         System.out.println("| 2. Withdrawal |");
         System.out.println("=================");
-        System.out.print("Please enter a number 1 ~ 2: ");
+        System.out.print("Please enter a number (1 ~ 2): ");
 
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
