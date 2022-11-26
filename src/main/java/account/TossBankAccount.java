@@ -73,6 +73,7 @@ public class TossBankAccount extends Account {
 
     public void transfer() {
         String bankNumber = BankingSystem.chooseBank();
+
         if (bankNumber.equals("6")) {
             return;
         }
@@ -93,7 +94,7 @@ public class TossBankAccount extends Account {
                 long balance = getBalance() - amount;
 
                 if (balance >= 0) {
-                    dstAccount.receive(getBankName(), srcNum, dstNum, amount);
+                    dstAccount.receive(this, dstAccount, amount);
                     setBalance(balance);
 
                     StringBuilder dstStr = new StringBuilder(dstAccount.getBankName() + " " + dstNum);
@@ -111,13 +112,11 @@ public class TossBankAccount extends Account {
     }
 
     @Override
-    public void receive(String srcBank, String srcAccount, String dst, long amount) {
+    public void receive(Account srcAccount, Account dstAccount, long amount) {
         Bank bank = TossBank.getInstance();
-        Account account = bank.getAccount(dst);
-
         long balance = getBalance() + amount;
-        account.setBalance(balance);
-        account.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), dst, true, amount, balance, srcBank + " " + srcAccount));
+        dstAccount.setBalance(balance);
+        dstAccount.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), dstAccount.getAccountNumber(), true, amount, balance, srcAccount.getBankName() + " " + srcAccount.getAccountNumber()));
     }
 
     @Override

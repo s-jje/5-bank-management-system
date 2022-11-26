@@ -119,7 +119,7 @@ public class KbKookminBankAccount extends Account {
     }
 
     @Override
-    public void receive(String srcBank, String srcAccountNumber, String dstAccountNumber, long amount) {
+    public void receive(Account srcAccount, Account dstAccount, long amount) {
 
     }
 
