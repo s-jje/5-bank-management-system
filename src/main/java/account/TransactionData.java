@@ -10,24 +10,24 @@ public class TransactionData {
     private final boolean isDeposit; // 입 / 출금
     private final long amount;
     private final long balance;
-    private final String destination;
+    private final String description;
 
-    public TransactionData(String accountNumber, boolean isDeposit, long amount, long balance, String destination) {
+    public TransactionData(String accountNumber, boolean isDeposit, long amount, long balance, String description) {
         this.date = TimeFormatter.format(Time.getCurrentDateTime());
         this.accountNumber = accountNumber;
         this.isDeposit = isDeposit;
         this.amount = amount;
         this.balance = balance;
-        this.destination = destination;
+        this.description = description;
     }
 
-    public TransactionData(String date, String accountNumber, boolean isDeposit, long amount, long balance, String destination) {
+    public TransactionData(String date, String accountNumber, boolean isDeposit, long amount, long balance, String description) {
         this.date = date;
         this.accountNumber = accountNumber;
         this.isDeposit = isDeposit;
         this.amount = amount;
         this.balance = balance;
-        this.destination = destination;
+        this.description = description;
     }
 
     public String getDate() {
@@ -50,7 +50,7 @@ public class TransactionData {
         return balance;
     }
 
-    public String getDestination() {
-        return destination;
+    public String getDescription() {
+        return description;
     }
 }

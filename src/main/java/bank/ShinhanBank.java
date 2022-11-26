@@ -14,7 +14,7 @@ public class ShinhanBank extends Bank {
 
     public static ShinhanBank getInstance() {
         if (instance == null) {
-            return new ShinhanBank();
+            instance = new ShinhanBank();
         }
         return instance;
     }

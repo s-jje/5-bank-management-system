@@ -22,7 +22,7 @@ public class HanaBankAccount extends Account {
     }
 
     @Override
-    public void receive(String accountNumber, long amount) {
+    public void receive(String srcBank, String srcAccountNumber, String dstAccountNumber, long amount) {
 
     }
 

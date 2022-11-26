@@ -12,7 +12,7 @@ public class HanaBank extends Bank {
 
     public static HanaBank getInstance() {
         if (instance == null) {
-            return new HanaBank();
+            instance = new HanaBank();
         }
         return instance;
     }

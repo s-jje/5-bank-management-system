@@ -3,14 +3,16 @@ package bank;
 import account.Account;
 import account.TossBankAccount;
 import customer.Customer;
+import util.RandomNumberGenerator;
 
 import java.util.*;
 
 public class TossBank extends Bank {
 
+    private static TossBank instance;
+
     private final int MAX_ACCOUNT_NUM = 3;
     private final Map<Customer, List<Account>> customerAccountListMap;
-    static TossBank instance;
 
     private TossBank() {
         super("Toss Bank");
@@ -19,7 +21,7 @@ public class TossBank extends Bank {
 
     public static TossBank getInstance() {
         if (instance == null) {
-            return new TossBank();
+            instance = new TossBank();
         }
         return instance;
     }
@@ -37,7 +39,7 @@ public class TossBank extends Bank {
         String pw = scanner.nextLine();
 
         System.out.println();
-        String accountNumber = "123-123";
+        String accountNumber = generateAccountNumber();
 
         Customer customer = new Customer(name, id, pw, accountNumber);
         Account account = new TossBankAccount(name, id, pw, getName(), accountNumber, 0L);
@@ -58,13 +60,19 @@ public class TossBank extends Bank {
             customerAccountListMap.put(customer, list);
         }
 
-        System.out.printf("떳냐: %s%n", getAccount(accountNumber).getAccountNumber());
-
-        System.out.printf("Account registration successful!%n%n");
+        System.out.printf("Account registration successful! Your account number is %s%n%n", accountNumber);
     }
 
     @Override
     public void updateAccount(Account account) {
 
+    }
+
+    private String generateAccountNumber() {
+        String first = RandomNumberGenerator.generateAccountNumber(2);
+        String second = RandomNumberGenerator.generateAccountNumber(3);
+        String third = RandomNumberGenerator.generateAccountNumber(2);
+        StringBuilder sb = new StringBuilder(first + "-" + second + "-" + third);
+        return sb.toString();
     }
 }
