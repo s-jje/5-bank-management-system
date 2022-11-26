@@ -1,14 +1,11 @@
 package account;
 
 import bank.*;
-import customer.Customer;
-import util.MoneyFormatter;
 import util.TimeFormatter;
 
 import java.time.ZonedDateTime;
 import java.util.*;
 
-import static util.Time.convertDateTimeToSecond;
 import static util.Time.getCurrentDateTime;
 
 public class KbKookminBankAccount extends Account {
