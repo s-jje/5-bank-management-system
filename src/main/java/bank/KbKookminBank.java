@@ -1,6 +1,7 @@
 package bank;
 
 import account.Account;
+import account.KbKookminBankAccount;
 import account.TossBankAccount;
 import customer.Customer;
 
@@ -56,7 +57,7 @@ public class KbKookminBank extends Bank {
         System.out.println("임의의 변수를 통해 계좌번호를 생성하겠습니다");
         String accountNumber = makeAccountNumber();
 
-        getAccountList().add(new TossBankAccount(name, id, pw, getName(), accountNumber, 0L));
+        getAccountList().add(new KbKookminBankAccount(name, id, pw, getName(), accountNumber, 0L));
         getCustomerList().add(new Customer(name, id, pw, accountNumber));
         System.out.printf("Account registration successful!%n%n");
         System.out.println("your accountNumber is "+accountNumber);
