@@ -54,14 +54,22 @@ public class KbKookminBank extends Bank {
         String pw = scanner.nextLine();
 
         System.out.println("임의의 변수를 통해 계좌번호를 생성하겠습니다");
-        String firstNumber = String.valueOf((int) (Math.random() * 1000));
-        String lastNumber = String.valueOf((int) (Math.random() * 1000000));
-
-        String accountNumber = firstNumber + "-" + lastNumber;
+        String accountNumber = makeAccountNumber();
 
         getAccountList().add(new TossBankAccount(name, id, pw, getName(), accountNumber, 0L));
         getCustomerList().add(new Customer(name, id, pw, accountNumber));
         System.out.printf("Account registration successful!%n%n");
+        System.out.println("your accountNumber is "+accountNumber);
+    }
+
+    private String makeAccountNumber() {
+        String firstNumber = String.valueOf((int) (Math.random() * 1000));
+        String middleNumber = String.valueOf((int) (Math.random() * 100));
+        String lastNumber = String.valueOf((int) (Math.random() * 1000000));
+
+        String accountNumber = firstNumber + "-" +middleNumber+"-"+ lastNumber;
+
+        return accountNumber;
     }
 
     // 계정 정보 수정 메서드
@@ -98,17 +106,13 @@ public class KbKookminBank extends Bank {
             } else if (num.equals("3")) {
                 System.out.println("처음으로 돌아갑니다.");
                 break;
-            }
-            else{
+            } else {
                 System.out.println("잘못 입력하였습니다");
             }
         }
         System.out.println("이용해주셔서 감사합니다");
 
-
     }
-
-
 
 }
 
