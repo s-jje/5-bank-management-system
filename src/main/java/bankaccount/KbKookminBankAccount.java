@@ -1,4 +1,4 @@
-package account;
+package bankaccount;
 
 import bank.*;
 import util.TimeFormatter;
@@ -8,7 +8,7 @@ import java.util.*;
 
 import static util.Time.getCurrentDateTime;
 
-public class KbKookminBankAccount extends Account {
+public class KbKookminBankAccount extends BankAccount {
     private String grade;
 
     public KbKookminBankAccount(String name, String id, String password, String bankName, String accountNumber, long balance) {
@@ -80,14 +80,14 @@ public class KbKookminBankAccount extends Account {
 
             System.out.println("동일 은행끼리의 송금은 수수료가 없습니다");
             System.out.println("보내고자 하는 계좌를 입력해주십시오");
-            Account accountSend = validationSame(scanner);
+            BankAccount bankAccountSend = validationSame(scanner);
             System.out.println("받고자 하는 계좌를 입력해주십시오");
-            Account accountReceive = validationSame(scanner);
+            BankAccount bankAccountReceive = validationSame(scanner);
             System.out.println("보내고자 하는 금액을 입력해주십시오");
             long amount = Long.parseLong(scanner.nextLine());
 
             if (checkBalance(amount)) {
-                receiveSame(accountSend, accountReceive, amount);
+                receiveSame(bankAccountSend, bankAccountReceive, amount);
                 ZonedDateTime zonedDateTime = getCurrentDateTime();
                 addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), getAccountNumber(), false, amount, getBalance(), "KB Bank"));
 
@@ -96,15 +96,15 @@ public class KbKookminBankAccount extends Account {
         } else {
             System.out.println("타 은행 송금시 수수료 500원이 부과됩니다");
             System.out.println("보내고자 하는 계좌를 입력해주십시오");
-            Account accountSend = validationSame(scanner);
+            BankAccount bankAccountSend = validationSame(scanner);
             System.out.println("받고자 하는 계좌를 입력해주십시오");
-            Account accountReceive = validationDifferent(scanner, bank);
+            BankAccount bankAccountReceive = validationDifferent(scanner, bank);
             System.out.println("보내고자 하는 금액을 입력해주십시오");
             long amount = Long.parseLong(scanner.nextLine());
             if (checkBalance(amount)) {
-                receiveDifferent(accountSend, accountReceive, amount);
+                receiveDifferent(bankAccountSend, bankAccountReceive, amount);
                 ZonedDateTime zonedDateTime = getCurrentDateTime();
-                addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), getAccountNumber(), false, amount, getBalance(), accountReceive.getBankName()));
+                addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), getAccountNumber(), false, amount, getBalance(), bankAccountReceive.getBankName()));
 
             }
 
@@ -116,27 +116,27 @@ public class KbKookminBankAccount extends Account {
     }
 
     @Override
-    public void receive(Account srcAccount, Account dstAccount, long amount) {
+    public void receive(BankAccount srcBankAccount, BankAccount dstBankAccount, long amount) {
 
     }
 
-    private void receiveSame(Account accountSend, Account accountReceive, long amount) {
-        String accountNumber = accountReceive.getAccountNumber();
+    private void receiveSame(BankAccount bankAccountSend, BankAccount bankAccountReceive, long amount) {
+        String accountNumber = bankAccountReceive.getAccountNumber();
         System.out.println("보내고자 하는 금액 : " + amount + " 보내고자 하는 계좌 번호 : " + accountNumber);
-        accountSend.setBalance(accountSend.getBalance() - amount);
-        accountReceive.setBalance(accountReceive.getBalance() + amount);
+        bankAccountSend.setBalance(bankAccountSend.getBalance() - amount);
+        bankAccountReceive.setBalance(bankAccountReceive.getBalance() + amount);
         ZonedDateTime zonedDateTime = getCurrentDateTime();
-        addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), accountReceive.getAccountNumber(), true, amount, getBalance(), "KB Bank"));
+        addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), bankAccountReceive.getAccountNumber(), true, amount, getBalance(), "KB Bank"));
         System.out.println("송금이 완료되었습니다");
     }
 
-    private void receiveDifferent(Account accountSend, Account accountReceive, long amount) {
-        String accountNumber = accountReceive.getAccountNumber();
+    private void receiveDifferent(BankAccount bankAccountSend, BankAccount bankAccountReceive, long amount) {
+        String accountNumber = bankAccountReceive.getAccountNumber();
         System.out.println("보내고자 하는 금액 : " + amount + " 보내고자 하는 계좌 번호 : " + accountNumber);
-        accountSend.setBalance(accountSend.getBalance() - amount - 500);
-        accountReceive.setBalance(accountReceive.getBalance() + amount);
+        bankAccountSend.setBalance(bankAccountSend.getBalance() - amount - 500);
+        bankAccountReceive.setBalance(bankAccountReceive.getBalance() + amount);
         ZonedDateTime zonedDateTime = getCurrentDateTime();
-        addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), accountReceive.getAccountNumber(), true, amount, getBalance(), accountReceive.getBankName()));
+        addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), bankAccountReceive.getAccountNumber(), true, amount, getBalance(), bankAccountReceive.getBankName()));
 
         System.out.println("송금이 완료되었습니다");
     }
@@ -155,29 +155,29 @@ public class KbKookminBankAccount extends Account {
      * @param sc
      * @return
      */
-    public Account validationSame(Scanner sc) {
+    public BankAccount validationSame(Scanner sc) {
         System.out.println("계좌의 id를 입력해주십시오");
         String id = sc.nextLine();
         System.out.println("계좌의 password를 입력해주십시오");
         String pw = sc.nextLine();
-        List<Account> accountList = KbKookminBank.getInstance().getAccountList();
-        return getAccount(id, pw, accountList);
+        List<BankAccount> bankAccountList = KbKookminBank.getInstance().getBankAccountList();
+        return getAccount(id, pw, bankAccountList);
     }
 
-    public Account validationDifferent(Scanner scanner, Bank bank) {
+    public BankAccount validationDifferent(Scanner scanner, Bank bank) {
         System.out.println("받고자하는 계좌의 id를 입력해주십시오");
         String id = scanner.nextLine();
         System.out.println("받고자하는 계좌의 pw를 입력해주십시오");
         String pw = scanner.nextLine();
-        List<Account> accountList = bank.getAccountList();
-        return getAccount(id, pw, accountList);
+        List<BankAccount> bankAccountList = bank.getBankAccountList();
+        return getAccount(id, pw, bankAccountList);
     }
 
-    private Account getAccount(String id, String pw, List<Account> accountList) {
-        for (Account account : accountList) {
-            if (id.equals(account.getId())) {
-                if (pw.equals(account.getPassword())) {
-                    return account;
+    private BankAccount getAccount(String id, String pw, List<BankAccount> bankAccountList) {
+        for (BankAccount bankAccount : bankAccountList) {
+            if (id.equals(bankAccount.getId())) {
+                if (pw.equals(bankAccount.getPassword())) {
+                    return bankAccount;
                 } else {
                     System.out.println("잘못된 비밀번호 입니다.");
                 }
