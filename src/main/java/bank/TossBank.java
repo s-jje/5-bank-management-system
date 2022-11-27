@@ -11,7 +11,7 @@ public class TossBank extends Bank {
 
     private static TossBank instance;
 
-    private final int MAX_ACCOUNT_NUM = 3;
+    private final int NUM_OF_MAX_ACCOUNT = 3;
     private final Map<Customer, List<Account>> customerAccountListMap;
 
     private TossBank() {
@@ -45,7 +45,7 @@ public class TossBank extends Bank {
         Account account = new TossBankAccount(name, id, pw, getName(), accountNumber, 0L);
 
         if (customerAccountListMap.containsKey(customer)) {
-            if (customerAccountListMap.get(customer).size() < MAX_ACCOUNT_NUM) {
+            if (customerAccountListMap.get(customer).size() < NUM_OF_MAX_ACCOUNT) {
                 addAccount(account);
                 customerAccountListMap.get(customer).add(account);
             } else {
@@ -55,7 +55,7 @@ public class TossBank extends Bank {
         } else {
             addAccount(account);
             addCustomer(customer);
-            List<Account> list = new ArrayList<>(MAX_ACCOUNT_NUM);
+            List<Account> list = new ArrayList<>(NUM_OF_MAX_ACCOUNT);
             list.add(account);
             customerAccountListMap.put(customer, list);
         }
