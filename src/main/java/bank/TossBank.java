@@ -45,7 +45,7 @@ public class TossBank extends Bank {
         Account account = new TossBankAccount(name, id, pw, getName(), accountNumber, 0L);
 
         if (customerAccountListMap.containsKey(customer)) {
-            if (customerAccountListMap.get(customer).size() < 3) {
+            if (customerAccountListMap.get(customer).size() < MAX_ACCOUNT_NUM) {
                 addAccount(account);
                 customerAccountListMap.get(customer).add(account);
             } else {

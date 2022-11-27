@@ -85,22 +85,33 @@ public class TossBankAccount extends Account {
         String dstNum = scanner.nextLine();
         Account dstAccount = dstBank.getAccount(dstNum);
 
-        if (getBalance() > 0) {
+        long balance = getBalance();
+
+        if (balance > 0) {
             System.out.print("Please enter the amount you want to transfer: ");
             long amount = Long.parseLong(scanner.nextLine());
 
             if (amount > 0) {
-                long balance = getBalance() - amount;
+                StringBuilder dstDescription = new StringBuilder(dstAccount.getBankName() + " " + dstNum + " " + dstAccount.getName());
+                System.out.printf("Would you like to transfer to %s? [yes/no].", dstDescription);
+                String input = scanner.nextLine();
 
-                if (balance >= 0) {
-                    dstAccount.receive(this, dstAccount, amount);
-                    setBalance(balance);
+                if (input.equalsIgnoreCase("y") || input.equalsIgnoreCase("yes")) {
+                    balance -= amount;
 
-                    StringBuilder dstStr = new StringBuilder(dstAccount.getBankName() + " " + dstNum);
-                    addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), srcNum, false, amount, balance, dstStr.toString()));
-                    System.out.printf("%nTransfer successful!%n%n");
+                    if (balance >= 0) {
+                        dstAccount.receive(this, dstAccount, amount);
+                        setBalance(balance);
+
+                        addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), srcNum, false, amount, balance, dstDescription.toString()));
+                        System.out.printf("%nTransfer successful! All transfer fees are ₩0 forever at Toss Bank!%n%n");
+                    } else {
+                        System.out.printf("%nTransfer failed.%n%n");
+                    }
+                } else if (input.equalsIgnoreCase("n") || input.equalsIgnoreCase("no")) {
+                    System.out.printf("%nTransfer process has been canceled.%n%n");
                 } else {
-                    System.out.printf("%nTransfer failed.%n%n");
+                    throw new RuntimeException("Invalid input.");
                 }
             } else {
                 System.out.printf("%nYou can deposit more than ₩0.%n%n");
