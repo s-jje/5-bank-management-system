@@ -200,6 +200,5 @@ public class KbKookminBankAccount extends BankAccount {
             return false;
         }
         return true;
-
     }
 }
