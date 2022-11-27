@@ -1,7 +1,6 @@
 package account;
 
 import bank.Bank;
-import bank.TossBank;
 import util.BankingSystem;
 import util.MoneyFormatter;
 import util.TimeFormatter;
@@ -32,7 +31,7 @@ public class TossBankAccount extends Account {
             long epochSecond = convertDateTimeToSecond(zonedDateTime);
 
             if (prevTime == 0) {
-                setPrevTime(epochSecond);
+                prevTime = epochSecond;
             }
 
             long balance = getBalance() + amount;
@@ -73,6 +72,7 @@ public class TossBankAccount extends Account {
 
     public void transfer() {
         String bankNumber = BankingSystem.chooseBank();
+
         if (bankNumber.equals("6")) {
             return;
         }
@@ -93,7 +93,7 @@ public class TossBankAccount extends Account {
                 long balance = getBalance() - amount;
 
                 if (balance >= 0) {
-                    dstAccount.receive(getBankName(), srcNum, dstNum, amount);
+                    dstAccount.receive(this, dstAccount, amount);
                     setBalance(balance);
 
                     StringBuilder dstStr = new StringBuilder(dstAccount.getBankName() + " " + dstNum);
@@ -111,13 +111,10 @@ public class TossBankAccount extends Account {
     }
 
     @Override
-    public void receive(String srcBank, String srcAccount, String dst, long amount) {
-        Bank bank = TossBank.getInstance();
-        Account account = bank.getAccount(dst);
-
+    public void receive(Account srcAccount, Account dstAccount, long amount) {
         long balance = getBalance() + amount;
-        account.setBalance(balance);
-        account.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), dst, true, amount, balance, srcBank + " " + srcAccount));
+        dstAccount.setBalance(balance);
+        dstAccount.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), dstAccount.getAccountNumber(), true, amount, balance, srcAccount.getBankName() + " " + srcAccount.getAccountNumber()));
     }
 
     @Override
@@ -129,15 +126,11 @@ public class TossBankAccount extends Account {
         System.out.printf("%nYour balance is ₩%s.%n%n", MoneyFormatter.formatToWon(getBalance()));
     }
 
-    private void setPrevTime(long epochSecond) {
-        this.prevTime = epochSecond;
-    }
-
     private long applyInterest(long epochSecond) {
         long balance = getBalance();
         long interest = (long) (balance * (INTEREST_RATE_PER_SECOND * (epochSecond - prevTime)));
         setBalance(balance + interest);
-        setPrevTime(epochSecond);
+        prevTime = epochSecond;
         return interest;
     }
 }

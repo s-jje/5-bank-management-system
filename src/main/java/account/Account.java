@@ -35,7 +35,7 @@ public abstract class Account {
 
     public abstract void transfer();
 
-    public abstract void receive(String srcBank, String srcAccountNumber, String dstAccountNumber, long amount);
+    public abstract void receive(Account srcAccount, Account dstAccount, long amount);
 
     public abstract void showBalance();
 
