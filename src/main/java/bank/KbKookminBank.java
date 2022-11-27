@@ -59,7 +59,7 @@ public class KbKookminBank extends Bank {
         getBankAccountList().add(new KbKookminBankAccount(name, id, pw, getName(), accountNumber, 0L));
         getCustomerList().add(new UserAccount(name, id, pw));
         System.out.printf("Account registration successful!%n%n");
-        System.out.println("your accountNumber is "+accountNumber);
+        System.out.println("your accountNumber is " + accountNumber);
     }
 
     private String makeAccountNumber() {
@@ -67,15 +67,15 @@ public class KbKookminBank extends Bank {
         String middleNumber = String.valueOf((int) (Math.random() * 100));
         String lastNumber = String.valueOf((int) (Math.random() * 1000000));
 
-        String accountNumber = firstNumber + "-" +middleNumber+"-"+ lastNumber;
+        String accountNumber = firstNumber + "-" + middleNumber + "-" + lastNumber;
 
         return accountNumber;
     }
 
     // 계정 정보 수정 메서드
     public void updateAccount(BankAccount bankAccount) {
-
         Scanner scanner = new Scanner(System.in);
+
         while (true) {
             System.out.println("원하시는 업무의 숫자를 눌러주십쇼");
             System.out.println("이름 변경은 1번입니다");
@@ -110,11 +110,6 @@ public class KbKookminBank extends Bank {
             }
         }
         System.out.println("이용해주셔서 감사합니다");
-<<<<<<< HEAD
-    }
-}
-=======
-
     }
 
     @Override
@@ -132,7 +127,3 @@ public class KbKookminBank extends Bank {
 
     }
 }
-
-
-
->>>>>>> develop
