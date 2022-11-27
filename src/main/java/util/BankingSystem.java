@@ -1,7 +1,7 @@
 package util;
 
-import bankaccount.BankAccount;
 import bank.*;
+import bankaccount.BankAccount;
 import useraccount.UserAccount;
 
 import java.util.List;
