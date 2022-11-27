@@ -67,15 +67,15 @@ public class HanaBank extends Bank {
         int num3 = ((int) (Math.random() * 89999)) + 10000;
         String ano = num1 + "-" + num2 + "-" + num3;
 
-        while(true){
-            if(getAccountList().equals(ano)){
+        while (true) {
+            if (getAccountList().equals(ano)) {
                 num1 = ((int) (Math.random() * 899)) + 100;
                 num2 = ((int) (Math.random() * 899999)) + 100000;
                 num3 = ((int) (Math.random() * 89999)) + 10000;
                 ano = num1 + "-" + num2 + "-" + num3;
                 break;
             }
-            }
+        }
         return ano;
     }
 
