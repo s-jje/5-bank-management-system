@@ -109,11 +109,7 @@ public class KbKookminBankAccount extends Account {
     }
 
     @Override
-    public void receive(Account srcAccount, Account dstAccount, long amount) {
-
-    }
-
-    private void receive(Account accountSend, Account accountReceive, long amount) {
+    public void receive(Account accountSend, Account accountReceive, long amount) {
         String accountNumber = accountReceive.getAccountNumber();
         System.out.println("보내고자 하는 금액 : " + amount + " 보내고자 하는 계좌 번호 : " + accountNumber);
         if (accountSend.getBankName().equals(accountReceive.getBankName())) {
@@ -121,14 +117,13 @@ public class KbKookminBankAccount extends Account {
             accountReceive.setBalance(accountReceive.getBalance() + amount);
         } else {
             accountSend.setBalance(accountSend.getBalance() - 500);
-            accountSend.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), accountReceive.getAccountNumber(), false, 500, accountSend.getBalance(), "타행송금 수수료"));
+            accountSend.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), accountReceive.getAccountNumber(), false, 500, accountSend.getBalance(), "타행 수수료"));
             accountSend.setBalance(accountSend.getBalance() - amount);
             accountReceive.setBalance(accountReceive.getBalance() + amount);
         }
-        accountReceive.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), accountReceive.getAccountNumber(), true, amount, accountReceive.getBalance(), accountReceive.getBankName()));
+        accountReceive.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), accountReceive.getAccountNumber(), true, amount, accountReceive.getBalance(), accountSend.getBankName()));
         System.out.println("송금이 완료되었습니다");
     }
-
 
     @Override
     public void showBalance() {
@@ -197,13 +192,6 @@ public class KbKookminBankAccount extends Account {
         throw new RuntimeException("잘못된 숫자를 입력하였습니다");
     }
 
-    /**
-     * 계좌에 돈을 확인 후 true / false 반환
-     *
-     * @param
-     * @param amount
-     * @return
-     */
     private boolean checkBalance(long amount) {
         if (amount > getBalance()) {
             System.out.println("계좌 내의 잔액보다 많은 금액을 입력하셨습니다.");
