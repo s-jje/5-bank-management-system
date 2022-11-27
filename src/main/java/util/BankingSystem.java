@@ -11,7 +11,7 @@ public class BankingSystem {
 
     public static String chooseBank() {
         System.out.printf("%n=======================%n");
-        System.out.println("| Available bank list |");
+        System.out.println("|   Available banks    |");
         System.out.println("-----------------------");
         System.out.println("| 1. Toss Bank        |");
         System.out.println("| 2. KB Kookmin Bank  |");
@@ -28,7 +28,7 @@ public class BankingSystem {
 
     public static String chooseMenu() {
         System.out.printf("%n=============================%n");
-        System.out.println("|         Menu list         |");
+        System.out.println("|            Menu            |");
         System.out.println("-----------------------------");
         System.out.println("| 1. Transaction            |");
         System.out.println("| 2. Check balance          |");
@@ -53,12 +53,12 @@ public class BankingSystem {
         }
 
         System.out.printf("%n=======================%n");
-        System.out.println("|    Accounts list    |");
+        System.out.println("|       Accounts       |");
         System.out.println("-----------------------");
 
         for (int i = 0; i < bankAccountList.size(); i++) {
             String accountNumber = bankAccountList.get(i).getAccountNumber();
-            System.out.printf("| %d. %-16s |%n", i + 1, AccountNumberFormatter.format(accountNumber));
+            System.out.printf("| %d. %-16s |%n", i + 1, accountNumber);
         }
         System.out.println("=======================");
         System.out.printf("Please select a account [1 ~ %d]: ", bankAccountList.size());
@@ -86,7 +86,6 @@ public class BankingSystem {
 
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
-        System.out.println();
 
         if (input.equals("1")) {
             bankAccount.deposit();
@@ -118,7 +117,7 @@ public class BankingSystem {
         UserAccount userAccount = getValidUserAccount(bank);
         List<BankAccount> bankAccounts = bank.getIdAccountListMap().get(userAccount.getId());
         System.out.printf("%n=======================================%n");
-        System.out.println("|            Accounts list            |");
+        System.out.println("|               Accounts               |");
         System.out.println("---------------------------------------");
         for (BankAccount bankAccount : bankAccounts) {
             bankAccount.showBalance();

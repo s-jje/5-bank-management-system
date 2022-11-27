@@ -1,6 +1,5 @@
 package bankaccount;
 
-import util.AccountNumberFormatter;
 import util.MoneyFormatter;
 import util.Time;
 import util.TimeFormatter;
@@ -41,7 +40,7 @@ public abstract class BankAccount {
     public abstract void showBalance();
 
     public void showAllTransactionData() {
-        System.out.printf("%n%-16s%-20s%-16s%40s%40s%n", bankName, AccountNumberFormatter.format(accountNumber), name, " ", TimeFormatter.format(Time.getCurrentDateTime()));
+        System.out.printf("%n%-16s%-20s%-16s%40s%40s%n", bankName, accountNumber, name, " ", TimeFormatter.format(Time.getCurrentDateTime()));
         System.out.printf("====================================================================================================================================%n");
         System.out.printf("         Date        |                Description               |       Deposits       |     Withdrawals     |       Balance        %n");
         System.out.printf("------------------------------------------------------------------------------------------------------------------------------------%n");
