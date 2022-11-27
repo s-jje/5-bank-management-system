@@ -1,7 +1,5 @@
 package bank;
 
-import account.Account;
-
 import java.util.Scanner;
 
 public class ShinhanBank extends Bank {
@@ -51,7 +49,17 @@ public class ShinhanBank extends Bank {
     }
 
     @Override
-    public void updateAccount(Account account) {
+    public void update() {
+
+    }
+
+    @Override
+    public void deleteAccount() {
+
+    }
+
+    @Override
+    public void withdraw() {
 
     }
 }

@@ -1,7 +1,5 @@
 package bank;
 
-import account.Account;
-
 public class WooriBank extends Bank {
 
     static WooriBank instance;
@@ -16,13 +14,24 @@ public class WooriBank extends Bank {
         }
         return instance;
     }
+
     @Override
     public void register() {
 
     }
 
     @Override
-    public void updateAccount(Account account) {
+    public void update() {
+
+    }
+
+    @Override
+    public void deleteAccount() {
+
+    }
+
+    @Override
+    public void withdraw() {
 
     }
 }

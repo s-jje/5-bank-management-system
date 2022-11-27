@@ -1,14 +1,17 @@
 package util;
 
+import account.BankAccount;
 import bank.*;
 import customer.Customer;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class BankingSystem {
 
     public static String chooseBank() {
-        System.out.println("=======================");
+        System.out.printf("%n=======================%n");
         System.out.println("| Available bank list |");
         System.out.println("-----------------------");
         System.out.println("| 1. Toss Bank        |");
@@ -18,51 +21,79 @@ public class BankingSystem {
         System.out.println("| 5. Hana Bank        |");
         System.out.println("| 6. Exit             |");
         System.out.println("=======================");
-        System.out.print("Please enter a number (1 ~ 6): ");
+        System.out.print("Please enter a number [1 ~ 6]: ");
 
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
 
     public static String chooseMenu() {
-        System.out.println("=============================");
+        System.out.printf("%n=============================%n");
         System.out.println("|         Menu list         |");
         System.out.println("-----------------------------");
         System.out.println("| 1. Transaction            |");
         System.out.println("| 2. Check balance          |");
         System.out.println("| 3. Check all transactions |");
         System.out.println("| 4. Create an account      |");
-        System.out.println("| 5. Return to previous     |");
-        System.out.println("| 6. Exit                   |");
+        System.out.println("| 5. Setting                |");
+        System.out.println("| 6. Return to previous     |");
+        System.out.println("| 7. Exit                   |");
         System.out.println("=============================");
-        System.out.print("Please enter a number (1 ~ 6): ");
+        System.out.print("Please enter a number [1 ~ 7]: ");
 
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
 
+    public static BankAccount chooseOneAccount(Bank bank) {
+        Customer customer = getValidCustomer(bank);
+        List<BankAccount> bankAccountList = bank.getIdAccountListMap().get(customer.getId());
+
+        if (bankAccountList.size() == 1) {
+            return bankAccountList.get(0);
+        }
+
+        System.out.printf("%n=======================%n");
+        System.out.println("|    Accounts list    |");
+        System.out.println("-----------------------");
+
+        for (int i = 0; i < bankAccountList.size(); i++) {
+            System.out.printf("| %d. %-16s |%n", i + 1, bankAccountList.get(i).getAccountNumber());
+        }
+        System.out.println("=======================");
+        System.out.printf("Choose a account [1 ~ %d]: ", bankAccountList.size());
+
+        Scanner scanner = new Scanner(System.in);
+        int input = Integer.parseInt(scanner.nextLine());
+
+        if (1 <= input && input <= bankAccountList.size()) {
+            return bankAccountList.get(input - 1);
+        }
+        throw new RuntimeException("Invalid Number.");
+    }
+
     public static void transaction(Bank bank) {
-        System.out.println("=================");
+        BankAccount bankAccount = chooseOneAccount(bank);
+
+        System.out.printf("%n=================%n");
         System.out.println("|  Transaction  |");
         System.out.println("-----------------");
         System.out.println("| 1. Deposit    |");
         System.out.println("| 2. Withdrawal |");
         System.out.println("| 3. Transfer   |");
         System.out.println("=================");
-        System.out.print("Please enter a number (1 ~ 3): ");
+        System.out.print("Please enter a number [1 ~ 3]: ");
 
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
         System.out.println();
 
-        Customer customer = getValidCustomer(bank);
-
         if (input.equals("1")) {
-            bank.getAccount(customer.getId(), customer.getPassword()).deposit();
+            bankAccount.deposit();
         } else if (input.equals("2")) {
-            bank.getAccount(customer.getId(), customer.getPassword()).withdrawal();
+            bankAccount.withdrawal();
         } else if (input.equals("3")) {
-            bank.getAccount(customer.getId(), customer.getPassword()).transfer();
+            bankAccount.transfer();
         } else {
             throw new RuntimeException("Invalid number.");
         }
@@ -85,20 +116,42 @@ public class BankingSystem {
 
     public static void checkBalance(Bank bank) {
         Customer customer = getValidCustomer(bank);
-        bank.getAccount(customer.getId(), customer.getPassword()).showBalance();
+        List<BankAccount> bankAccounts = bank.getIdAccountListMap().get(customer.getId());
+        for (BankAccount bankAccount : bankAccounts) {
+            bankAccount.showBalance();
+        }
     }
 
     public static void checkAllTransactions(Bank bank) {
-        Customer customer = getValidCustomer(bank);
-        bank.getAccount(customer.getId(), customer.getPassword()).showAllTransactionData();
+        chooseOneAccount(bank).showAllTransactionData();
     }
 
     public static void createAccount(Bank bank) {
         bank.register();
     }
 
-    public static void management(Bank bank) {
+    public static void setting(Bank bank) {
+        System.out.printf("%n=====================");
+        System.out.println("|      Setting      |");
+        System.out.println("---------------------");
+        System.out.println("| 1. Update         |");
+        System.out.println("| 2. Delete account |");
+        System.out.println("| 3. Withdraw       |");
+        System.out.println("=====================");
+        System.out.print("Please enter a number [1 ~ 3]: ");
 
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+
+        if (input.equals("1")) {
+            bank.update();
+        } else if (input.equals("2")) {
+            bank.deleteAccount();
+        } else if (input.equals("3")) {
+            bank.withdraw();
+        } else {
+            throw new RuntimeException("Invalid Number.");
+        }
     }
 
     private static Customer getValidCustomer(Bank bank) {
@@ -109,7 +162,7 @@ public class BankingSystem {
 
         System.out.print("Please enter your Password: ");
         String pw = scanner.nextLine();
-
+        System.out.println();
         return bank.getCustomer(id, pw);
     }
 }

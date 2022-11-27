@@ -1,7 +1,5 @@
 package bank;
 
-import account.Account;
-
 public class HanaBank extends Bank {
 
     static HanaBank instance;
@@ -23,7 +21,17 @@ public class HanaBank extends Bank {
     }
 
     @Override
-    public void updateAccount(Account account) {
+    public void update() {
+
+    }
+
+    @Override
+    public void deleteAccount() {
+
+    }
+
+    @Override
+    public void withdraw() {
 
     }
 }
