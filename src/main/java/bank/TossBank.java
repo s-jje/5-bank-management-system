@@ -69,10 +69,12 @@ public class TossBank extends Bank {
     }
 
     private String generateAccountNumber() {
-        String first = RandomNumberGenerator.generateAccountNumber(2);
-        String second = RandomNumberGenerator.generateAccountNumber(3);
-        String third = RandomNumberGenerator.generateAccountNumber(2);
-        StringBuilder sb = new StringBuilder(first + "-" + second + "-" + third);
+        String first = RandomNumberGenerator.generateGivenLengthNumber(2);
+        String second = RandomNumberGenerator.generateGivenLengthNumber(3);
+        String third = RandomNumberGenerator.generateGivenLengthNumber(2);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(first).append("-").append(second).append("-").append(third);
         return sb.toString();
     }
 }
