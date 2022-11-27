@@ -1,20 +1,23 @@
 package bank;
 
-import account.Account;
-import account.TossBankAccount;
-import customer.Customer;
+import bankaccount.BankAccount;
+import bankaccount.KbKookminBankAccount;
+import useraccount.UserAccount;
 
 import java.util.Scanner;
 
 public class KbKookminBank extends Bank {
 
-    static KbKookminBank instance = new KbKookminBank();
+    static KbKookminBank instance;
 
     private KbKookminBank() {
         super("KB Kookmin Bank");
     }
 
     public static KbKookminBank getInstance() {
+        if (instance == null) {
+            instance = new KbKookminBank();
+        }
         return instance;
     }
 
@@ -32,8 +35,8 @@ public class KbKookminBank extends Bank {
                 String id = scanner.nextLine();
                 System.out.println("계좌의 비밀번호를 입력해주십시오");
                 String password = scanner.nextLine();
-                Account account = getAccount(id, password);
-                updateAccount(account);
+                BankAccount bankAccount = getBankAccount(id, password);
+                updateAccount(bankAccount);
                 break;
             }
         }
@@ -51,19 +54,26 @@ public class KbKookminBank extends Bank {
         String pw = scanner.nextLine();
 
         System.out.println("임의의 변수를 통해 계좌번호를 생성하겠습니다");
+        String accountNumber = makeAccountNumber();
+
+        getBankAccountList().add(new KbKookminBankAccount(name, id, pw, getName(), accountNumber, 0L));
+        getCustomerList().add(new UserAccount(name, id, pw));
+        System.out.printf("Account registration successful!%n%n");
+        System.out.println("your accountNumber is "+accountNumber);
+    }
+
+    private String makeAccountNumber() {
         String firstNumber = String.valueOf((int) (Math.random() * 1000));
+        String middleNumber = String.valueOf((int) (Math.random() * 100));
         String lastNumber = String.valueOf((int) (Math.random() * 1000000));
 
-        String accountNumber = firstNumber + "-" + lastNumber;
+        String accountNumber = firstNumber + "-" +middleNumber+"-"+ lastNumber;
 
-        getAccountList().add(new TossBankAccount(name, id, pw, getName(), accountNumber, 0L));
-        getCustomerList().add(new Customer(name, id, pw, accountNumber));
-        System.out.printf("Account registration successful!%n%n");
+        return accountNumber;
     }
 
     // 계정 정보 수정 메서드
-    @Override
-    public void updateAccount(Account account) {
+    public void updateAccount(BankAccount bankAccount) {
 
         Scanner scanner = new Scanner(System.in);
         while (true) {
@@ -76,8 +86,8 @@ public class KbKookminBank extends Bank {
             if (num.equals("1")) {
                 System.out.println("변경하고자하는 이름 입력받겠습니다");
                 String afterName = scanner.nextLine();
-                account.setName(afterName);
-                System.out.println(account.getName() + "으로 변경되었습니다");
+                bankAccount.setName(afterName);
+                System.out.println(bankAccount.getName() + "으로 변경되었습니다");
                 System.out.println("이용해주셔서 감사합니다");
                 break;
 
@@ -88,18 +98,41 @@ public class KbKookminBank extends Bank {
                 String checkPassword = scanner.nextLine();
                 if (afterPassword.equals(checkPassword)) {
                     System.out.println("변경 비밀번호가 올바르게 입력되었습니다");
-                    account.setPassword(afterPassword);
+                    bankAccount.setPassword(afterPassword);
                     System.out.println("비밀번호 변경이 완료되었습니다.");
                     break;
                 }
             } else if (num.equals("3")) {
                 System.out.println("처음으로 돌아갑니다.");
                 break;
-            }
-            else{
+            } else {
                 System.out.println("잘못 입력하였습니다");
             }
         }
         System.out.println("이용해주셔서 감사합니다");
+<<<<<<< HEAD
     }
 }
+=======
+
+    }
+
+    @Override
+    public void update() {
+
+    }
+
+    @Override
+    public void deleteAccount() {
+
+    }
+
+    @Override
+    public void withdraw() {
+
+    }
+}
+
+
+
+>>>>>>> develop

@@ -1,5 +1,6 @@
-package account;
+package bankaccount;
 
+import util.AccountNumberFormatter;
 import util.MoneyFormatter;
 import util.Time;
 import util.TimeFormatter;
@@ -8,7 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 // 추상 클래스
+<<<<<<< HEAD:src/main/java/account/Account.java
 public abstract class Account {
+=======
+public abstract class BankAccount {
+
+>>>>>>> develop:src/main/java/bankaccount/BankAccount.java
     // 클래스를 이루는 변수들
     private String name;
     private final String id;
@@ -18,7 +24,7 @@ public abstract class Account {
     private long balance; // 예금
     private final List<TransactionData> transactionDataList; // 거래내역 저장을 위한 리스트
 
-    public Account(String name, String id, String password, String bankName, String accountNumber, long balance) {
+    public BankAccount(String name, String id, String password, String bankName, String accountNumber, long balance) {
         this.name = name;
         this.id = id;
         this.password = password;
@@ -31,6 +37,7 @@ public abstract class Account {
     public abstract void deposit();
     public abstract void withdrawal();
     public abstract void transfer();
+<<<<<<< HEAD:src/main/java/account/Account.java
     public abstract void receive(String srcBank, String srcAccountNumber, String dstAccountNumber, long amount);
     public abstract void showBalance();
 
@@ -47,21 +54,33 @@ public abstract class Account {
         System.out.printf("================================================================================================================%n");
         System.out.printf("         Date        |      Description     |       Deposits       |     Withdrawals     |       Balance        %n");
         System.out.printf("----------------------------------------------------------------------------------------------------------------%n");
+=======
+
+    public abstract void receive(BankAccount srcBankAccount, BankAccount dstBankAccount, long amount);
+
+    public abstract void showBalance();
+
+    public void showAllTransactionData() {
+        System.out.printf("%n%-16s%-20s%-16s%40s%40s%n", bankName, AccountNumberFormatter.format(accountNumber), name, " ", TimeFormatter.format(Time.getCurrentDateTime()));
+        System.out.printf("====================================================================================================================================%n");
+        System.out.printf("         Date        |                Description               |       Deposits       |     Withdrawals     |       Balance        %n");
+        System.out.printf("------------------------------------------------------------------------------------------------------------------------------------%n");
+>>>>>>> develop:src/main/java/bankaccount/BankAccount.java
 
         if (transactionDataList.size() < 1) {
-            System.out.printf("%44sThere is no transaction.%44s%n", " ", " ");
-            System.out.printf("================================================================================================================%n");
+            System.out.printf("%51sThere is no transaction.%51s%n", " ", " ");
+            System.out.printf("====================================================================================================================================%n");
             return;
         }
 
         for (TransactionData data : transactionDataList) {
             if (data.isDeposit()) {
-                System.out.printf("%20s%3s%-20s%3s%20s%24s%20s%3s%n", data.getDate(), " ", data.getDescription(), " ", MoneyFormatter.formatToWon(data.getAmount()), " ", MoneyFormatter.formatToWon(data.getBalance()), " ");
+                System.out.printf("%20s%3s%-41s%3s%20s%24s%20s%3s%n", data.getDate(), " ", data.getDescription(), " ", MoneyFormatter.formatToWon(data.getAmount()), " ", MoneyFormatter.formatToWon(data.getBalance()), " ");
             } else {
-                System.out.printf("%20s%3s%-20s%25s%20s%2s%20s%3s%n", data.getDate(), " ", data.getDescription(), " ", MoneyFormatter.formatToWon(data.getAmount()), " ", MoneyFormatter.formatToWon(data.getBalance()), " ");
+                System.out.printf("%20s%3s%-41s%25s%20s%2s%20s%3s%n", data.getDate(), " ", data.getDescription(), " ", MoneyFormatter.formatToWon(data.getAmount()), " ", MoneyFormatter.formatToWon(data.getBalance()), " ");
             }
         }
-        System.out.printf("================================================================================================================%n%n");
+        System.out.printf("====================================================================================================================================%n");
     }
 
     public void addTransactionData (TransactionData data){

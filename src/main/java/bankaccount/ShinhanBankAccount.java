@@ -1,10 +1,14 @@
-package account;
+package bankaccount;
 
+<<<<<<< HEAD:src/main/java/account/ShinhanBankAccount.java
 import util.MoneyFormatter;
 
 import java.util.Scanner;
 
 public class ShinhanBankAccount extends Account {
+=======
+public class ShinhanBankAccount extends BankAccount {
+>>>>>>> develop:src/main/java/bankaccount/ShinhanBankAccount.java
 
     public ShinhanBankAccount(String name, String id, String password, String bankName, String accountNumber, long balance) {
         super(name, id, password, bankName, accountNumber, balance);
@@ -41,7 +45,7 @@ public class ShinhanBankAccount extends Account {
     }
 
     @Override
-    public void receive(String srcBank, String srcAccountNumber, String dstAccountNumber, long amount) {
+    public void receive(BankAccount srcBankAccount, BankAccount dstBankAccount, long amount) {
 
     }
 

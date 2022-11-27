@@ -1,8 +1,8 @@
-package account;
+package bankaccount;
 
-public class HanaBankAccount extends Account {
+public class WooriBankAccount extends BankAccount {
 
-    public HanaBankAccount(String name, String id, String password, String bankName, String accountNumber, long balance) {
+    public WooriBankAccount(String name, String id, String password, String bankName, String accountNumber, long balance) {
         super(name, id, password, bankName, accountNumber, balance);
     }
 
@@ -21,7 +21,7 @@ public class HanaBankAccount extends Account {
     }
 
     @Override
-    public void receive(String srcBank, String srcAccountNumber, String dstAccountNumber, long amount) {
+    public void receive(BankAccount srcBankAccount, BankAccount dstBankAccount, long amount) {
 
     }
 

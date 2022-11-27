@@ -1,20 +1,26 @@
 package bank;
 
+<<<<<<< HEAD
 import account.Account;
 import account.ShinhanBankAccount;
 import customer.Customer;
 
+=======
+>>>>>>> develop
 import java.util.Scanner;
 
 public class ShinhanBank extends Bank {
 
-    static ShinhanBank instance = new ShinhanBank();
+    static ShinhanBank instance;
 
     private ShinhanBank() {
         super("Shinhan Bank");
     }
 
     public static ShinhanBank getInstance() {
+        if (instance == null) {
+            instance = new ShinhanBank();
+        }
         return instance;
     }
 
@@ -42,7 +48,17 @@ public class ShinhanBank extends Bank {
     }
 
     @Override
-    public void updateAccount(Account account) {
+    public void update() {
+
+    }
+
+    @Override
+    public void deleteAccount() {
+
+    }
+
+    @Override
+    public void withdraw() {
 
     }
 }
