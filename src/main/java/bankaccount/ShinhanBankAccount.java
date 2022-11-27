@@ -1,8 +1,8 @@
-package account;
+package bankaccount;
 
-public class HanaBankAccount extends BankAccount {
+public class ShinhanBankAccount extends BankAccount {
 
-    public HanaBankAccount(String name, String id, String password, String bankName, String accountNumber, long balance) {
+    public ShinhanBankAccount(String name, String id, String password, String bankName, String accountNumber, long balance) {
         super(name, id, password, bankName, accountNumber, balance);
     }
 

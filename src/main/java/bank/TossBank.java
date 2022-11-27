@@ -1,8 +1,9 @@
 package bank;
 
-import account.BankAccount;
-import account.TossBankAccount;
-import customer.Customer;
+import bankaccount.BankAccount;
+import bankaccount.TossBankAccount;
+import useraccount.UserAccount;
+import util.AccountNumberFormatter;
 import util.MoneyFormatter;
 import util.RandomNumberGenerator;
 
@@ -13,9 +14,9 @@ import java.util.Scanner;
 
 public class TossBank extends Bank {
 
-    private static TossBank instance;
-
     private final int NUM_OF_MAX_ACCOUNT = 3;
+
+    private static TossBank instance;
 
     private TossBank() {
         super("Toss Bank");
@@ -54,7 +55,7 @@ public class TossBank extends Bank {
                         if (bankAccounts.size() < NUM_OF_MAX_ACCOUNT) {
                             String newAccountNumber = generateAccountNumber();
                             bankAccounts.add(new TossBankAccount(name, id, pw, getName(), newAccountNumber, 0L));
-                            System.out.printf("%nBank account registration successful! Your account number is %s. Now you have %d bank accounts.%n", newAccountNumber, bankAccounts.size());
+                            System.out.printf("%nBank account registration successful! Your account number is %s. Now you have %d bank accounts.%n", AccountNumberFormatter.format(newAccountNumber), bankAccounts.size());
                         } else {
                             System.out.printf("%nBank registration failed.%nYou already have 3 bank accounts.%n");
                         }
@@ -73,8 +74,8 @@ public class TossBank extends Bank {
 
                 list.add(new TossBankAccount(name, id, pw, getName(), newAccountNumber, 0L));
                 idAccountListMap.put(id, list);
-                getCustomerList().add(new Customer(name, id, pw));
-                System.out.printf("%nAccount registration successful! Your account number is %s. Now you have 1 bank account.%n", newAccountNumber);
+                getCustomerList().add(new UserAccount(name, id, pw));
+                System.out.printf("%nAccount registration successful! Your account number is %s. Now you have 1 bank account.%n", AccountNumberFormatter.format(newAccountNumber));
                 break;
             }
         }
@@ -85,18 +86,18 @@ public class TossBank extends Bank {
         String[] idAndPassword = inputIdAndPassword();
 
         if (isExistAccount(idAndPassword[0], idAndPassword[1])) {
-            System.out.printf("%n==========================%n");
-            System.out.println("|         Update          |");
-            System.out.println("---------------------------");
-            System.out.println("| 1. Rename               |");
-            System.out.println("| 2. Change your password |");
-            System.out.println("===========================");
-
+            System.out.printf("%n======================%n");
+            System.out.println("|      Update        |");
+            System.out.println("----------------------");
+            System.out.println("| 1. Change name     |");
+            System.out.println("| 2. Change password |");
+            System.out.println("======================");
+            System.out.print("Please select a option [1 ~ 2]: ");
             Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
 
             List<BankAccount> bankAccountList = getIdAccountListMap().get(idAndPassword[0]);
-            Customer customer = getCustomer(idAndPassword[0], idAndPassword[1]);
+            UserAccount userAccount = getUserAccount(idAndPassword[0], idAndPassword[1]);
 
             if (input.equals("1")) {
                 System.out.printf("%nPlease enter your new name: ");
@@ -104,7 +105,7 @@ public class TossBank extends Bank {
                 for (BankAccount bankAccount : bankAccountList) {
                     bankAccount.setName(input);
                 }
-                customer.setName(input);
+                userAccount.setName(input);
                 System.out.printf("%nRename successful!%n");
             } else if (input.equals("2")) {
                 System.out.printf("%nPlease enter your new password: ");
@@ -112,7 +113,7 @@ public class TossBank extends Bank {
                 for (BankAccount bankAccount : bankAccountList) {
                     bankAccount.setPassword(input);
                 }
-                customer.setPassword(input);
+                userAccount.setPassword(input);
                 System.out.printf("%nPassword change successful!%n");
             } else {
                 throw new RuntimeException("Invalid input.");
@@ -128,28 +129,40 @@ public class TossBank extends Bank {
             List<BankAccount> bankAccounts = getIdAccountListMap().get(idAndPassword[0]);
 
             if (bankAccounts.size() > 1) {
-                System.out.printf("Here are your accounts.%n");
-                for (BankAccount bankAccount : bankAccounts) {
-                    System.out.printf("%s ₩%s%n", bankAccount.getAccountNumber(), MoneyFormatter.formatToWon(bankAccount.getBalance()));
-                }
-                System.out.println("Please enter the account number you want delete: ");
-                Scanner scanner = new Scanner(System.in);
-                String input = scanner.nextLine();
+                int size = bankAccounts.size();
+                String[] accountNumbers = new String[size];
 
-                for (BankAccount bankAccount : bankAccounts) {
-                    if (input.equals(bankAccount.getAccountNumber())) {
-                        if (bankAccount.getBalance() == 0) {
-                            bankAccounts.remove(bankAccount);
-                            System.out.printf("%nDeletion successful!%n");
-                        } else {
-                            System.out.printf("%nOnly accounts with zero balance can be deleted.%n");
-                        }
-                        return;
-                    }
+                System.out.printf("%n=============================================%n");
+                System.out.println("|               Accounts list               |");
+                System.out.println("---------------------------------------------");
+                for (int i = 0; i < size; i++) {
+                    BankAccount bankAccount = bankAccounts.get(i);
+                    accountNumbers[i] = bankAccount.getAccountNumber();
+                    System.out.printf("| %d. %-16s %20s |%n", i + 1, accountNumbers[i], MoneyFormatter.formatToWon(bankAccount.getBalance()));
                 }
-                System.out.printf("%nAccount not found.%n");
+                System.out.println("=============================================");
+                System.out.print("Please select the account you want to delete: ");
+
+                Scanner scanner = new Scanner(System.in);
+                int input = Integer.parseInt(scanner.nextLine());
+
+                if (1 <= input && input <= size) {
+                    for (BankAccount bankAccount : bankAccounts) {
+                        if (accountNumbers[input - 1].equals(bankAccount.getAccountNumber())) {
+                            if (bankAccount.getBalance() == 0) {
+                                bankAccounts.remove(bankAccount);
+                                System.out.printf("%nDeletion successful!%n");
+                            } else {
+                                System.out.printf("%nOnly accounts with zero balance can be deleted.%n");
+                            }
+                            return;
+                        }
+                    }
+                } else {
+                    throw new RuntimeException("Invalid input.");
+                }
             } else {
-                System.out.printf("%nYou have only one account.%n");
+                System.out.printf("You have only one account.%n");
             }
         }
     }
@@ -159,13 +172,13 @@ public class TossBank extends Bank {
         String[] idAndPassword = inputIdAndPassword();
 
         if (isExistAccount(idAndPassword[0], idAndPassword[1])) {
-            System.out.print("Do you really want to withdraw from your Toss Bank Account? [yes/no]%n");
+            System.out.print("Do you really want to withdraw from your Toss Bank Account? [yes/no]: ");
             Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
 
             if (input.equalsIgnoreCase("y") || input.equalsIgnoreCase("yes")) {
                 getIdAccountListMap().remove(idAndPassword[0]);
-                getCustomerList().remove(getCustomer(idAndPassword[0], idAndPassword[1]));
+                getCustomerList().remove(getUserAccount(idAndPassword[0], idAndPassword[1]));
                 System.out.printf("%nWithdraw successful.%n");
             } else if (!input.equalsIgnoreCase("n") && !input.equalsIgnoreCase("no")) {
                 throw new RuntimeException("Invalid input.");
@@ -174,12 +187,12 @@ public class TossBank extends Bank {
     }
 
     private String generateAccountNumber() {
-        String first = RandomNumberGenerator.generateGivenLengthNumber(2);
-        String second = RandomNumberGenerator.generateGivenLengthNumber(3);
-        String third = RandomNumberGenerator.generateGivenLengthNumber(2);
+        String first = RandomNumberGenerator.generateGivenLengthNumber(3);
+        String second = RandomNumberGenerator.generateGivenLengthNumber(5);
+        String third = RandomNumberGenerator.generateGivenLengthNumber(3);
 
         StringBuilder sb = new StringBuilder();
-        sb.append(first).append("-").append(second).append("-").append(third);
+        sb.append(first).append(second).append(third);
         return sb.toString();
     }
 }

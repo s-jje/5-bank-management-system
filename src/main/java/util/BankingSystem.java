@@ -1,11 +1,10 @@
 package util;
 
-import account.BankAccount;
+import bankaccount.BankAccount;
 import bank.*;
-import customer.Customer;
+import useraccount.UserAccount;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class BankingSystem {
@@ -21,7 +20,7 @@ public class BankingSystem {
         System.out.println("| 5. Hana Bank        |");
         System.out.println("| 6. Exit             |");
         System.out.println("=======================");
-        System.out.print("Please enter a number [1 ~ 6]: ");
+        System.out.print("Please select a bank [1 ~ 6]: ");
 
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
@@ -39,15 +38,15 @@ public class BankingSystem {
         System.out.println("| 6. Return to previous     |");
         System.out.println("| 7. Exit                   |");
         System.out.println("=============================");
-        System.out.print("Please enter a number [1 ~ 7]: ");
+        System.out.print("Please select a menu [1 ~ 7]: ");
 
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
 
     public static BankAccount chooseOneAccount(Bank bank) {
-        Customer customer = getValidCustomer(bank);
-        List<BankAccount> bankAccountList = bank.getIdAccountListMap().get(customer.getId());
+        UserAccount userAccount = getValidUserAccount(bank);
+        List<BankAccount> bankAccountList = bank.getIdAccountListMap().get(userAccount.getId());
 
         if (bankAccountList.size() == 1) {
             return bankAccountList.get(0);
@@ -58,10 +57,11 @@ public class BankingSystem {
         System.out.println("-----------------------");
 
         for (int i = 0; i < bankAccountList.size(); i++) {
-            System.out.printf("| %d. %-16s |%n", i + 1, bankAccountList.get(i).getAccountNumber());
+            String accountNumber = bankAccountList.get(i).getAccountNumber();
+            System.out.printf("| %d. %-16s |%n", i + 1, AccountNumberFormatter.format(accountNumber));
         }
         System.out.println("=======================");
-        System.out.printf("Choose a account [1 ~ %d]: ", bankAccountList.size());
+        System.out.printf("Please select a account [1 ~ %d]: ", bankAccountList.size());
 
         Scanner scanner = new Scanner(System.in);
         int input = Integer.parseInt(scanner.nextLine());
@@ -75,14 +75,14 @@ public class BankingSystem {
     public static void transaction(Bank bank) {
         BankAccount bankAccount = chooseOneAccount(bank);
 
-        System.out.printf("%n=================%n");
-        System.out.println("|  Transaction  |");
-        System.out.println("-----------------");
-        System.out.println("| 1. Deposit    |");
-        System.out.println("| 2. Withdrawal |");
-        System.out.println("| 3. Transfer   |");
-        System.out.println("=================");
-        System.out.print("Please enter a number [1 ~ 3]: ");
+        System.out.printf("%n==================%n");
+        System.out.println("|  Transactions  |");
+        System.out.println("------------------");
+        System.out.println("| 1. Deposit     |");
+        System.out.println("| 2. Withdrawal  |");
+        System.out.println("| 3. Transfer    |");
+        System.out.println("==================");
+        System.out.print("Please select a transaction [1 ~ 3]: ");
 
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
@@ -115,11 +115,15 @@ public class BankingSystem {
     }
 
     public static void checkBalance(Bank bank) {
-        Customer customer = getValidCustomer(bank);
-        List<BankAccount> bankAccounts = bank.getIdAccountListMap().get(customer.getId());
+        UserAccount userAccount = getValidUserAccount(bank);
+        List<BankAccount> bankAccounts = bank.getIdAccountListMap().get(userAccount.getId());
+        System.out.printf("%n=======================================%n");
+        System.out.println("|            Accounts list            |");
+        System.out.println("---------------------------------------");
         for (BankAccount bankAccount : bankAccounts) {
             bankAccount.showBalance();
         }
+        System.out.println("=======================================");
     }
 
     public static void checkAllTransactions(Bank bank) {
@@ -131,14 +135,14 @@ public class BankingSystem {
     }
 
     public static void setting(Bank bank) {
-        System.out.printf("%n=====================");
-        System.out.println("|      Setting      |");
-        System.out.println("---------------------");
-        System.out.println("| 1. Update         |");
-        System.out.println("| 2. Delete account |");
-        System.out.println("| 3. Withdraw       |");
-        System.out.println("=====================");
-        System.out.print("Please enter a number [1 ~ 3]: ");
+        System.out.printf("%n==========================%n");
+        System.out.println("|        Settings        |");
+        System.out.println("--------------------------");
+        System.out.println("| 1. Change account info |");
+        System.out.println("| 2. Delete bank account |");
+        System.out.println("| 3. Withdraw account    |");
+        System.out.println("==========================");
+        System.out.print("Please select a setting [1 ~ 3]: ");
 
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
@@ -154,7 +158,7 @@ public class BankingSystem {
         }
     }
 
-    private static Customer getValidCustomer(Bank bank) {
+    private static UserAccount getValidUserAccount(Bank bank) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Please enter your ID: ");
@@ -162,7 +166,7 @@ public class BankingSystem {
 
         System.out.print("Please enter your Password: ");
         String pw = scanner.nextLine();
-        System.out.println();
-        return bank.getCustomer(id, pw);
+
+        return bank.getUserAccount(id, pw);
     }
 }

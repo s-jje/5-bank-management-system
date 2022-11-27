@@ -1,5 +1,6 @@
-package account;
+package bankaccount;
 
+import util.AccountNumberFormatter;
 import util.MoneyFormatter;
 import util.Time;
 import util.TimeFormatter;
@@ -40,25 +41,25 @@ public abstract class BankAccount {
     public abstract void showBalance();
 
     public void showAllTransactionData() {
-        System.out.printf("%n%-16s%-20s%-16s%40s%34s%n", bankName, accountNumber, name, " ", TimeFormatter.format(Time.getCurrentDateTime()));
-        System.out.printf("==============================================================================================================================%n");
-        System.out.printf("         Date        |             Description            |       Deposits       |     Withdrawals     |       Balance        %n");
-        System.out.printf("------------------------------------------------------------------------------------------------------------------------------%n");
+        System.out.printf("%n%-16s%-20s%-16s%40s%40s%n", bankName, AccountNumberFormatter.format(accountNumber), name, " ", TimeFormatter.format(Time.getCurrentDateTime()));
+        System.out.printf("====================================================================================================================================%n");
+        System.out.printf("         Date        |                Description               |       Deposits       |     Withdrawals     |       Balance        %n");
+        System.out.printf("------------------------------------------------------------------------------------------------------------------------------------%n");
 
         if (transactionDataList.size() < 1) {
             System.out.printf("%51sThere is no transaction.%51s%n", " ", " ");
-            System.out.printf("==============================================================================================================================%n");
+            System.out.printf("====================================================================================================================================%n");
             return;
         }
 
         for (TransactionData data : transactionDataList) {
             if (data.isDeposit()) {
-                System.out.printf("%20s%3s%-34s%3s%20s%24s%20s%3s%n", data.getDate(), " ", data.getDescription(), " ", MoneyFormatter.formatToWon(data.getAmount()), " ", MoneyFormatter.formatToWon(data.getBalance()), " ");
+                System.out.printf("%20s%3s%-41s%3s%20s%24s%20s%3s%n", data.getDate(), " ", data.getDescription(), " ", MoneyFormatter.formatToWon(data.getAmount()), " ", MoneyFormatter.formatToWon(data.getBalance()), " ");
             } else {
-                System.out.printf("%20s%3s%-34s%25s%20s%2s%20s%3s%n", data.getDate(), " ", data.getDescription(), " ", MoneyFormatter.formatToWon(data.getAmount()), " ", MoneyFormatter.formatToWon(data.getBalance()), " ");
+                System.out.printf("%20s%3s%-41s%25s%20s%2s%20s%3s%n", data.getDate(), " ", data.getDescription(), " ", MoneyFormatter.formatToWon(data.getAmount()), " ", MoneyFormatter.formatToWon(data.getBalance()), " ");
             }
         }
-        System.out.printf("==============================================================================================================================%n%n");
+        System.out.printf("====================================================================================================================================%n");
     }
 
     public void addTransactionData(TransactionData data) {

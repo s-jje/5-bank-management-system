@@ -1,12 +1,12 @@
-package customer;
+package useraccount;
 
-public class Customer {
+public class UserAccount {
 
     private String name;
     private final String id;
     private String password;
 
-    public Customer(String name, String id, String password) {
+    public UserAccount(String name, String id, String password) {
         this.name = name;
         this.id = id;
         this.password = password;

@@ -1,6 +1,7 @@
-package account;
+package bankaccount;
 
 import bank.Bank;
+import util.AccountNumberFormatter;
 import util.BankingSystem;
 import util.MoneyFormatter;
 import util.TimeFormatter;
@@ -8,6 +9,8 @@ import util.TimeFormatter;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static util.Time.convertDateTimeToSecond;
@@ -16,6 +19,7 @@ import static util.Time.getCurrentDateTime;
 public class TossBankAccount extends BankAccount {
 
     private final double INTEREST_RATE_PER_SECOND = 3.1709792e-9;
+
     private long prevTime;
 
     public TossBankAccount(String name, String id, String password, String bankName, String accountNumber, long balance) {
@@ -39,8 +43,11 @@ public class TossBankAccount extends BankAccount {
 
             long balance = getBalance() + amount;
             setBalance(balance);
-            addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), getAccountNumber(), true, amount, balance, "Toss Bank"));
-            System.out.printf("%nDeposit successful! Interest rate is %.1f%%.%n", INTEREST_RATE_PER_SECOND * 100.0 * 60.0 * 60.0 * 24.0 * 365.0);
+
+            StringBuilder description = new StringBuilder();
+            description.append(getBankName()).append(" ").append(AccountNumberFormatter.format(getAccountNumber())).append(" ").append(getName());
+            addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), AccountNumberFormatter.format(getAccountNumber()), true, amount, balance, description.toString()));
+            System.out.printf("%nDeposit successful! The interest rate is %.1f%%%n", INTEREST_RATE_PER_SECOND * 100.0 * 60.0 * 60.0 * 24.0 * 365.0);
         } else {
             System.out.printf("%nYou can deposit more than ₩0.%n");
         }
@@ -59,7 +66,9 @@ public class TossBankAccount extends BankAccount {
                 if (balance >= 0) {
                     setBalance(balance);
 
-                    addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), getAccountNumber(), false, amount, balance, "Toss Bank"));
+                    StringBuilder description = new StringBuilder();
+                    description.append(getBankName()).append(" ").append(AccountNumberFormatter.format(getAccountNumber())).append(" ").append(getName());
+                    addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), AccountNumberFormatter.format(getAccountNumber()), false, amount, balance, description.toString()));
                     System.out.printf("%nWithdrawal successful!%n");
                 } else {
                     System.out.printf("%nWithdrawal failed.%n");
@@ -85,6 +94,16 @@ public class TossBankAccount extends BankAccount {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Please enter the account number to transfer: ");
         String dstNum = scanner.nextLine();
+
+        Pattern pattern = Pattern.compile("\\d{3}-?\\d{5}-?\\d{3}");
+        Matcher matcher = pattern.matcher(dstNum);
+
+        while (!matcher.find()) {
+            System.out.println("Invalid account number form.");
+            System.out.print("Please enter the account number to transfer: ");
+            dstNum = scanner.nextLine();
+        }
+
         Bank dstBank = BankingSystem.setDstBank(bankNumber);
 
         List<BankAccount> bankAccounts = dstBank.getIdAccountListMap().values().stream().flatMap(List::stream).collect(Collectors.toList());
@@ -102,7 +121,7 @@ public class TossBankAccount extends BankAccount {
                         long amount = Long.parseLong(scanner.nextLine());
 
                         if (amount > 0) {
-                            StringBuilder dstDescription = new StringBuilder(dstBankAccount.getBankName() + " " + dstNum + " " + dstBankAccount.getName());
+                            StringBuilder dstDescription = new StringBuilder(dstBankAccount.getBankName() + " " + AccountNumberFormatter.format(dstNum) + " " + dstBankAccount.getName());
                             System.out.printf("Would you like to transfer to %s? [yes/no]: ", dstDescription);
                             String input = scanner.nextLine();
 
@@ -163,9 +182,9 @@ public class TossBankAccount extends BankAccount {
         String accountNumber = getAccountNumber();
 
         if (interest > 0) {
-            addTransactionData(new TransactionData("-", accountNumber, true, interest, getBalance(), "Toss Bank Interest"));
+            addTransactionData(new TransactionData("-", AccountNumberFormatter.format(accountNumber), true, interest, getBalance(), "Toss Bank Interest"));
         }
-        System.out.printf("%s: ₩%s%n", accountNumber, MoneyFormatter.formatToWon(getBalance()));
+        System.out.printf("| %-13s: %20s |%n", AccountNumberFormatter.format(accountNumber), MoneyFormatter.formatToWon(getBalance()));
     }
 
     private long applyInterest(long epochSecond) {

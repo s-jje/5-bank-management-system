@@ -19,7 +19,6 @@ public class BankManagementSystemApplication {
         while (true) {
             try {
                 String bankNumber = BankingSystem.chooseBank();
-                System.out.println();
 
                 Bank bank;
 
@@ -42,7 +41,6 @@ public class BankManagementSystemApplication {
                 while (true) {
                     try {
                         String input = BankingSystem.chooseMenu();
-                        System.out.println();
 
                         if (input.equals("1")) {
                             BankingSystem.transaction(bank);
@@ -62,15 +60,15 @@ public class BankManagementSystemApplication {
                             throw new RuntimeException("Invalid number.");
                         }
                     } catch (NumberFormatException e) {
-                        System.out.printf("%n%s%n%n", e.getMessage());
+                        System.out.printf("%n%s%n", e.getMessage());
                     } catch (RuntimeException e) {
-                        System.out.printf("%n%s%n%n", e.getMessage());
+                        System.out.printf("%n%s%n", e.getMessage());
                     }
                 }
             } catch (NumberFormatException e) {
-                System.out.printf("%n%s%n%n", e.getMessage());
+                System.out.printf("%n%s%n", e.getMessage());
             } catch (RuntimeException e) {
-                System.out.printf("%n%s%n%n", e.getMessage());
+                System.out.printf("%n%s%n", e.getMessage());
             }
         }
     }

@@ -1,8 +1,8 @@
 package bank;
 
-import account.BankAccount;
-import account.KbKookminBankAccount;
-import customer.Customer;
+import bankaccount.BankAccount;
+import bankaccount.KbKookminBankAccount;
+import useraccount.UserAccount;
 
 import java.util.Scanner;
 
@@ -57,7 +57,7 @@ public class KbKookminBank extends Bank {
         String accountNumber = makeAccountNumber();
 
         getBankAccountList().add(new KbKookminBankAccount(name, id, pw, getName(), accountNumber, 0L));
-        getCustomerList().add(new Customer(name, id, pw));
+        getCustomerList().add(new UserAccount(name, id, pw));
         System.out.printf("Account registration successful!%n%n");
         System.out.println("your accountNumber is "+accountNumber);
     }
