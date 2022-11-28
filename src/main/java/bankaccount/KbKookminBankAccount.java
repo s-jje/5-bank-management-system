@@ -28,10 +28,9 @@ public class KbKookminBankAccount extends BankAccount {
         System.out.println("맞다면 1, 틀리다면 2를 눌러주십쇼. 2를 누르면 처음으로 돌아갑니다");
         String check = scanner.nextLine();
         if (check.equals("1")) {
-            ZonedDateTime zonedDateTime = getCurrentDateTime();
             setBalance(getBalance() + amount);
             System.out.println("입금 완료 되었습니다.");
-            addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), getAccountNumber(), true, amount, getBalance(), "KB Bank"));
+            addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), getAccountNumber(), true, amount, getBalance(), "KB Bank"));
             System.out.println("현재 계좌 내 금액은 " + getBalance() + "원 입니다");
         } else {
             System.out.println("처음부터 진행해주십시오");
@@ -94,13 +93,17 @@ public class KbKookminBankAccount extends BankAccount {
 
         } else {
             System.out.println("타 은행 송금시 수수료 500원이 부과됩니다");
-            System.out.println("보내고자 하는 계좌를 입력해주십시오");
+            System.out.println("돈을 보내고자 하는 계좌를 입력해주십시오");
             BankAccount accountSend = validation(scanner, instance);
-            System.out.println("받고자 하는 계좌를 입력해주십시오");
+            System.out.println("돈을 받고자 하는 계좌를 입력해주십시오");
             BankAccount accountReceive = validation(scanner, bank);
             System.out.println("보내고자 하는 금액을 입력해주십시오");
             long amount = Long.parseLong(scanner.nextLine());
             if (checkBalance(amount)) {
+
+                accountSend.setBalance(accountSend.getBalance() - 500);
+                accountSend.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), accountReceive.getAccountNumber(), false, 500, accountSend.getBalance(), "Other bank fee"));
+
                 receive(accountSend, accountReceive, amount);
                 ZonedDateTime zonedDateTime = getCurrentDateTime();
                 addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), getAccountNumber(), false, amount, getBalance(), accountReceive.getBankName()));
@@ -113,15 +116,8 @@ public class KbKookminBankAccount extends BankAccount {
     public void receive(BankAccount accountSend, BankAccount accountReceive, long amount) {
         String accountNumber = accountReceive.getAccountNumber();
         System.out.println("보내고자 하는 금액 : " + amount + " 보내고자 하는 계좌 번호 : " + accountNumber);
-        if (accountSend.getBankName().equals(accountReceive.getBankName())) {
-            accountSend.setBalance(accountSend.getBalance() - amount);
-            accountReceive.setBalance(accountReceive.getBalance() + amount);
-        } else {
-            accountSend.setBalance(accountSend.getBalance() - 500);
-            accountSend.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), accountReceive.getAccountNumber(), false, 500, accountSend.getBalance(), "Other bank fee"));
-            accountSend.setBalance(accountSend.getBalance() - amount);
-            accountReceive.setBalance(accountReceive.getBalance() + amount);
-        }
+        accountSend.setBalance(accountSend.getBalance() - amount);
+        accountReceive.setBalance(accountReceive.getBalance() + amount);
         StringBuilder description = new StringBuilder();
         description.append(accountSend.getBankName()).append(" ").append(accountSend.getAccountNumber()).append(" ").append(accountSend.getName());
         accountReceive.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), accountReceive.getAccountNumber(), true, amount, accountReceive.getBalance(), description.toString()));
@@ -159,6 +155,17 @@ public class KbKookminBankAccount extends BankAccount {
         throw new NoSuchElementException("잘못된 형식을 입력하셨습니다");
     }
 
+    private BankAccount getAccount(String accountNumber, List<BankAccount> accountList) {
+        for (BankAccount account : accountList) {
+            if (accountNumber.equals(account.getAccountNumber())) {
+                return account;
+            }
+            System.out.println("해당 계좌번호는 없는 계좌번호 입니다");
+        }
+        throw new NoSuchElementException("잘못된 형식을 입력하셨습니다");
+    }
+
+    ;
 
     private void printBankList() {
         System.out.println("============================================================================================");
