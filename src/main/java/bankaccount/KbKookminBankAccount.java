@@ -1,4 +1,4 @@
-package account;
+package bankaccount;
 
 import bank.*;
 import util.TimeFormatter;
@@ -8,7 +8,8 @@ import java.util.*;
 
 import static util.Time.getCurrentDateTime;
 
-public class KbKookminBankAccount extends Account {
+public class KbKookminBankAccount extends BankAccount {
+
     private String grade;
 
     public KbKookminBankAccount(String name, String id, String password, String bankName, String accountNumber, long balance) {
@@ -78,9 +79,9 @@ public class KbKookminBankAccount extends Account {
         if (bank.equals(instance)) {
             System.out.println("동일 은행끼리의 송금은 수수료가 없습니다");
             System.out.println("돈을 보내고자 하는 계좌를 입력해주십시오");
-            Account accountSend = validation(scanner, instance);
+            BankAccount accountSend = validation(scanner, instance);
             System.out.println("돈을 받고자 하는 계좌를 입력해주십시오");
-            Account accountReceive = validation(scanner, bank);
+            BankAccount accountReceive = validation(scanner, bank);
             System.out.println("보내고자 하는 금액을 입력해주십시오");
             long amount = Long.parseLong(scanner.nextLine());
 
@@ -94,9 +95,9 @@ public class KbKookminBankAccount extends Account {
         } else {
             System.out.println("타 은행 송금시 수수료 500원이 부과됩니다");
             System.out.println("보내고자 하는 계좌를 입력해주십시오");
-            Account accountSend = validation(scanner, instance);
+            BankAccount accountSend = validation(scanner, instance);
             System.out.println("받고자 하는 계좌를 입력해주십시오");
-            Account accountReceive = validation(scanner, bank);
+            BankAccount accountReceive = validation(scanner, bank);
             System.out.println("보내고자 하는 금액을 입력해주십시오");
             long amount = Long.parseLong(scanner.nextLine());
             if (checkBalance(amount)) {
@@ -109,7 +110,7 @@ public class KbKookminBankAccount extends Account {
     }
 
     @Override
-    public void receive(Account accountSend, Account accountReceive, long amount) {
+    public void receive(BankAccount accountSend, BankAccount accountReceive, long amount) {
         String accountNumber = accountReceive.getAccountNumber();
         System.out.println("보내고자 하는 금액 : " + amount + " 보내고자 하는 계좌 번호 : " + accountNumber);
         if (accountSend.getBankName().equals(accountReceive.getBankName())) {
@@ -117,41 +118,43 @@ public class KbKookminBankAccount extends Account {
             accountReceive.setBalance(accountReceive.getBalance() + amount);
         } else {
             accountSend.setBalance(accountSend.getBalance() - 500);
-            accountSend.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), accountReceive.getAccountNumber(), false, 500, accountSend.getBalance(), "타행 수수료"));
+            accountSend.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), accountReceive.getAccountNumber(), false, 500, accountSend.getBalance(), "Other bank fee"));
             accountSend.setBalance(accountSend.getBalance() - amount);
             accountReceive.setBalance(accountReceive.getBalance() + amount);
         }
-        accountReceive.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), accountReceive.getAccountNumber(), true, amount, accountReceive.getBalance(), accountSend.getBankName()));
+        StringBuilder description = new StringBuilder();
+        description.append(accountSend.getBankName()).append(" ").append(accountSend.getAccountNumber()).append(" ").append(accountSend.getName());
+        accountReceive.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), accountReceive.getAccountNumber(), true, amount, accountReceive.getBalance(), description.toString()));
+
         System.out.println("송금이 완료되었습니다");
     }
 
     @Override
     public void showBalance() {
         long balance = getBalance();
-        System.out.println("%nYour balance is ₩" + balance);
-
+        System.out.printf("| %36s |%n", "₩" + balance);
     }
 
-
-    public Account validation(Scanner scanner, Bank bank) {
+    public BankAccount validation(Scanner scanner, Bank bank) {
         System.out.println("계좌의 id를 입력해주십시오");
         String id = scanner.nextLine();
         System.out.println("계좌의 pw를 입력해주십시오");
         String pw = scanner.nextLine();
-        List<Account> accountList = bank.getAccountList();
-        return getAccount(id, pw, accountList);
+        return getBankAccount(id, pw, bank);
     }
 
-    private Account getAccount(String id, String pw, List<Account> accountList) {
-        for (Account account : accountList) {
-            if (id.equals(account.getId())) {
-                if (pw.equals(account.getPassword())) {
-                    return account;
-                } else {
-                    System.out.println("잘못된 비밀번호 입니다.");
-                }
-                System.out.println("해당 id는 없는 id 입니다");
+    private BankAccount getBankAccount(String id, String pw, Bank bank) {
+        Map<String, List<BankAccount>> idAccountListMap = bank.getIdAccountListMap();
+
+        if (idAccountListMap.containsKey(id)) {
+            BankAccount bankAccount = idAccountListMap.get(id).get(0);
+            if (pw.equals(bankAccount.getPassword())) {
+                return bankAccount;
+            } else {
+                System.out.println("잘못된 비밀번호 입니다.");
             }
+        } else {
+            System.out.println("해당 id는 없는 id 입니다");
         }
         throw new NoSuchElementException("잘못된 형식을 입력하셨습니다");
     }
@@ -208,6 +211,5 @@ public class KbKookminBankAccount extends Account {
             return false;
         }
         return true;
-
     }
 }
