@@ -128,7 +128,7 @@ public class KbKookminBankAccount extends BankAccount {
         System.out.printf("| %36s |%n", "₩" + balance);
     }
 
-    public BankAccount validation(Scanner scanner, Bank bank) {
+    private BankAccount validation(Scanner scanner, Bank bank) {
         System.out.println("계좌의 id를 입력해주십시오");
         String id = scanner.nextLine();
         System.out.println("계좌의 pw를 입력해주십시오");
@@ -151,18 +151,6 @@ public class KbKookminBankAccount extends BankAccount {
         }
         throw new NoSuchElementException("잘못된 형식을 입력하셨습니다");
     }
-
-    private BankAccount getAccount(String accountNumber, List<BankAccount> accountList) {
-        for (BankAccount account : accountList) {
-            if (accountNumber.equals(account.getAccountNumber())) {
-                return account;
-            }
-            System.out.println("해당 계좌번호는 없는 계좌번호 입니다");
-        }
-        throw new NoSuchElementException("잘못된 형식을 입력하셨습니다");
-    }
-
-    ;
 
     private void printBankList() {
         System.out.println("============================================================================================");
