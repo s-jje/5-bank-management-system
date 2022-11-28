@@ -156,6 +156,15 @@ public class KbKookminBankAccount extends Account {
         throw new NoSuchElementException("잘못된 형식을 입력하셨습니다");
     }
 
+    private Account getAccount(String accountNumber, List<Account> accountList) {
+        for (Account account : accountList) {
+            if (accountNumber.equals(account.getAccountNumber())) {
+                return account;
+            }
+            System.out.println("해당 계좌번호는 없는 계좌번호 입니다");
+        }
+        throw new NoSuchElementException("잘못된 형식을 입력하셨습니다");
+    };
 
     private void printBankList() {
         System.out.println("============================================================================================");
