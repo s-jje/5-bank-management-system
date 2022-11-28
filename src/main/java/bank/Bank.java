@@ -12,14 +12,14 @@ public abstract class Bank {
 
     private final String name;
     private final List<UserAccount> userAccountList;
-    private final Map<String, List<BankAccount>> idAccountListMap;
+    private final Map<String, List<BankAccount>> idBankAccountListMap;
 
     Scanner scanner = getScanner();
 
     public Bank(String name) {
         this.name = name;
         this.userAccountList = new ArrayList<>();
-        this.idAccountListMap = new HashMap<>();
+        this.idBankAccountListMap = new HashMap<>();
     }
 
     public abstract void register();
@@ -41,12 +41,12 @@ public abstract class Bank {
     }
 
     public boolean isExistId(String id) {
-        return idAccountListMap.containsKey(id);
+        return idBankAccountListMap.containsKey(id);
     }
 
     public boolean isExistAccount(String id, String password) {
-        if (idAccountListMap.containsKey(id)) {
-            List<BankAccount> bankAccounts = idAccountListMap.get(id);
+        if (idBankAccountListMap.containsKey(id)) {
+            List<BankAccount> bankAccounts = idBankAccountListMap.get(id);
             for (BankAccount bankAccount : bankAccounts) {
                 if (bankAccount.getId().equals(id)) {
                     if (bankAccount.getPassword().equals(password)) {
@@ -102,11 +102,11 @@ public abstract class Bank {
     }
 
     public List<BankAccount> getBankAccountList() {
-        return idAccountListMap.values().stream().flatMap(List::stream).collect(Collectors.toList());
+        return idBankAccountListMap.values().stream().flatMap(List::stream).collect(Collectors.toList());
     }
 
-    public Map<String, List<BankAccount>> getIdAccountListMap() {
-        return idAccountListMap;
+    public Map<String, List<BankAccount>> getIdBankAccountListMap() {
+        return idBankAccountListMap;
     }
 
     public UserAccount getUserAccount(String id, String password) {

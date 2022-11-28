@@ -56,7 +56,7 @@ public class ShinhanBank extends Bank {
 //        String accountNumber = "110-" + (int) ((Math.random() * 999) + 1) + "-" + (int) ((Math.random() * 999999) + 1);
         List<BankAccount> list = new ArrayList<>();
         list.add(new ShinhanBankAccount(name, id, pw, getName(), accountNumber, 0L));
-        getIdAccountListMap().put(id, list);
+        getIdBankAccountListMap().put(id, list);
         getUserAccountList().add(new UserAccount(name, id, pw));
         // 계좌번호 출력
         System.out.printf("Account registration successful! Account Number is %s%n%n", accountNumber);

@@ -38,7 +38,7 @@ public class KbKookminBank extends Bank {
                 System.out.println("계좌의 비밀번호를 입력해주십시오");
                 String password = scanner.nextLine();
                 if (isExistId(id)) {
-                    BankAccount bankAccount = getIdAccountListMap().get(id).get(0);
+                    BankAccount bankAccount = getIdBankAccountListMap().get(id).get(0);
                     if (password.equals(bankAccount.getPassword())) {
                         updateAccount(bankAccount);
                         break;
@@ -64,7 +64,7 @@ public class KbKookminBank extends Bank {
 
         List<BankAccount> list = new ArrayList<>();
         list.add(new KbKookminBankAccount(name, id, pw, getName(), accountNumber, 0L));
-        getIdAccountListMap().put(id, list);
+        getIdBankAccountListMap().put(id, list);
         getUserAccountList().add(new UserAccount(name, id, pw));
 
         System.out.printf("Account registration successful!%n");
@@ -129,7 +129,7 @@ public class KbKookminBank extends Bank {
             System.out.println("계좌의 비밀번호를 입력해주십시오");
             String password = scanner.nextLine();
             if (isExistId(id)) {
-                BankAccount bankAccount = getIdAccountListMap().get(id).get(0);
+                BankAccount bankAccount = getIdBankAccountListMap().get(id).get(0);
                 if (password.equals(bankAccount.getPassword())) {
                     updateAccount(bankAccount);
                     break;

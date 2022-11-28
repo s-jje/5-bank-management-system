@@ -137,7 +137,7 @@ public class KbKookminBankAccount extends BankAccount {
     }
 
     private BankAccount getBankAccount(String id, String pw, Bank bank) {
-        Map<String, List<BankAccount>> idAccountListMap = bank.getIdAccountListMap();
+        Map<String, List<BankAccount>> idAccountListMap = bank.getIdBankAccountListMap();
 
         if (idAccountListMap.containsKey(id)) {
             BankAccount bankAccount = idAccountListMap.get(id).get(0);
