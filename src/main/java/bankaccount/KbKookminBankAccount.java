@@ -118,41 +118,43 @@ public class KbKookminBankAccount extends BankAccount {
             accountReceive.setBalance(accountReceive.getBalance() + amount);
         } else {
             accountSend.setBalance(accountSend.getBalance() - 500);
-            accountSend.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), accountReceive.getAccountNumber(), false, 500, accountSend.getBalance(), "타행 수수료"));
+            accountSend.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), accountReceive.getAccountNumber(), false, 500, accountSend.getBalance(), "Other bank fee"));
             accountSend.setBalance(accountSend.getBalance() - amount);
             accountReceive.setBalance(accountReceive.getBalance() + amount);
         }
-        accountReceive.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), accountReceive.getAccountNumber(), true, amount, accountReceive.getBalance(), accountSend.getBankName()));
+        StringBuilder description = new StringBuilder();
+        description.append(accountSend.getBankName()).append(" ").append(accountSend.getAccountNumber()).append(" ").append(accountSend.getName());
+        accountReceive.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), accountReceive.getAccountNumber(), true, amount, accountReceive.getBalance(), description.toString()));
+
         System.out.println("송금이 완료되었습니다");
     }
 
     @Override
     public void showBalance() {
         long balance = getBalance();
-        System.out.println("%nYour balance is ₩" + balance);
-
+        System.out.printf("| %36s |%n", "₩" + balance);
     }
-
 
     public BankAccount validation(Scanner scanner, Bank bank) {
         System.out.println("계좌의 id를 입력해주십시오");
         String id = scanner.nextLine();
         System.out.println("계좌의 pw를 입력해주십시오");
         String pw = scanner.nextLine();
-        List<BankAccount> accountList = bank.getBankAccountList();
-        return getAccount(id, pw, accountList);
+        return getBankAccount(id, pw, bank);
     }
 
-    private BankAccount getAccount(String id, String pw, List<BankAccount> accountList) {
-        for (BankAccount bankAccount : accountList) {
-            if (id.equals(bankAccount.getId())) {
-                if (pw.equals(bankAccount.getPassword())) {
-                    return bankAccount;
-                } else {
-                    System.out.println("잘못된 비밀번호 입니다.");
-                }
-                System.out.println("해당 id는 없는 id 입니다");
+    private BankAccount getBankAccount(String id, String pw, Bank bank) {
+        Map<String, List<BankAccount>> idAccountListMap = bank.getIdAccountListMap();
+
+        if (idAccountListMap.containsKey(id)) {
+            BankAccount bankAccount = idAccountListMap.get(id).get(0);
+            if (pw.equals(bankAccount.getPassword())) {
+                return bankAccount;
+            } else {
+                System.out.println("잘못된 비밀번호 입니다.");
             }
+        } else {
+            System.out.println("해당 id는 없는 id 입니다");
         }
         throw new NoSuchElementException("잘못된 형식을 입력하셨습니다");
     }
@@ -162,17 +164,17 @@ public class KbKookminBankAccount extends BankAccount {
         System.out.println("============================================================================================");
         System.out.println("송금하시려는 계좌의 은행을 골라주십시오");
         System.out.println("현재 Atm기는 국민은행이며 타행으로 송금시 수수료 500원이 차감이 됩니다.");
+        System.out.printf("%n======================%n");
+        System.out.println("|   Available banks   |");
+        System.out.println("----------------------");
+        System.out.println("| 1. Toss Bank       |");
+        System.out.println("| 2. KB Kookmin Bank |");
+        System.out.println("| 3. Shinhan Bank    |");
+        System.out.println("| 4. Woori Bank      |");
+        System.out.println("| 5. Hana Bank       |");
+        System.out.println("| 6. Exit            |");
         System.out.println("=======================");
-        System.out.println("| Available bank list |");
-        System.out.println("-----------------------");
-        System.out.println("| 1. Toss Bank        |");
-        System.out.println("| 2. KB Kookmin Bank  |");
-        System.out.println("| 3. Shinhan Bank     |");
-        System.out.println("| 4. Woori Bank       |");
-        System.out.println("| 5. Hana Bank        |");
-        System.out.println("| 6. back             |");
-        System.out.println("=======================");
-        System.out.print("Please enter a number (1 ~ 6): ");
+        System.out.print("Please select a bank [1 ~ 6]: ");
     }
 
     private Bank chooseBankInstance(List<Bank> bankList, String num) {

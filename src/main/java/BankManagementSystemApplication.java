@@ -57,6 +57,8 @@ public class BankManagementSystemApplication {
                             break;
                         } else if (input.equals("7")) {
                             return;
+                        } else if (input.equals("admin")) {
+                            BankingSystem.admin(bank);
                         } else {
                             throw new RuntimeException("Invalid number.");
                         }

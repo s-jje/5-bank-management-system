@@ -3,7 +3,6 @@ package bank;
 import bankaccount.BankAccount;
 import bankaccount.TossBankAccount;
 import useraccount.UserAccount;
-import util.AccountNumberFormatter;
 import util.MoneyFormatter;
 import util.RandomNumberGenerator;
 
@@ -55,7 +54,7 @@ public class TossBank extends Bank {
                         if (bankAccounts.size() < NUM_OF_MAX_ACCOUNT) {
                             String newAccountNumber = generateAccountNumber();
                             bankAccounts.add(new TossBankAccount(name, id, pw, getName(), newAccountNumber, 0L));
-                            System.out.printf("%nBank account registration successful! Your account number is %s. Now you have %d bank accounts.%n", AccountNumberFormatter.format(newAccountNumber), bankAccounts.size());
+                            System.out.printf("%nBank account registration successful! Your account number is %s. Now you have %d bank accounts.%n", newAccountNumber, bankAccounts.size());
                         } else {
                             System.out.printf("%nBank registration failed.%nYou already have 3 bank accounts.%n");
                         }
@@ -74,8 +73,8 @@ public class TossBank extends Bank {
 
                 list.add(new TossBankAccount(name, id, pw, getName(), newAccountNumber, 0L));
                 idAccountListMap.put(id, list);
-                getCustomerList().add(new UserAccount(name, id, pw));
-                System.out.printf("%nAccount registration successful! Your account number is %s. Now you have 1 bank account.%n", AccountNumberFormatter.format(newAccountNumber));
+                getUserAccountList().add(new UserAccount(name, id, pw));
+                System.out.printf("%nAccount registration successful! Your account number is %s. Now you have 1 bank account.%n", newAccountNumber);
                 break;
             }
         }
@@ -178,7 +177,7 @@ public class TossBank extends Bank {
 
             if (input.equalsIgnoreCase("y") || input.equalsIgnoreCase("yes")) {
                 getIdAccountListMap().remove(idAndPassword[0]);
-                getCustomerList().remove(getUserAccount(idAndPassword[0], idAndPassword[1]));
+                getUserAccountList().remove(getUserAccount(idAndPassword[0], idAndPassword[1]));
                 System.out.printf("%nWithdraw successful.%n");
             } else if (!input.equalsIgnoreCase("n") && !input.equalsIgnoreCase("no")) {
                 throw new RuntimeException("Invalid input.");
@@ -192,7 +191,7 @@ public class TossBank extends Bank {
         String third = RandomNumberGenerator.generateGivenLengthNumber(3);
 
         StringBuilder sb = new StringBuilder();
-        sb.append(first).append(second).append(third);
+        sb.append(first).append("-").append(second).append("-").append(third);
         return sb.toString();
     }
 }

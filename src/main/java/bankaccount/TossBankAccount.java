@@ -1,7 +1,6 @@
 package bankaccount;
 
 import bank.Bank;
-import util.AccountNumberFormatter;
 import util.BankingSystem;
 import util.MoneyFormatter;
 import util.TimeFormatter;
@@ -45,8 +44,8 @@ public class TossBankAccount extends BankAccount {
             setBalance(balance);
 
             StringBuilder description = new StringBuilder();
-            description.append(getBankName()).append(" ").append(AccountNumberFormatter.format(getAccountNumber())).append(" ").append(getName());
-            addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), AccountNumberFormatter.format(getAccountNumber()), true, amount, balance, description.toString()));
+            description.append(getBankName()).append(" ").append(getAccountNumber()).append(" ").append(getName());
+            addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), getAccountNumber(), true, amount, balance, description.toString()));
             System.out.printf("%nDeposit successful! The interest rate is %.1f%%%n", INTEREST_RATE_PER_SECOND * 100.0 * 60.0 * 60.0 * 24.0 * 365.0);
         } else {
             System.out.printf("%nYou can deposit more than ₩0.%n");
@@ -67,8 +66,8 @@ public class TossBankAccount extends BankAccount {
                     setBalance(balance);
 
                     StringBuilder description = new StringBuilder();
-                    description.append(getBankName()).append(" ").append(AccountNumberFormatter.format(getAccountNumber())).append(" ").append(getName());
-                    addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), AccountNumberFormatter.format(getAccountNumber()), false, amount, balance, description.toString()));
+                    description.append(getBankName()).append(" ").append(getAccountNumber()).append(" ").append(getName());
+                    addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), getAccountNumber(), false, amount, balance, description.toString()));
                     System.out.printf("%nWithdrawal successful!%n");
                 } else {
                     System.out.printf("%nWithdrawal failed.%n");
@@ -82,7 +81,6 @@ public class TossBankAccount extends BankAccount {
     }
 
     public void transfer() {
-        System.out.println();
         String bankNumber = BankingSystem.chooseBank();
 
         if (bankNumber.equals("6")) {
@@ -95,7 +93,7 @@ public class TossBankAccount extends BankAccount {
         System.out.print("Please enter the account number to transfer: ");
         String dstNum = scanner.nextLine();
 
-        Pattern pattern = Pattern.compile("\\d{3}-?\\d{5}-?\\d{3}");
+        Pattern pattern = Pattern.compile("\\d{3,5}-?\\d{2,5}-?\\d{3,6}");
         Matcher matcher = pattern.matcher(dstNum);
 
         while (!matcher.find()) {
@@ -105,14 +103,13 @@ public class TossBankAccount extends BankAccount {
         }
 
         Bank dstBank = BankingSystem.setDstBank(bankNumber);
-
-        List<BankAccount> bankAccounts = dstBank.getIdAccountListMap().values().stream().flatMap(List::stream).collect(Collectors.toList());
+        List<BankAccount> dstBankAccounts = dstBank.getIdAccountListMap().values().stream().flatMap(List::stream).collect(Collectors.toList());
 
         while (true) {
             int i;
-            for (i = 0; i < bankAccounts.size(); i++) {
-                if (dstNum.equals(bankAccounts.get(i).getAccountNumber())) {
-                    BankAccount dstBankAccount = bankAccounts.get(i);
+            for (i = 0; i < dstBankAccounts.size(); i++) {
+                if (dstNum.equals(dstBankAccounts.get(i).getAccountNumber())) {
+                    BankAccount dstBankAccount = dstBankAccounts.get(i);
 
                     long balance = getBalance();
 
@@ -121,7 +118,7 @@ public class TossBankAccount extends BankAccount {
                         long amount = Long.parseLong(scanner.nextLine());
 
                         if (amount > 0) {
-                            StringBuilder dstDescription = new StringBuilder(dstBankAccount.getBankName() + " " + AccountNumberFormatter.format(dstNum) + " " + dstBankAccount.getName());
+                            StringBuilder dstDescription = new StringBuilder(dstBankAccount.getBankName() + " " + formatAccountNumber(dstNum) + " " + dstBankAccount.getName());
                             System.out.printf("Would you like to transfer to %s? [yes/no]: ", dstDescription);
                             String input = scanner.nextLine();
 
@@ -150,8 +147,8 @@ public class TossBankAccount extends BankAccount {
                 }
             }
 
-            if (i == bankAccounts.size()) {
-                System.out.printf("%nNot found account number: %s%n", dstNum);
+            if (i == dstBankAccounts.size()) {
+                System.out.printf("%nNot found account number: %s%n", formatAccountNumber(dstNum));
                 System.out.print("Do you want exit transfer process? [yes/no]: ");
                 String input = scanner.nextLine();
                 if (input.equalsIgnoreCase("y") || input.equalsIgnoreCase("yes")) {
@@ -182,9 +179,9 @@ public class TossBankAccount extends BankAccount {
         String accountNumber = getAccountNumber();
 
         if (interest > 0) {
-            addTransactionData(new TransactionData("-", AccountNumberFormatter.format(accountNumber), true, interest, getBalance(), "Toss Bank Interest"));
+            addTransactionData(new TransactionData("-", accountNumber, true, interest, getBalance(), "Toss Bank Interest"));
         }
-        System.out.printf("| %-13s: %20s |%n", AccountNumberFormatter.format(accountNumber), MoneyFormatter.formatToWon(getBalance()));
+        System.out.printf("| %-13s: %20s |%n", accountNumber, MoneyFormatter.formatToWon(getBalance()));
     }
 
     private long applyInterest(long epochSecond) {
@@ -193,5 +190,12 @@ public class TossBankAccount extends BankAccount {
         setBalance(balance + interest);
         prevTime = epochSecond;
         return interest;
+    }
+
+    private String formatAccountNumber(String accountNumber) {
+        StringBuilder sb = new StringBuilder();
+        accountNumber = accountNumber.replace("-", "");
+        sb.append(accountNumber, 0, 3).append("-").append(accountNumber, 3, 8).append("-").append(accountNumber, 8, 11);
+        return sb.toString();
     }
 }
