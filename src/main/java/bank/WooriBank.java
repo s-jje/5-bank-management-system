@@ -1,11 +1,13 @@
 package bank;
 
+import util.RandomNumberGenerator;
+
 public class WooriBank extends Bank {
 
     static WooriBank instance;
 
     private WooriBank() {
-        super("Woori Bank");
+        super("Woori Bank", 2);
     }
 
     public static WooriBank getInstance() {
@@ -16,22 +18,13 @@ public class WooriBank extends Bank {
     }
 
     @Override
-    public void register() {
+    protected String generateAccountNumber() {
+        String first = RandomNumberGenerator.generateGivenLengthNumber(3);
+        String second = RandomNumberGenerator.generateGivenLengthNumber(5);
+        String third = RandomNumberGenerator.generateGivenLengthNumber(2);
 
-    }
-
-    @Override
-    public void update() {
-
-    }
-
-    @Override
-    public void deleteAccount() {
-
-    }
-
-    @Override
-    public void withdraw() {
-
+        StringBuilder sb = new StringBuilder();
+        sb.append(first).append("-").append(second).append("-").append(third);
+        return sb.toString();
     }
 }
