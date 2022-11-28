@@ -61,43 +61,42 @@ public abstract class BankAccount {
         System.out.printf("====================================================================================================================================%n");
     }
 
-    public void addTransactionData(TransactionData data) {
+    public void addTransactionData (TransactionData data){
         transactionDataList.add(data);
     }
 
-    public String getName() {
+    public String getName () {
         return name;
     }
 
-    public String getId() {
+    public String getId () {
         return id;
     }
 
-    public String getPassword() {
+    public String getPassword () {
         return password;
     }
 
-    public String getBankName() {
+    public String getBankName () {
         return bankName;
     }
 
-    public String getAccountNumber() {
+    public String getAccountNumber () {
         return accountNumber;
     }
 
-    public long getBalance() {
+    public long getBalance () {
         return balance;
     }
 
-    public void setName(String name) {
+    public void setName (String name){
         this.name = name;
     }
 
-    public void setPassword(String password) {
+    public void setPassword (String password){
         this.password = password;
     }
-
-    public void setBalance(long balance) {
+    public void setBalance ( long balance){
         this.balance = balance;
     }
 }
