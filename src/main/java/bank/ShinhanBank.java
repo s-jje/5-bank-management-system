@@ -1,7 +1,6 @@
 package bank;
 
 import bankaccount.BankAccount;
-import bankaccount.KbKookminBankAccount;
 import bankaccount.ShinhanBankAccount;
 import useraccount.UserAccount;
 
