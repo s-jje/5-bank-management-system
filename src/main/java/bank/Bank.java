@@ -95,12 +95,12 @@ public abstract class Bank {
         return name;
     }
 
-    public List<BankAccount> getBankAccountList() {
-        return idAccountListMap.values().stream().flatMap(List::stream).collect(Collectors.toList());
-    }
-
     public List<UserAccount> getUserAccountList() {
         return userAccountList;
+    }
+
+    public List<BankAccount> getBankAccountList() {
+        return idAccountListMap.values().stream().flatMap(List::stream).collect(Collectors.toList());
     }
 
     public Map<String, List<BankAccount>> getIdAccountListMap() {
