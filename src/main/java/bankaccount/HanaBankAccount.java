@@ -1,7 +1,6 @@
 package bankaccount;
 
 import bank.Bank;
-import bank.HanaBank;
 import util.BankingSystem;
 import util.MoneyFormatter;
 import util.TimeFormatter;
@@ -9,7 +8,6 @@ import util.TimeFormatter;
 import java.time.ZonedDateTime;
 import java.util.Scanner;
 
-import static util.Time.convertDateTimeToSecond;
 import static util.Time.getCurrentDateTime;
 
 public class HanaBankAccount extends BankAccount {
@@ -44,7 +42,6 @@ public class HanaBankAccount extends BankAccount {
             }
         }
     }
-
 
     @Override
     public void withdrawal() {
