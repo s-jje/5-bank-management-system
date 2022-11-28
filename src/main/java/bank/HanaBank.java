@@ -1,6 +1,8 @@
 package bank;
 
 import bankaccount.BankAccount;
+import bankaccount.HanaBankAccount;
+import bankaccount.TossBankAccount;
 
 import java.util.List;
 
@@ -17,6 +19,11 @@ public class HanaBank extends Bank {
             instance = new HanaBank();
         }
         return instance;
+    }
+
+    @Override
+    protected BankAccount createBankAccount(String name, String id, String password, String newAccountNumber) {
+        return new HanaBankAccount(name, id, password, name, newAccountNumber, 0L);
     }
 
     @Override

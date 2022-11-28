@@ -27,8 +27,6 @@ public abstract class Bank {
         this.NUM_OF_MAX_ACCOUNT = maxAccount;
     }
 
-    protected abstract String generateAccountNumber();
-
     public void register() {
         Scanner scanner = new Scanner(System.in);
         Map<String, List<BankAccount>> idAccountListMap = getIdBankAccountListMap();
@@ -53,7 +51,7 @@ public abstract class Bank {
                     if (pw.equals(bankAccounts.get(0).getPassword())) {
                         if (bankAccounts.size() < NUM_OF_MAX_ACCOUNT) {
                             String newAccountNumber = generateAccountNumber();
-                            bankAccounts.add(new TossBankAccount(name, id, pw, getName(), newAccountNumber, 0L));
+                            bankAccounts.add(createBankAccount(name, id, pw, newAccountNumber));
                             System.out.printf("%nBank account registration successful! Your account number is %s. Now you have %d bank accounts.%n", newAccountNumber, bankAccounts.size());
                         } else {
                             System.out.printf("%nBank registration failed.%nYou already have %d bank accounts.%n", NUM_OF_MAX_ACCOUNT);
@@ -202,6 +200,11 @@ public abstract class Bank {
         }
         System.out.println("=====================================");
     }
+
+    protected abstract BankAccount createBankAccount(String name, String id, String password, String newAccountNumber);
+
+    protected abstract String generateAccountNumber();
+
     protected String[] inputIdAndPassword() {
         System.out.print("Please enter the ID: ");
         String id = scanner.nextLine();

@@ -1,5 +1,9 @@
 package bank;
 
+import bankaccount.BankAccount;
+import bankaccount.KbKookminBankAccount;
+import bankaccount.TossBankAccount;
+
 public class KbKookminBank extends Bank {
 
     static KbKookminBank instance;
@@ -13,6 +17,11 @@ public class KbKookminBank extends Bank {
             instance = new KbKookminBank();
         }
         return instance;
+    }
+
+    @Override
+    protected BankAccount createBankAccount(String name, String id, String password, String newAccountNumber) {
+        return new KbKookminBankAccount(name, id, password, name, newAccountNumber, 0L);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package bank;
 
+import bankaccount.BankAccount;
+import bankaccount.TossBankAccount;
 import util.RandomNumberGenerator;
 
 public class TossBank extends Bank {
@@ -15,6 +17,11 @@ public class TossBank extends Bank {
             instance = new TossBank();
         }
         return instance;
+    }
+
+    @Override
+    protected BankAccount createBankAccount(String name, String id, String password, String newAccountNumber) {
+        return new TossBankAccount(name, id, password, name, newAccountNumber, 0L);
     }
 
     @Override

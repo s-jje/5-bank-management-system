@@ -1,5 +1,8 @@
 package bank;
 
+import bankaccount.BankAccount;
+import bankaccount.TossBankAccount;
+import bankaccount.WooriBankAccount;
 import util.RandomNumberGenerator;
 
 public class WooriBank extends Bank {
@@ -18,9 +21,14 @@ public class WooriBank extends Bank {
     }
 
     @Override
+    protected BankAccount createBankAccount(String name, String id, String password, String newAccountNumber) {
+        return new WooriBankAccount(name, id, password, name, newAccountNumber, 0L);
+    }
+
+    @Override
     protected String generateAccountNumber() {
         String first = RandomNumberGenerator.generateGivenLengthNumber(3);
-        String second = RandomNumberGenerator.generateGivenLengthNumber(5);
+        String second = RandomNumberGenerator.generateGivenLengthNumber(6);
         String third = RandomNumberGenerator.generateGivenLengthNumber(2);
 
         StringBuilder sb = new StringBuilder();

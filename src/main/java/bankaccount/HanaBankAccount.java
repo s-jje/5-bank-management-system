@@ -5,65 +5,12 @@ import util.BankingSystem;
 import util.MoneyFormatter;
 import util.TimeFormatter;
 
-import java.time.ZonedDateTime;
-
 import static util.Time.getCurrentDateTime;
 
 public class HanaBankAccount extends BankAccount {
 
     public HanaBankAccount(String name, String id, String password, String bankName, String accountNumber, long balance) {
-        super(name, id, password, bankName, accountNumber, balance);
-    }
-
-    @Override
-    public void deposit() {
-        System.out.println("==============================");
-        System.out.println("★예금★");
-        System.out.println("==============================");
-
-        while (true) {
-            System.out.print("입금하실 금액을 입력해주세요 : ");
-            long money = Long.parseLong(scanner.nextLine());
-            if (money > 0) {
-                long balance = getBalance() + money;
-                setBalance(balance);
-
-                ZonedDateTime zonedDateTime = null;
-                addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), getAccountNumber(), true, money, balance, "Hana Bank"));
-                System.out.println("==============================");
-                System.out.println(MoneyFormatter.formatToWon(money) + "원이 성공적으로 입금되었습니다.");
-                System.out.println("현재잔액 : " + MoneyFormatter.formatToWon(getBalance()) + "원");
-                break;
-            } else {
-                System.out.println("※ 금액을 잘못 입력하셨습니다. 다시 입력해주세요.");
-            }
-        }
-    }
-
-    @Override
-    public void withdrawal() {
-        System.out.println("==============================");
-        System.out.println("★출금★");
-        System.out.println("==============================");
-        System.out.println("출금가능잔액 : " + MoneyFormatter.formatToWon(getBalance()) + "원");
-
-        while (true) {
-            System.out.print("출금하실 금액을 입력해주세요 : ");
-            long money = Long.parseLong(scanner.nextLine());
-            if (money < getBalance() && money > 0) {
-                long balance = getBalance() - money;
-                setBalance(balance);
-
-                ZonedDateTime zonedDateTime = null;
-                addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), getAccountNumber(), false, money, balance, "Hana Bank"));
-                System.out.println("==============================");
-                System.out.println(MoneyFormatter.formatToWon(money) + "원이 성공적으로 출금되었습니다.");
-                System.out.println("현재잔액 : " + MoneyFormatter.formatToWon(getBalance()) + "원");
-                break;
-            } else {
-                System.out.println("※ 금액을 잘못 입력하셨습니다. 다시 입력해주세요.");
-            }
-        }
+        super(name, id, password, bankName, accountNumber, balance, 6.34196e-10); // 2.0%
     }
 
     @Override
@@ -118,17 +65,10 @@ public class HanaBankAccount extends BankAccount {
     }
 
     @Override
-    public void receive(BankAccount srcBankAccount, BankAccount dstBankAccount, long amount) {
-        long balance = getBalance() + amount;
-        dstBankAccount.setBalance(balance);
-        dstBankAccount.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), dstBankAccount.getAccountNumber(), true, amount, balance, srcBankAccount.getBankName() + " " + srcBankAccount.getAccountNumber() + " " + srcBankAccount.getName()));
-    }
-
-    @Override
-    public void showBalance() {
-        System.out.println("==============================");
-        System.out.println("★잔액확인★");
-        System.out.println("==============================");
-        System.out.println("현재잔액은 " + MoneyFormatter.formatToWon(getBalance()) + "원입니다.");
+    protected String formatAccountNumber(String accountNumber) {
+        StringBuilder sb = new StringBuilder();
+        accountNumber = accountNumber.replace("-", "");
+        sb.append(accountNumber, 0, 3).append("-").append(accountNumber, 3, 9).append("-").append(accountNumber, 9, 14);
+        return sb.toString();
     }
 }
