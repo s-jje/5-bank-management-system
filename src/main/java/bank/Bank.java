@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 import static util.ScannerUtil.getScanner;
 
-public abstract class Bank {
+public abstract class Bank implements UserManagement {
 
     private final String name;
     private final List<UserAccount> userAccountList;
@@ -27,6 +27,7 @@ public abstract class Bank {
         this.NUM_OF_MAX_ACCOUNT = maxAccount;
     }
 
+    @Override
     public void register() {
         Scanner scanner = new Scanner(System.in);
         Map<String, List<BankAccount>> idAccountListMap = getIdBankAccountListMap();
@@ -69,7 +70,7 @@ public abstract class Bank {
                 String pw = scanner.nextLine();
                 String newAccountNumber = generateAccountNumber();
 
-                list.add(new TossBankAccount(name, id, pw, getName(), newAccountNumber, 0L));
+                list.add(createBankAccount(name, id, pw, newAccountNumber));
                 idAccountListMap.put(id, list);
                 getUserAccountList().add(new UserAccount(name, id, pw));
                 System.out.printf("%nAccount registration successful! Your account number is %s. Now you have 1 bank account.%n", newAccountNumber);
@@ -78,6 +79,7 @@ public abstract class Bank {
         }
     }
 
+    @Override
     public void update() {
         String[] idAndPassword = inputIdAndPassword();
 
@@ -116,7 +118,7 @@ public abstract class Bank {
         }
     }
 
-    public void deleteAccount() {
+    public void deleteBankAccount() {
         String[] idAndPassword = inputIdAndPassword();
 
         if (isExistAccount(idAndPassword[0], idAndPassword[1])) {
@@ -160,6 +162,7 @@ public abstract class Bank {
         }
     }
 
+    @Override
     public void withdraw() {
         String[] idAndPassword = inputIdAndPassword();
 
@@ -200,6 +203,10 @@ public abstract class Bank {
         }
         System.out.println("=====================================");
     }
+
+    public abstract String[] getAccountNumberRegex();
+
+    public abstract String formatAccountNumber(String accountNumber);
 
     protected abstract BankAccount createBankAccount(String name, String id, String password, String newAccountNumber);
 

@@ -2,7 +2,6 @@ package bank;
 
 import bankaccount.BankAccount;
 import bankaccount.ShinhanBankAccount;
-import bankaccount.TossBankAccount;
 import util.RandomNumberGenerator;
 
 public class ShinhanBank extends Bank {
@@ -18,6 +17,19 @@ public class ShinhanBank extends Bank {
             instance = new ShinhanBank();
         }
         return instance;
+    }
+
+    @Override
+    public String[] getAccountNumberRegex() {
+        return new String[]{"\\d{3}\\d{3}\\d{6}", "\\d{3}-\\d{3}-\\d{6}"};
+    }
+
+    @Override
+    public String formatAccountNumber(String accountNumber) {
+        StringBuilder sb = new StringBuilder();
+        accountNumber = accountNumber.replace("-", "");
+        sb.append(accountNumber, 0, 3).append("-").append(accountNumber, 3, 6).append("-").append(accountNumber, 6, 12);
+        return sb.toString();
     }
 
     @Override

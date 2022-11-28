@@ -1,6 +1,7 @@
 package bankaccount;
 
 import bank.*;
+import util.BankingSystem;
 import util.TimeFormatter;
 
 import java.time.ZonedDateTime;
@@ -13,7 +14,7 @@ public class KbKookminBankAccount extends BankAccount {
     private String grade;
 
     public KbKookminBankAccount(String name, String id, String password, String bankName, String accountNumber, long balance) {
-        super(name, id, password, bankName, accountNumber, balance, 2.536783e-9); // 8.0%
+        super(name, id, password, bankName, accountNumber, balance, 2.536783e-9, 500); // 8.0%
     }
 
     @Override // 송금
@@ -26,16 +27,28 @@ public class KbKookminBankAccount extends BankAccount {
                 HanaBank.getInstance()
         ));
         printBankList();
-        String num = scanner.nextLine();
-        Bank bank = chooseBankInstance(bankList, num);
+        String bankNumber = scanner.nextLine();
+        Bank bank = chooseBankInstance(bankList, bankNumber);
         System.out.println("The bank I'm trying to transfer money to is " + bank.getName());
         KbKookminBank instance = KbKookminBank.getInstance();
         if (bank.equals(instance)) {
             System.out.println("There is no fee between the same banks");
             System.out.println("Please enter your own account");
-            BankAccount accountSend = validation(scanner, instance);
-            System.out.println("Please enter account number to transfer:");
-            BankAccount accountReceive = validation(scanner, bank);
+            BankAccount accountSend = validation(instance);
+
+            System.out.print("Please enter the account number to transfer: ");
+            String dstNum = scanner.nextLine();
+
+            String[] pattern = bank.getAccountNumberRegex();
+
+            if (dstNum.matches(pattern[1])) {
+                dstNum = dstNum.replace("-", "");
+            } else if (!dstNum.matches(pattern[0])) {
+                throw new RuntimeException("Invalid input.");
+            }
+
+            Bank dstBank = BankingSystem.setDstBank(bankNumber);
+            BankAccount accountReceive = dstBank.getBankAccount(dstNum);
             System.out.print("Please enter the amount: ");
             long amount = Long.parseLong(scanner.nextLine());
 
@@ -47,15 +60,30 @@ public class KbKookminBankAccount extends BankAccount {
         } else {
             System.out.println("You will be charged a fee for sending money to other banks");
             System.out.println("Please enter your own account");
-            BankAccount accountSend = validation(scanner, instance);
-            System.out.println("Please enter account number to transfer:");
-            BankAccount accountReceive = validation(scanner, bank);
+            BankAccount accountSend = validation(instance);
+
+            System.out.print("Please enter the account number to transfer: ");
+            String dstNum = scanner.nextLine();
+
+            String[] pattern = bank.getAccountNumberRegex();
+
+            if (dstNum.matches(pattern[1])) {
+                dstNum = dstNum.replace("-", "");
+            } else if (!dstNum.matches(pattern[0])) {
+                throw new RuntimeException("Invalid input.");
+            }
+
+            Bank dstBank = BankingSystem.setDstBank(bankNumber);
+            BankAccount accountReceive = dstBank.getBankAccount(dstNum);
+
             System.out.print("Please enter the amount: ");
             long amount = Long.parseLong(scanner.nextLine());
 
             if (checkBalance(amount)) {
-                accountSend.setBalance(accountSend.getBalance() - 500);
-                accountSend.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), accountReceive.getAccountNumber(), false, 500, accountSend.getBalance(), "Other bank fee"));
+                int transferFee = getTransferFee();
+
+                accountSend.setBalance(accountSend.getBalance() - transferFee);
+                accountSend.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), accountReceive.getAccountNumber(), false, transferFee, accountSend.getBalance(), "Other bank fee"));
 
                 receive(accountSend, accountReceive, amount);
                 ZonedDateTime zonedDateTime = getCurrentDateTime();
@@ -73,8 +101,8 @@ public class KbKookminBankAccount extends BankAccount {
         return sb.toString();
     }
 
-    private BankAccount validation(Scanner scanner, Bank bank) {
-        System.out.println("계좌의 id를 입력해주십시오");
+    private BankAccount validation(Bank bank) {
+        System.out.print("Please enter your ID: ");
         String id = scanner.nextLine();
         System.out.print("Please enter your Password: ");
         String pw = scanner.nextLine();

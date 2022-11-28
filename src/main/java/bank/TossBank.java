@@ -20,6 +20,19 @@ public class TossBank extends Bank {
     }
 
     @Override
+    public String[] getAccountNumberRegex() {
+        return new String[]{"\\d{3}\\d{5}\\d{3}", "\\d{3}-\\d{5}-\\d{3}"};
+    }
+
+    @Override
+    public String formatAccountNumber(String accountNumber) {
+        StringBuilder sb = new StringBuilder();
+        accountNumber = accountNumber.replace("-", "");
+        sb.append(accountNumber, 0, 3).append("-").append(accountNumber, 3, 8).append("-").append(accountNumber, 8, 11);
+        return sb.toString();
+    }
+
+    @Override
     protected BankAccount createBankAccount(String name, String id, String password, String newAccountNumber) {
         return new TossBankAccount(name, id, password, name, newAccountNumber, 0L);
     }

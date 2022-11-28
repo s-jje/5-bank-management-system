@@ -1,7 +1,6 @@
 package bank;
 
 import bankaccount.BankAccount;
-import bankaccount.TossBankAccount;
 import bankaccount.WooriBankAccount;
 import util.RandomNumberGenerator;
 
@@ -18,6 +17,19 @@ public class WooriBank extends Bank {
             instance = new WooriBank();
         }
         return instance;
+    }
+
+    @Override
+    public String[] getAccountNumberRegex() {
+        return new String[]{"\\d{3}\\d{6}\\d{2}", "\\d{3}-\\d{6}-\\d{2}"};
+    }
+
+    @Override
+    public String formatAccountNumber(String accountNumber) {
+        StringBuilder sb = new StringBuilder();
+        accountNumber = accountNumber.replace("-", "");
+        sb.append(accountNumber, 0, 3).append("-").append(accountNumber, 3, 9).append("-").append(accountNumber, 9, 11);
+        return sb.toString();
     }
 
     @Override

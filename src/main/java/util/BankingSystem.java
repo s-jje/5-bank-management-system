@@ -146,7 +146,7 @@ public class BankingSystem {
         if (input.equals("1")) {
             bank.update();
         } else if (input.equals("2")) {
-            bank.deleteAccount();
+            bank.deleteBankAccount();
         } else if (input.equals("3")) {
             bank.withdraw();
         } else {

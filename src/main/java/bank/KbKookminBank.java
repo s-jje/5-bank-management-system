@@ -2,7 +2,6 @@ package bank;
 
 import bankaccount.BankAccount;
 import bankaccount.KbKookminBankAccount;
-import bankaccount.TossBankAccount;
 
 public class KbKookminBank extends Bank {
 
@@ -17,6 +16,19 @@ public class KbKookminBank extends Bank {
             instance = new KbKookminBank();
         }
         return instance;
+    }
+
+    @Override
+    public String[] getAccountNumberRegex() {
+        return new String[]{"\\d{3}\\d{2}\\d{6}", "\\d{3}-\\d{2}-\\d{6}"};
+    }
+
+    @Override
+    public String formatAccountNumber(String accountNumber) {
+        StringBuilder sb = new StringBuilder();
+        accountNumber = accountNumber.replace("-", "");
+        sb.append(accountNumber, 0, 3).append("-").append(accountNumber, 3, 5).append("-").append(accountNumber, 5, 11);
+        return sb.toString();
     }
 
     @Override
