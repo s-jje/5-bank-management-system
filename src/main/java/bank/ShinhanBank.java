@@ -1,8 +1,12 @@
 package bank;
 
+import bankaccount.BankAccount;
+import bankaccount.KbKookminBankAccount;
 import bankaccount.ShinhanBankAccount;
 import useraccount.UserAccount;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -53,9 +57,10 @@ public class ShinhanBank extends Bank {
 
         // 계좌번호 랜덤 생성
 //        String accountNumber = "110-" + (int) ((Math.random() * 999) + 1) + "-" + (int) ((Math.random() * 999999) + 1);
-
-        getBankAccountList().add(new ShinhanBankAccount(name, id, pw, getName(), accountNumber, 0L));
-        getCustomerList().add(new UserAccount(name, id, pw));
+        List<BankAccount> list = new ArrayList<>();
+        list.add(new ShinhanBankAccount(name, id, pw, getName(), accountNumber, 0L));
+        getIdAccountListMap().put(id, list);
+        getUserAccountList().add(new UserAccount(name, id, pw));
         // 계좌번호 출력
         System.out.printf("Account registration successful! Account Number is %s%n%n", accountNumber);
     }
