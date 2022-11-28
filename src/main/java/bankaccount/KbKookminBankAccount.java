@@ -164,17 +164,17 @@ public class KbKookminBankAccount extends BankAccount {
         System.out.println("============================================================================================");
         System.out.println("송금하시려는 계좌의 은행을 골라주십시오");
         System.out.println("현재 Atm기는 국민은행이며 타행으로 송금시 수수료 500원이 차감이 됩니다.");
+        System.out.printf("%n======================%n");
+        System.out.println("|   Available banks   |");
+        System.out.println("----------------------");
+        System.out.println("| 1. Toss Bank       |");
+        System.out.println("| 2. KB Kookmin Bank |");
+        System.out.println("| 3. Shinhan Bank    |");
+        System.out.println("| 4. Woori Bank      |");
+        System.out.println("| 5. Hana Bank       |");
+        System.out.println("| 6. Exit            |");
         System.out.println("=======================");
-        System.out.println("| Available bank list |");
-        System.out.println("-----------------------");
-        System.out.println("| 1. Toss Bank        |");
-        System.out.println("| 2. KB Kookmin Bank  |");
-        System.out.println("| 3. Shinhan Bank     |");
-        System.out.println("| 4. Woori Bank       |");
-        System.out.println("| 5. Hana Bank        |");
-        System.out.println("| 6. back             |");
-        System.out.println("=======================");
-        System.out.print("Please enter a number (1 ~ 6): ");
+        System.out.print("Please select a bank [1 ~ 6]: ");
     }
 
     private Bank chooseBankInstance(List<Bank> bankList, String num) {

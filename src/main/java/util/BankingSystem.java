@@ -10,15 +10,15 @@ import java.util.Scanner;
 public class BankingSystem {
 
     public static String chooseBank() {
-        System.out.printf("%n=======================%n");
-        System.out.println("|   Available banks    |");
-        System.out.println("-----------------------");
-        System.out.println("| 1. Toss Bank        |");
-        System.out.println("| 2. KB Kookmin Bank  |");
-        System.out.println("| 3. Shinhan Bank     |");
-        System.out.println("| 4. Woori Bank       |");
-        System.out.println("| 5. Hana Bank        |");
-        System.out.println("| 6. Exit             |");
+        System.out.printf("%n======================%n");
+        System.out.println("|   Available banks   |");
+        System.out.println("----------------------");
+        System.out.println("| 1. Toss Bank       |");
+        System.out.println("| 2. KB Kookmin Bank |");
+        System.out.println("| 3. Shinhan Bank    |");
+        System.out.println("| 4. Woori Bank      |");
+        System.out.println("| 5. Hana Bank       |");
+        System.out.println("| 6. Exit            |");
         System.out.println("=======================");
         System.out.print("Please select a bank [1 ~ 6]: ");
 
