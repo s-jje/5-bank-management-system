@@ -31,7 +31,7 @@ public class TossBank extends Bank {
     @Override
     public void register() {
         Scanner scanner = new Scanner(System.in);
-        Map<String, List<BankAccount>> idAccountListMap = getIdAccountListMap();
+        Map<String, List<BankAccount>> idAccountListMap = getIdBankAccountListMap();
 
         while (true) {
             System.out.print("Please enter your name: ");
@@ -94,7 +94,7 @@ public class TossBank extends Bank {
             System.out.print("Please select a option [1 ~ 2]: ");
             String input = scanner.nextLine();
 
-            List<BankAccount> bankAccountList = getIdAccountListMap().get(idAndPassword[0]);
+            List<BankAccount> bankAccountList = getIdBankAccountListMap().get(idAndPassword[0]);
             UserAccount userAccount = getUserAccount(idAndPassword[0], idAndPassword[1]);
 
             if (input.equals("1")) {
@@ -124,7 +124,7 @@ public class TossBank extends Bank {
         String[] idAndPassword = inputIdAndPassword();
 
         if (isExistAccount(idAndPassword[0], idAndPassword[1])) {
-            List<BankAccount> bankAccounts = getIdAccountListMap().get(idAndPassword[0]);
+            List<BankAccount> bankAccounts = getIdBankAccountListMap().get(idAndPassword[0]);
 
             if (bankAccounts.size() > 1) {
                 int size = bankAccounts.size();
@@ -173,7 +173,7 @@ public class TossBank extends Bank {
             String input = scanner.nextLine();
 
             if (input.equalsIgnoreCase("y") || input.equalsIgnoreCase("yes")) {
-                getIdAccountListMap().remove(idAndPassword[0]);
+                getIdBankAccountListMap().remove(idAndPassword[0]);
                 getUserAccountList().remove(getUserAccount(idAndPassword[0], idAndPassword[1]));
                 System.out.printf("%nWithdraw successful.%n");
             } else if (!input.equalsIgnoreCase("n") && !input.equalsIgnoreCase("no")) {

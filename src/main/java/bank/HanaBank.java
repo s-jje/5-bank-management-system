@@ -42,7 +42,7 @@ public class HanaBank extends Bank {
 
         List<BankAccount> list = new ArrayList<>();
         list.add(new KbKookminBankAccount(name, id, pw, getName(), ano, 0L));
-        getIdAccountListMap().put(id, list);
+        getIdBankAccountListMap().put(id, list);
         getUserAccountList().add(userAccount);
 
         System.out.println("============[가입정보]===========");

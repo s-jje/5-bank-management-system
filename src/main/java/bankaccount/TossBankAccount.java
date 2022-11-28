@@ -99,7 +99,7 @@ public class TossBankAccount extends BankAccount {
         }
 
         Bank dstBank = BankingSystem.setDstBank(bankNumber);
-        List<BankAccount> dstBankAccounts = dstBank.getIdAccountListMap().values().stream().flatMap(List::stream).collect(Collectors.toList());
+        List<BankAccount> dstBankAccounts = dstBank.getIdBankAccountListMap().values().stream().flatMap(List::stream).collect(Collectors.toList());
 
         while (true) {
             int i;

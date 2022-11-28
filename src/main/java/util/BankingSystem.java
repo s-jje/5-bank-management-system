@@ -46,7 +46,7 @@ public class BankingSystem {
 
     public static BankAccount chooseOneAccount(Bank bank) {
         UserAccount userAccount = getValidUserAccount(bank);
-        List<BankAccount> bankAccountList = bank.getIdAccountListMap().get(userAccount.getId());
+        List<BankAccount> bankAccountList = bank.getIdBankAccountListMap().get(userAccount.getId());
 
         if (bankAccountList.size() == 1) {
             return bankAccountList.get(0);
@@ -113,7 +113,7 @@ public class BankingSystem {
 
     public static void checkBalance(Bank bank) {
         UserAccount userAccount = getValidUserAccount(bank);
-        List<BankAccount> bankAccounts = bank.getIdAccountListMap().get(userAccount.getId());
+        List<BankAccount> bankAccounts = bank.getIdBankAccountListMap().get(userAccount.getId());
         System.out.printf("%n========================================%n");
         System.out.println("|               Accounts               |");
         System.out.println("----------------------------------------");

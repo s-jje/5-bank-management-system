@@ -26,7 +26,9 @@ public class KbKookminBank extends Bank {
     // 계정생성 메서드
     @Override
     public void register() {
+
         createNewAccount();
+
     }
 
     // 계정생성 메서드
@@ -45,7 +47,7 @@ public class KbKookminBank extends Bank {
 
         List<BankAccount> list = new ArrayList<>();
         list.add(new KbKookminBankAccount(name, id, pw, getName(), accountNumber, 0L));
-        getIdAccountListMap().put(id, list);
+        getIdBankAccountListMap().put(id, list);
         getUserAccountList().add(new UserAccount(name, id, pw));
 
         System.out.printf("Account registration successful!%n");
@@ -110,7 +112,7 @@ public class KbKookminBank extends Bank {
             System.out.println("Please enter the password for your account");
             String password = scanner.nextLine();
             if (isExistId(id)) {
-                BankAccount bankAccount = getIdAccountListMap().get(id).get(0);
+                BankAccount bankAccount = getIdBankAccountListMap().get(id).get(0);
                 if (password.equals(bankAccount.getPassword())) {
                     updateAccount(bankAccount);
                     break;
