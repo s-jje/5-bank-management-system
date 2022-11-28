@@ -15,7 +15,9 @@ public abstract class Bank {
     private final String name;
     private final List<UserAccount> userAccountList;
     private final Map<String, List<BankAccount>> idAccountListMap;
+
     Scanner scanner = getScanner();
+
     public Bank(String name) {
         this.name = name;
         this.userAccountList = new ArrayList<>();

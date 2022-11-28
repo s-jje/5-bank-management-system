@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class BankingSystem {
 
     public static Scanner scanner = ScannerUtil.getScanner();
+
     public static String chooseBank() {
         System.out.printf("%n======================%n");
         System.out.println("|   Available banks  |");

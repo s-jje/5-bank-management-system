@@ -20,6 +20,7 @@ public abstract class BankAccount {
     private final String accountNumber; // 계좌번호
     private long balance; // 예금
     private final List<TransactionData> transactionDataList; // 거래내역 저장을 위한 리스트
+
     Scanner scanner = ScannerUtil.getScanner();
 
     public BankAccount(String name, String id, String password, String bankName, String accountNumber, long balance) {
