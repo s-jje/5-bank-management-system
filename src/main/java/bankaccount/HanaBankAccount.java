@@ -6,7 +6,6 @@ import util.MoneyFormatter;
 import util.TimeFormatter;
 
 import java.time.ZonedDateTime;
-import java.util.Scanner;
 
 import static util.Time.getCurrentDateTime;
 

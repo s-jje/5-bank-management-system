@@ -4,11 +4,9 @@ import bankaccount.BankAccount;
 import bankaccount.HanaBankAccount;
 import bankaccount.KbKookminBankAccount;
 import useraccount.UserAccount;
-import util.ScannerUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class HanaBank extends Bank {
 

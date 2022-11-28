@@ -2,13 +2,11 @@ package bank;
 
 import bankaccount.BankAccount;
 import useraccount.UserAccount;
-import util.ScannerUtil;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static util.ScannerUtil.getScanner;
-import static util.ScannerUtil.scanner;
 
 public abstract class Bank {
 
