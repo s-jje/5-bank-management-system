@@ -30,6 +30,29 @@ public abstract class Bank {
 
     public abstract void withdraw();
 
+    public void showAllUserAccounts() {
+        System.out.printf("%s%n", name);
+        System.out.println("=====================================");
+        System.out.println("       ID              Name          ");
+        System.out.println("-------------------------------------");
+        List<UserAccount> userAccountList = getUserAccountList();
+        for (UserAccount userAccount : userAccountList) {
+            System.out.printf(" %-15s %-20s %n", userAccount.getId(), userAccount.getName());
+        }
+        System.out.println("=====================================");
+    }
+
+    public void showAllBankAccounts() {
+        System.out.printf("%s%n", name);
+        System.out.println("=====================================");
+        System.out.println("      Name         Account Number    ");
+        System.out.println("-------------------------------------");
+        List<BankAccount> bankAccountList = getBankAccountList();
+        for (BankAccount bankAccount : bankAccountList) {
+            System.out.printf(" %-15s %-20s %n", bankAccount.getName(), bankAccount.getAccountNumber());
+        }
+        System.out.println("=====================================");
+    }
     protected String[] inputIdAndPassword() {
         System.out.print("Please enter the ID: ");
         String id = scanner.nextLine();
@@ -60,6 +83,18 @@ public abstract class Bank {
         return false;
     }
 
+    public UserAccount getUserAccount(String id, String password) {
+        for (UserAccount userAccount : userAccountList) {
+            if (userAccount.getId().equals(id)) {
+                if (userAccount.getPassword().equals(password)) {
+                    return userAccount;
+                }
+                throw new NoSuchElementException("Incorrect password.");
+            }
+        }
+        throw new NoSuchElementException("Account not found.");
+    }
+    
     public BankAccount getBankAccount(String accountNumber) {
         for (BankAccount bankAccount : getBankAccountList()) {
             if (accountNumber.equals(bankAccount.getAccountNumber())) {
@@ -67,30 +102,6 @@ public abstract class Bank {
             }
         }
         throw new NoSuchElementException("Account not found.");
-    }
-
-    public void showAllUserAccounts() {
-        System.out.printf("%s%n", name);
-        System.out.println("=====================================");
-        System.out.println("       ID              Name          ");
-        System.out.println("-------------------------------------");
-        List<UserAccount> userAccountList = getUserAccountList();
-        for (UserAccount userAccount : userAccountList) {
-            System.out.printf(" %-15s %-20s %n", userAccount.getId(), userAccount.getName());
-        }
-        System.out.println("=====================================");
-    }
-
-    public void showAllBankAccounts() {
-        System.out.printf("%s%n", name);
-        System.out.println("=====================================");
-        System.out.println("      Name         Account Number    ");
-        System.out.println("-------------------------------------");
-        List<BankAccount> bankAccountList = getBankAccountList();
-        for (BankAccount bankAccount : bankAccountList) {
-            System.out.printf(" %-15s %-20s %n", bankAccount.getName(), bankAccount.getAccountNumber());
-        }
-        System.out.println("=====================================");
     }
 
     public String getName() {
@@ -107,17 +118,5 @@ public abstract class Bank {
 
     public Map<String, List<BankAccount>> getIdBankAccountListMap() {
         return idBankAccountListMap;
-    }
-
-    public UserAccount getUserAccount(String id, String password) {
-        for (UserAccount userAccount : userAccountList) {
-            if (userAccount.getId().equals(id)) {
-                if (userAccount.getPassword().equals(password)) {
-                    return userAccount;
-                }
-                throw new NoSuchElementException("Incorrect password.");
-            }
-        }
-        throw new NoSuchElementException("Account not found.");
     }
 }
