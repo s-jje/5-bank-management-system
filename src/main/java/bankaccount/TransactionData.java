@@ -1,8 +1,5 @@
 package bankaccount;
 
-import util.Time;
-import util.TimeFormatter;
-
 public class TransactionData {
 
     private final String date;
