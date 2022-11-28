@@ -58,7 +58,6 @@ public class HanaBank extends Bank {
     @Override
     public void updateAccount(Account account) {
 
-
     }
 
     private String createAno() {

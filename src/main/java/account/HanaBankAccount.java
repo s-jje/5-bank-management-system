@@ -52,7 +52,7 @@ public class HanaBankAccount extends Account {
         System.out.println("==============================");
         System.out.println("★출금★");
         System.out.println("==============================");
-        System.out.println("출금가능잔액 : " + MoneyFormatter.formatToWon(getBalance()) + "원");
+        System.out.println("[출금가능잔액 : " + MoneyFormatter.formatToWon(getBalance()) + "원]");
 
         while (true) {
             System.out.print("출금하실 금액을 입력해주세요 : ");
@@ -101,10 +101,9 @@ public class HanaBankAccount extends Account {
                     System.out.println("송금가능잔액 : " + MoneyFormatter.formatToWon(getBalance()) + "원");
                     System.out.print("송금하실 금액을 입력해주세요 : ");
                     long money = Long.parseLong(sc.nextLine());
-                    long balance = getBalance();
 
                     if (money > 0 && getBalance() >= money) {
-                        balance = getBalance() - money;
+                        long balance = getBalance() - money;
                         toAccount.receive(getBankName(), getAccountNumber(), toAno, money);
                         setBalance(balance);
 
@@ -144,4 +143,5 @@ public class HanaBankAccount extends Account {
         System.out.println("==============================");
         System.out.println("현재잔액은 " + MoneyFormatter.formatToWon(getBalance()) + "원입니다.");
     }
+
 }
