@@ -100,7 +100,7 @@ public abstract class BankAccount {
     public void setPassword(String password){
         this.password = password;
     }
-    public void setBalance( long balance){
+    public void setBalance(long balance){
         this.balance = balance;
     }
 }
