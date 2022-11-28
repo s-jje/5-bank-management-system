@@ -25,11 +25,10 @@ public class KbKookminBank extends Bank {
 
     @Override
     public void register() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("신규계좌 등록을 원할시 1번, 기존 계좌 정보 변경을 원하신다면 2번을 눌러주십쇼");
         String num = scanner.nextLine();
         if (num.equals("1")) {
-            createNewAccount(scanner);
+            createNewAccount();
         } else if (num.equals("2")) {
             System.out.println("은행 업무상 현재는 이름 및 비밀번호만 수정이 가능합니다");
             while (true) {
@@ -49,7 +48,7 @@ public class KbKookminBank extends Bank {
     }
 
     // 계정생성 메서드
-    private void createNewAccount(Scanner scanner) {
+    private void createNewAccount() {
         System.out.print("Please enter your name: ");
         String name = scanner.nextLine();
 
@@ -81,8 +80,6 @@ public class KbKookminBank extends Bank {
 
     // 계정 정보 수정 메서드
     public void updateAccount(BankAccount bankAccount) {
-        Scanner scanner = new Scanner(System.in);
-
         while (true) {
             System.out.println("원하시는 업무의 숫자를 눌러주십쇼");
             System.out.println("이름 변경은 1번입니다");

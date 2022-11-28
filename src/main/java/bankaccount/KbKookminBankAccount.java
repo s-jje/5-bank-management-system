@@ -18,7 +18,6 @@ public class KbKookminBankAccount extends BankAccount {
 
     @Override //입금
     public void deposit() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("============================================================================================");
         System.out.println("해당 업무는 입금입니다");
         System.out.println("현재 입금하시려는 계좌는 " + getAccountNumber() + "이며 계좌 주 : " + getName() + " 입니다");
@@ -42,7 +41,6 @@ public class KbKookminBankAccount extends BankAccount {
 
     @Override // 출금
     public void withdrawal() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("============================================================================================");
         System.out.println("해당 업무는 출금입니다");
         System.out.println("현재 출금하시려는 계좌는 " + getAccountNumber() + "이며 계좌 주 : " + getName() + " 입니다");
@@ -63,7 +61,6 @@ public class KbKookminBankAccount extends BankAccount {
 
     @Override // 송금
     public void transfer() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("============================================================================================");
 
         List<Bank> bankList = new ArrayList<>(Arrays.asList(

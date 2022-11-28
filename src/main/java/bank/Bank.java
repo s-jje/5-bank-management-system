@@ -2,16 +2,20 @@ package bank;
 
 import bankaccount.BankAccount;
 import useraccount.UserAccount;
+import util.ScannerUtil;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static util.ScannerUtil.getScanner;
+import static util.ScannerUtil.scanner;
 
 public abstract class Bank {
 
     private final String name;
     private final List<UserAccount> userAccountList;
     private final Map<String, List<BankAccount>> idAccountListMap;
-
+    Scanner scanner = getScanner();
     public Bank(String name) {
         this.name = name;
         this.userAccountList = new ArrayList<>();
@@ -27,8 +31,6 @@ public abstract class Bank {
     public abstract void withdraw();
 
     public String[] inputIdAndPassword() {
-        Scanner scanner = new Scanner(System.in);
-
         System.out.print("Please enter the ID: ");
         String id = scanner.nextLine();
 

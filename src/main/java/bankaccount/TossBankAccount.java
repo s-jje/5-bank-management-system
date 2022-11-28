@@ -28,7 +28,6 @@ public class TossBankAccount extends BankAccount {
 
     @Override
     public void deposit() {
-        Scanner scanner = new Scanner(System.in);
         System.out.print("Please enter the amount you want to deposit: ");
         long amount = Long.parseLong(scanner.nextLine());
 
@@ -56,7 +55,6 @@ public class TossBankAccount extends BankAccount {
     public void withdrawal() {
         if (getBalance() > 0) {
             System.out.print("Please enter the amount you want to withdrawal: ");
-            Scanner scanner = new Scanner(System.in);
             long amount = Long.parseLong(scanner.nextLine());
 
             if (amount > 0) {
@@ -89,7 +87,6 @@ public class TossBankAccount extends BankAccount {
 
         String srcNum = getAccountNumber();
 
-        Scanner scanner = new Scanner(System.in);
         System.out.print("Please enter the account number to transfer: ");
         String dstNum = scanner.nextLine();
 

@@ -4,6 +4,7 @@ import bankaccount.BankAccount;
 import bankaccount.HanaBankAccount;
 import bankaccount.KbKookminBankAccount;
 import useraccount.UserAccount;
+import util.ScannerUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,19 +25,17 @@ public class HanaBank extends Bank {
         return instance;
     }
 
-    Scanner sc = new Scanner(System.in);
-
     @Override
     public void register() {
         System.out.println("==============================");
         System.out.println("★신규 회원등록★");
         System.out.println("==============================");
         System.out.print("고객님의 성함을 입력해주세요 : ");
-        String name = sc.nextLine();
+        String name = scanner.nextLine();
         System.out.print("등록하실 ID를 입력해주세요 : ");
-        String id = sc.nextLine();
+        String id = scanner.nextLine();
         System.out.print("등록하실 PW를 입력해주세요 : ");
-        String pw = sc.nextLine();
+        String pw = scanner.nextLine();
         long balance = 0;
         String ano = createAno();
 

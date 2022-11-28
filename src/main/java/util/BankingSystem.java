@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 public class BankingSystem {
 
+    public static Scanner scanner = ScannerUtil.getScanner();
     public static String chooseBank() {
         System.out.printf("%n======================%n");
         System.out.println("|   Available banks  |");
@@ -22,7 +23,6 @@ public class BankingSystem {
         System.out.println("=======================");
         System.out.print("Please select a bank [1 ~ 6]: ");
 
-        Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
 
@@ -40,7 +40,6 @@ public class BankingSystem {
         System.out.println("=============================");
         System.out.print("Please select a menu [1 ~ 7]: ");
 
-        Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
 
@@ -52,18 +51,17 @@ public class BankingSystem {
             return bankAccountList.get(0);
         }
 
-        System.out.printf("%n=======================%n");
+        System.out.printf("%n========================%n");
         System.out.println("|       Accounts       |");
-        System.out.println("-----------------------");
+        System.out.println("------------------------");
 
         for (int i = 0; i < bankAccountList.size(); i++) {
             String accountNumber = bankAccountList.get(i).getAccountNumber();
             System.out.printf("| %d. %-16s |%n", i + 1, accountNumber);
         }
-        System.out.println("=======================");
+        System.out.println("========================");
         System.out.printf("Please select a account [1 ~ %d]: ", bankAccountList.size());
 
-        Scanner scanner = new Scanner(System.in);
         int input = Integer.parseInt(scanner.nextLine());
 
         if (1 <= input && input <= bankAccountList.size()) {
@@ -84,7 +82,6 @@ public class BankingSystem {
         System.out.println("==================");
         System.out.print("Please select a transaction [1 ~ 3]: ");
 
-        Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
 
         if (input.equals("1")) {
@@ -116,13 +113,13 @@ public class BankingSystem {
     public static void checkBalance(Bank bank) {
         UserAccount userAccount = getValidUserAccount(bank);
         List<BankAccount> bankAccounts = bank.getIdAccountListMap().get(userAccount.getId());
-        System.out.printf("%n=======================================%n");
+        System.out.printf("%n========================================%n");
         System.out.println("|               Accounts               |");
-        System.out.println("---------------------------------------");
+        System.out.println("----------------------------------------");
         for (BankAccount bankAccount : bankAccounts) {
             bankAccount.showBalance();
         }
-        System.out.println("=======================================");
+        System.out.println("========================================");
     }
 
     public static void checkAllTransactions(Bank bank) {
@@ -143,7 +140,6 @@ public class BankingSystem {
         System.out.println("==========================");
         System.out.print("Please select a setting [1 ~ 3]: ");
 
-        Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
 
         if (input.equals("1")) {
@@ -159,7 +155,7 @@ public class BankingSystem {
 
     public static void admin(Bank bank) {
         System.out.printf("%n==============================%n");
-        System.out.println("|       Administration        |");
+        System.out.println("|       Administration       |");
         System.out.println("------------------------------");
         System.out.println("| 1. Check all user accounts |");
         System.out.println("| 2. Check all bank accounts |");

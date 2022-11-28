@@ -92,7 +92,6 @@ public class TossBank extends Bank {
             System.out.println("| 2. Change password |");
             System.out.println("======================");
             System.out.print("Please select a option [1 ~ 2]: ");
-            Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
 
             List<BankAccount> bankAccountList = getIdAccountListMap().get(idAndPassword[0]);
@@ -142,7 +141,6 @@ public class TossBank extends Bank {
                 System.out.println("=============================================");
                 System.out.print("Please select the account you want to delete: ");
 
-                Scanner scanner = new Scanner(System.in);
                 int input = Integer.parseInt(scanner.nextLine());
 
                 if (1 <= input && input <= size) {
@@ -172,7 +170,6 @@ public class TossBank extends Bank {
 
         if (isExistAccount(idAndPassword[0], idAndPassword[1])) {
             System.out.print("Do you really want to withdraw from your Toss Bank Account? [yes/no]: ");
-            Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
 
             if (input.equalsIgnoreCase("y") || input.equalsIgnoreCase("yes")) {

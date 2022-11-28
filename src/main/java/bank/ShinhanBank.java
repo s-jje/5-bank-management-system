@@ -26,7 +26,6 @@ public class ShinhanBank extends Bank {
 
     @Override
     public void register() {
-        Scanner scanner = new Scanner(System.in);
         System.out.printf("%n");
         System.out.print("이름을 입력해 주세요: ");
         String name = scanner.nextLine();

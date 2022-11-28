@@ -16,8 +16,6 @@ public class HanaBankAccount extends BankAccount {
         super(name, id, password, bankName, accountNumber, balance);
     }
 
-    Scanner sc = new Scanner(System.in);
-
     @Override
     public void deposit() {
         System.out.println("==============================");
@@ -26,7 +24,7 @@ public class HanaBankAccount extends BankAccount {
 
         while (true) {
             System.out.print("입금하실 금액을 입력해주세요 : ");
-            long money = Long.parseLong(sc.nextLine());
+            long money = Long.parseLong(scanner.nextLine());
             if (money > 0) {
                 long balance = getBalance() + money;
                 setBalance(balance);
@@ -52,7 +50,7 @@ public class HanaBankAccount extends BankAccount {
 
         while (true) {
             System.out.print("출금하실 금액을 입력해주세요 : ");
-            long money = Long.parseLong(sc.nextLine());
+            long money = Long.parseLong(scanner.nextLine());
             if (money < getBalance() && money > 0) {
                 long balance = getBalance() - money;
                 setBalance(balance);
@@ -82,7 +80,7 @@ public class HanaBankAccount extends BankAccount {
             Bank toBank = BankingSystem.setDstBank(bankNumber);
             System.out.print(toBank.getName() + "로 송금하실 계좌번호를 입력해주세요 : ");
 
-            String toAno = sc.nextLine();
+            String toAno = scanner.nextLine();
             BankAccount toBankAccount = toBank.getBankAccount(toAno);
 
             if (getBalance() > 0) {
@@ -91,12 +89,12 @@ public class HanaBankAccount extends BankAccount {
                 System.out.println("받으시는분 : " + toBankAccount.getName() + " / " + toBankAccount.getBankName() + " : " + toBankAccount.getAccountNumber());
                 System.out.println("==============================");
                 System.out.print("위 정보가 맞으시면 1번 아니시면 2번을 눌러주세요 : ");
-                int num = Integer.parseInt(sc.nextLine());
+                int num = Integer.parseInt(scanner.nextLine());
                 if (num == 1) {
                     System.out.println("==============================");
                     System.out.println("송금가능잔액 : " + MoneyFormatter.formatToWon(getBalance()) + "원");
                     System.out.print("송금하실 금액을 입력해주세요 : ");
-                    long money = Long.parseLong(sc.nextLine());
+                    long money = Long.parseLong(scanner.nextLine());
                     long balance = getBalance();
 
                     if (money > 0 && getBalance() >= money) {
