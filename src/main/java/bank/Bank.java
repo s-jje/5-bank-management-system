@@ -30,7 +30,7 @@ public abstract class Bank {
 
     public abstract void withdraw();
 
-    public String[] inputIdAndPassword() {
+    protected String[] inputIdAndPassword() {
         System.out.print("Please enter the ID: ");
         String id = scanner.nextLine();
 
@@ -40,11 +40,11 @@ public abstract class Bank {
         return new String[]{id, password};
     }
 
-    public boolean isExistId(String id) {
+    protected boolean isExistId(String id) {
         return idBankAccountListMap.containsKey(id);
     }
 
-    public boolean isExistAccount(String id, String password) {
+    protected boolean isExistAccount(String id, String password) {
         if (idBankAccountListMap.containsKey(id)) {
             List<BankAccount> bankAccounts = idBankAccountListMap.get(id);
             for (BankAccount bankAccount : bankAccounts) {
