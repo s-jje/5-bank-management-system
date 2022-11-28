@@ -1,5 +1,6 @@
 package bankaccount;
 
+
 public class ShinhanBankAccount extends BankAccount {
 
     public ShinhanBankAccount(String name, String id, String password, String bankName, String accountNumber, long balance) {

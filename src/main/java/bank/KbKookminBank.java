@@ -139,6 +139,3 @@ public class KbKookminBank extends Bank {
 
     }
 }
-
-
-

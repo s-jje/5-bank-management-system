@@ -1,7 +1,6 @@
 package useraccount;
 
 public class UserAccount {
-
     private String name;
     private final String id;
     private String password;
