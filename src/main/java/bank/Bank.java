@@ -4,6 +4,7 @@ import bankaccount.BankAccount;
 import useraccount.UserAccount;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class Bank {
 
@@ -57,45 +58,45 @@ public abstract class Bank {
         return false;
     }
 
-//    public BankAccount getBankAccount(String accountNumber) {
-//        for (BankAccount bankAccount : bankAccountList) {
-//            if (accountNumber.equals(bankAccount.getAccountNumber())) {
-//                return bankAccount;
-//            }
-//        }
-//        throw new NoSuchElementException("Account not found.");
-//    }
-//
-//    public BankAccount getBankAccount(String id, String password) {
-//        for (BankAccount bankAccount : bankAccountList) {
-//            if (bankAccount.getId().equals(id)) {
-//                if (bankAccount.getPassword().equals(password)) {
-//                    return bankAccount;
-//                }
-//                throw new NoSuchElementException("Incorrect password.");
-//            }
-//        }
-//        throw new NoSuchElementException("Account not found.");
-//    }
-//
-//    public void showAllAccounts() {
-//        System.out.printf(" %s%n", name);
-//        System.out.println("===============================");
-//        System.out.println("   Name      Account Number    ");
-//        System.out.println("-------------------------------");
-//        for (BankAccount bankAccount : bankAccountList) {
-//            System.out.printf(" %10s %15s %n", bankAccount.getName(), AccountNumberFormatter.format(bankAccount.getAccountNumber()));
-//        }
-//        System.out.println("===============================");
-//    }
+    public BankAccount getBankAccount(String accountNumber) {
+        for (BankAccount bankAccount : getBankAccountList()) {
+            if (accountNumber.equals(bankAccount.getAccountNumber())) {
+                return bankAccount;
+            }
+        }
+        throw new NoSuchElementException("Account not found.");
+    }
+
+    public BankAccount getBankAccount(String id, String password) {
+        for (BankAccount bankAccount : getBankAccountList()) {
+            if (bankAccount.getId().equals(id)) {
+                if (bankAccount.getPassword().equals(password)) {
+                    return bankAccount;
+                }
+                throw new NoSuchElementException("Incorrect password.");
+            }
+        }
+        throw new NoSuchElementException("Account not found.");
+    }
+
+    public void showAllAccounts() {
+        System.out.printf(" %s%n", name);
+        System.out.println("===============================");
+        System.out.println("   Name      Account Number    ");
+        System.out.println("-------------------------------");
+        for (BankAccount bankAccount : getBankAccountList()) {
+            System.out.printf(" %10s %15s %n", bankAccount.getName(), bankAccount.getAccountNumber());
+        }
+        System.out.println("===============================");
+    }
 
     public String getName() {
         return name;
     }
 
-//    public List<BankAccount> getBankAccountList() {
-//        return idAccountListMap.values().stream().flatMap(List::stream).collect(Collectors.toList());
-//    }
+    public List<BankAccount> getBankAccountList() {
+        return idAccountListMap.values().stream().flatMap(List::stream).collect(Collectors.toList());
+    }
 
     public List<UserAccount> getUserAccountList() {
         return userAccountList;
