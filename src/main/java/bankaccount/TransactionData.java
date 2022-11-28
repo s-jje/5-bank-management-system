@@ -1,4 +1,4 @@
-package account;
+package bankaccount;
 
 import util.Time;
 import util.TimeFormatter;

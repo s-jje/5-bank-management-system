@@ -1,10 +1,11 @@
 package bank;
 
-import account.Account;
-import account.KbKookminBankAccount;
-import account.TossBankAccount;
-import customer.Customer;
+import bankaccount.BankAccount;
+import bankaccount.KbKookminBankAccount;
+import useraccount.UserAccount;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class KbKookminBank extends Bank {
@@ -36,9 +37,13 @@ public class KbKookminBank extends Bank {
                 String id = scanner.nextLine();
                 System.out.println("계좌의 비밀번호를 입력해주십시오");
                 String password = scanner.nextLine();
-                Account account = getAccount(id, password);
-                updateAccount(account);
-                break;
+                if (isExistId(id)) {
+                    BankAccount bankAccount = getIdAccountListMap().get(id).get(0);
+                    if (password.equals(bankAccount.getPassword())) {
+                        updateAccount(bankAccount);
+                        break;
+                    }
+                }
             }
         }
     }
@@ -57,10 +62,13 @@ public class KbKookminBank extends Bank {
         System.out.println("임의의 변수를 통해 계좌번호를 생성하겠습니다");
         String accountNumber = makeAccountNumber();
 
-        getAccountList().add(new KbKookminBankAccount(name, id, pw, getName(), accountNumber, 0L));
-        getCustomerList().add(new Customer(name, id, pw, accountNumber));
-        System.out.printf("Account registration successful!%n%n");
-        System.out.println("your accountNumber is "+accountNumber);
+        List<BankAccount> list = new ArrayList<>();
+        list.add(new KbKookminBankAccount(name, id, pw, getName(), accountNumber, 0L));
+        getIdAccountListMap().put(id, list);
+        getUserAccountList().add(new UserAccount(name, id, pw));
+
+        System.out.printf("Account registration successful!%n");
+        System.out.println("your accountNumber is " + accountNumber);
     }
 
     private String makeAccountNumber() {
@@ -68,16 +76,13 @@ public class KbKookminBank extends Bank {
         String middleNumber = String.valueOf((int) (Math.random() * 100));
         String lastNumber = String.valueOf((int) (Math.random() * 1000000));
 
-        String accountNumber = firstNumber + "-" +middleNumber+"-"+ lastNumber;
-
-        return accountNumber;
+        return firstNumber + "-" + middleNumber + "-" + lastNumber;
     }
 
     // 계정 정보 수정 메서드
-    @Override
-    public void updateAccount(Account account) {
-
+    public void updateAccount(BankAccount bankAccount) {
         Scanner scanner = new Scanner(System.in);
+
         while (true) {
             System.out.println("원하시는 업무의 숫자를 눌러주십쇼");
             System.out.println("이름 변경은 1번입니다");
@@ -88,8 +93,8 @@ public class KbKookminBank extends Bank {
             if (num.equals("1")) {
                 System.out.println("변경하고자하는 이름 입력받겠습니다");
                 String afterName = scanner.nextLine();
-                account.setName(afterName);
-                System.out.println(account.getName() + "으로 변경되었습니다");
+                bankAccount.setName(afterName);
+                System.out.println(bankAccount.getName() + "으로 변경되었습니다");
                 System.out.println("이용해주셔서 감사합니다");
                 break;
 
@@ -100,7 +105,7 @@ public class KbKookminBank extends Bank {
                 String checkPassword = scanner.nextLine();
                 if (afterPassword.equals(checkPassword)) {
                     System.out.println("변경 비밀번호가 올바르게 입력되었습니다");
-                    account.setPassword(afterPassword);
+                    bankAccount.setPassword(afterPassword);
                     System.out.println("비밀번호 변경이 완료되었습니다.");
                     break;
                 }
@@ -112,9 +117,22 @@ public class KbKookminBank extends Bank {
             }
         }
         System.out.println("이용해주셔서 감사합니다");
+    }
+
+    @Override
+    public void update() {
 
     }
 
+    @Override
+    public void deleteAccount() {
+
+    }
+
+    @Override
+    public void withdraw() {
+
+    }
 }
 
 

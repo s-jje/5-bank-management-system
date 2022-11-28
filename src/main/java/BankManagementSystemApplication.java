@@ -1,38 +1,38 @@
 import bank.*;
 import util.BankingSystem;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BankManagementSystemApplication {
 
     public static void main(String[] args) {
-        List<Bank> bankList = new ArrayList<>(Arrays.asList(
-                TossBank.getInstance(), KbKookminBank.getInstance(),
-                ShinhanBank.getInstance(), WooriBank.getInstance(),
-                HanaBank.getInstance()
-        ));
+        Map<String, Bank> banks = new HashMap<String, Bank>(){{
+            put("Toss Bank", TossBank.getInstance());
+            put("Kb Kookmin Bank", KbKookminBank.getInstance());
+            put("Shinhan Bank", ShinhanBank.getInstance());
+            put("Woori Bank", WooriBank.getInstance());
+            put("Hana Bank", HanaBank.getInstance());
+        }};
 
         System.out.println("Welcome to bank management system!");
 
         while (true) {
             try {
                 String bankNumber = BankingSystem.chooseBank();
-                System.out.println();
 
                 Bank bank;
 
                 if (bankNumber.equals("1")) {
-                    bank = bankList.get(0);
+                    bank = banks.get("Toss Bank");
                 } else if (bankNumber.equals("2")) {
-                    bank = bankList.get(1);
+                    bank = banks.get("Kb Kookmin Bank");
                 } else if (bankNumber.equals("3")) {
-                    bank = bankList.get(2);
+                    bank = banks.get("Shinhan Bank");
                 } else if (bankNumber.equals("4")) {
-                    bank = bankList.get(3);
+                    bank = banks.get("Woori Bank");
                 } else if (bankNumber.equals("5")) {
-                    bank = bankList.get(4);
+                    bank = banks.get("Hana Bank");
                 } else if (bankNumber.equals("6")) {
                     break;
                 } else {
@@ -42,7 +42,6 @@ public class BankManagementSystemApplication {
                 while (true) {
                     try {
                         String input = BankingSystem.chooseMenu();
-                        System.out.println();
 
                         if (input.equals("1")) {
                             BankingSystem.transaction(bank);
@@ -53,24 +52,24 @@ public class BankManagementSystemApplication {
                         } else if (input.equals("4")) {
                             BankingSystem.createAccount(bank);
                         } else if (input.equals("5")) {
-                            break;
+                            BankingSystem.setting(bank);
                         } else if (input.equals("6")) {
+                            break;
+                        } else if (input.equals("7")) {
                             return;
-                        } else if (input.equals("manage")) {
-                            BankingSystem.management(bank);
                         } else {
                             throw new RuntimeException("Invalid number.");
                         }
                     } catch (NumberFormatException e) {
-                        System.out.printf("%n%s%n%n", e.getMessage());
+                        System.out.printf("%n%s%n", e.getMessage());
                     } catch (RuntimeException e) {
-                        System.out.printf("%n%s%n%n", e.getMessage());
+                        System.out.printf("%n%s%n", e.getMessage());
                     }
                 }
             } catch (NumberFormatException e) {
-                System.out.printf("%n%s%n%n", e.getMessage());
+                System.out.printf("%n%s%n", e.getMessage());
             } catch (RuntimeException e) {
-                System.out.printf("%n%s%n%n", e.getMessage());
+                System.out.printf("%n%s%n", e.getMessage());
             }
         }
     }
