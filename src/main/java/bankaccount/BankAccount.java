@@ -13,7 +13,7 @@ import java.util.Scanner;
 import static util.Time.convertDateTimeToSecond;
 import static util.Time.getCurrentDateTime;
 
-public abstract class BankAccount implements Transaction {
+public abstract class BankAccount {
 
     private String name;
     private final String id;
@@ -41,7 +41,6 @@ public abstract class BankAccount implements Transaction {
         this.TRANSFER_FEE = transferFee;
     }
 
-    @Override
     public void deposit() {
         System.out.print("Please enter the amount you want to deposit: ");
         long amount = Long.parseLong(scanner.nextLine());
@@ -65,7 +64,6 @@ public abstract class BankAccount implements Transaction {
         }
     }
 
-    @Override
     public void withdrawal() {
         if (getBalance() > 0) {
             System.out.print("Please enter the amount you want to withdrawal: ");
@@ -91,7 +89,8 @@ public abstract class BankAccount implements Transaction {
         }
     }
 
-    @Override
+    public abstract void transfer();
+
     public void receive(BankAccount srcBankAccount, BankAccount dstBankAccount, long amount) {
         if (prevTime == 0) {
             prevTime = convertDateTimeToSecond(getCurrentDateTime());

@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 import static util.ScannerUtil.getScanner;
 
-public abstract class Bank implements UserManagement {
+public abstract class Bank {
 
     private final String name;
     private final List<UserAccount> userAccountList;
@@ -26,7 +26,6 @@ public abstract class Bank implements UserManagement {
         this.NUM_OF_MAX_ACCOUNT = maxAccount;
     }
 
-    @Override
     public void register() {
         Scanner scanner = new Scanner(System.in);
         Map<String, List<BankAccount>> idAccountListMap = getIdBankAccountListMap();
@@ -78,7 +77,6 @@ public abstract class Bank implements UserManagement {
         }
     }
 
-    @Override
     public void update() {
         String[] idAndPassword = inputIdAndPassword();
 
@@ -161,7 +159,6 @@ public abstract class Bank implements UserManagement {
         }
     }
 
-    @Override
     public void withdraw() {
         String[] idAndPassword = inputIdAndPassword();
 
