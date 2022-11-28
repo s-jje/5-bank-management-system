@@ -26,26 +26,7 @@ public class KbKookminBank extends Bank {
     // 계정생성 메서드
     @Override
     public void register() {
-        System.out.println("신규계좌 등록을 원할시 1번, 기존 계좌 정보 변경을 원하신다면 2번을 눌러주십쇼");
-        String num = scanner.nextLine();
-        if (num.equals("1")) {
-            createNewAccount();
-        } else if (num.equals("2")) {
-            System.out.println("은행 업무상 현재는 이름 및 비밀번호만 수정이 가능합니다");
-            while (true) {
-                System.out.println("먼저 변경하고자 하는 계좌 주의 ID을 입력해주십시오");
-                String id = scanner.nextLine();
-                System.out.println("계좌의 비밀번호를 입력해주십시오");
-                String password = scanner.nextLine();
-                if (isExistId(id)) {
-                    BankAccount bankAccount = getIdAccountListMap().get(id).get(0);
-                    if (password.equals(bankAccount.getPassword())) {
-                        updateAccount(bankAccount);
-                        break;
-                    }
-                }
-            }
-        }
+        createNewAccount();
     }
 
     // 계정생성 메서드
@@ -59,7 +40,7 @@ public class KbKookminBank extends Bank {
         System.out.print("Please enter the Password: ");
         String pw = scanner.nextLine();
 
-        System.out.println("임의의 변수를 통해 계좌번호를 생성하겠습니다");
+        System.out.println("we make your accountNumber with random number program");
         String accountNumber = makeAccountNumber();
 
         List<BankAccount> list = new ArrayList<>();
@@ -83,50 +64,50 @@ public class KbKookminBank extends Bank {
     // 계정 정보 수정 메서드
     public void updateAccount(BankAccount bankAccount) {
         while (true) {
-            System.out.println("원하시는 업무의 숫자를 눌러주십쇼");
-            System.out.println("이름 변경은 1번입니다");
-            System.out.println("비밀번호 변경은 2번입니다.");
-            System.out.println("뒤로 돌아가기는 3번을 눌러주십쇼");
+            System.out.println("Please press the number of jobs you want");
+            System.out.println("The name change is 1");
+            System.out.println("The password change is 2");
+            System.out.println("To go back, press 3");
 
             String num = scanner.nextLine();
             if (num.equals("1")) {
-                System.out.println("변경하고자하는 이름 입력받겠습니다");
+                System.out.println("receive a name to change it");
                 String afterName = scanner.nextLine();
                 bankAccount.setName(afterName);
-                System.out.println(bankAccount.getName() + "으로 변경되었습니다");
-                System.out.println("이용해주셔서 감사합니다");
+                System.out.println("Changed to "+ bankAccount.getName());
+                System.out.println("Thank you for using it");
                 break;
 
             } else if ((num.equals("2"))) {
-                System.out.println("변경하고자하는 비밀번호 입력받겠습니다");
+                System.out.println("receive a password to change it");
                 String afterPassword = scanner.nextLine();
-                System.out.println("재확인을 위해 다시 한번 입력받겠습니다");
+                System.out.println("take it to double-check");
                 String checkPassword = scanner.nextLine();
                 if (afterPassword.equals(checkPassword)) {
-                    System.out.println("변경 비밀번호가 올바르게 입력되었습니다");
+                    System.out.println("Change password entered correctly");
                     bankAccount.setPassword(afterPassword);
-                    System.out.println("비밀번호 변경이 완료되었습니다.");
+                    System.out.println("Password change completed.\n");
                     break;
                 }
             } else if (num.equals("3")) {
-                System.out.println("처음으로 돌아갑니다.");
+                System.out.println("go back to the beginning");
                 break;
             } else {
-                System.out.println("잘못 입력하였습니다");
+                System.out.println("entered it incorrectly");
             }
         }
-        System.out.println("이용해주셔서 감사합니다");
+        System.out.println("Thank you for using it");
     }
 
     // 계좌 내 이름 / 비밀번호 변경 메서드
     @Override
     public void update() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("은행 업무상 현재는 이름 및 비밀번호만 수정이 가능합니다");
+        System.out.println("Currently, only the name and password are allowed");
         while (true) {
-            System.out.println("먼저 변경하고자 하는 계좌 주의 ID을 입력해주십시오");
+            System.out.println("Please enter the account warning ID you want to change");
             String id = scanner.nextLine();
-            System.out.println("계좌의 비밀번호를 입력해주십시오");
+            System.out.println("Please enter the password for your account");
             String password = scanner.nextLine();
             if (isExistId(id)) {
                 BankAccount bankAccount = getIdAccountListMap().get(id).get(0);
@@ -136,7 +117,7 @@ public class KbKookminBank extends Bank {
                 }
             }
             else{
-                System.out.println("존재하지 않는 회원입니다. 처음으로 돌아갑니다.");
+                System.out.println("Member who does not exist. Let's go back to the beginning.");
                 break;
             }
         }
