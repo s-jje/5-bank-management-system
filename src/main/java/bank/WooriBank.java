@@ -34,7 +34,7 @@ public class WooriBank extends Bank {
 
     @Override
     protected BankAccount createBankAccount(String name, String id, String password, String newAccountNumber) {
-        return new WooriBankAccount(name, id, password, name, newAccountNumber, 0L);
+        return new WooriBankAccount(name, id, password, getName(), newAccountNumber, 0L);
     }
 
     @Override

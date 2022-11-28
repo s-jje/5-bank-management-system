@@ -37,6 +37,7 @@ public class TossBankAccount extends BankAccount {
         } else if (!dstAccountNum.matches(pattern[0])) {
             throw new RuntimeException("Invalid input.");
         }
+        dstAccountNum = formatAccountNumber(dstAccountNum);
 
         List<BankAccount> dstBankAccounts = dstBank.getIdBankAccountListMap().values().stream().flatMap(List::stream).collect(Collectors.toList());
 
@@ -45,7 +46,6 @@ public class TossBankAccount extends BankAccount {
             for (i = 0; i < dstBankAccounts.size(); i++) {
                 if (dstAccountNum.equals(dstBankAccounts.get(i).getAccountNumber())) {
                     BankAccount dstBankAccount = dstBankAccounts.get(i);
-
                     long balance = getBalance();
 
                     if (balance > 0) {

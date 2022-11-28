@@ -37,6 +37,7 @@ public class WooriBankAccount extends BankAccount {
         } else if (!dstAccountNum.matches(pattern[0])) {
             throw new RuntimeException("Invalid input.");
         }
+        dstAccountNum = formatAccountNumber(dstAccountNum);
 
         List<BankAccount> dstBankAccounts = dstBank.getIdBankAccountListMap().values().stream().flatMap(List::stream).collect(Collectors.toList());
 
@@ -45,7 +46,6 @@ public class WooriBankAccount extends BankAccount {
             for (i = 0; i < dstBankAccounts.size(); i++) {
                 if (dstAccountNum.equals(dstBankAccounts.get(i).getAccountNumber())) {
                     BankAccount dstBankAccount = dstBankAccounts.get(i);
-
                     long balance = getBalance();
 
                     if (balance > 0) {
@@ -59,12 +59,11 @@ public class WooriBankAccount extends BankAccount {
 
                             if (input.equalsIgnoreCase("y") || input.equalsIgnoreCase("yes")) {
                                 if (balance >= amount) {
-                                    int transferFee = getTransferFee();
                                     dstBankAccount.receive(this, dstBankAccount, amount);
-                                    balance -= amount + transferFee;
+                                    balance -= amount;
                                     setBalance(balance);
                                     addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), getAccountNumber(), false, amount, balance, dstDescription.toString()));
-                                    System.out.printf("%nTransfer successful! Transfer fee %s.%n", MoneyFormatter.formatToWon(transferFee));
+                                    System.out.printf("%nTransfer successful! All transfer fees are %s forever at Toss Bank!%n", MoneyFormatter.formatToWon(getTransferFee()));
                                     break;
                                 } else {
                                     System.out.printf("%nTransfer failed.%n%n");

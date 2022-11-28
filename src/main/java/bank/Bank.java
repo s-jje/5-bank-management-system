@@ -1,7 +1,6 @@
 package bank;
 
 import bankaccount.BankAccount;
-import bankaccount.TossBankAccount;
 import useraccount.UserAccount;
 import util.MoneyFormatter;
 
@@ -129,7 +128,7 @@ public abstract class Bank implements UserManagement {
                 String[] accountNumbers = new String[size];
 
                 System.out.printf("%n=============================================%n");
-                System.out.println("|               Accounts list               |");
+                System.out.println("|                Accounts                   |");
                 System.out.println("---------------------------------------------");
                 for (int i = 0; i < size; i++) {
                     BankAccount bankAccount = bankAccounts.get(i);

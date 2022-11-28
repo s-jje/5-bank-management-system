@@ -34,7 +34,7 @@ public class TossBank extends Bank {
 
     @Override
     protected BankAccount createBankAccount(String name, String id, String password, String newAccountNumber) {
-        return new TossBankAccount(name, id, password, name, newAccountNumber, 0L);
+        return new TossBankAccount(name, id, password, getName(), newAccountNumber, 0L);
     }
 
     @Override

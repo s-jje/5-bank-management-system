@@ -55,10 +55,9 @@ public abstract class BankAccount implements Transaction {
             }
 
             long balance = getBalance() + amount;
-            setBalance(balance);
-
             StringBuilder description = new StringBuilder();
-            description.append(getBankName()).append(" ").append(getAccountNumber()).append(" ").append(getName());
+            description.append(getBankName()).append(" ").append(getAccountNumber()).append(" ").append(getName()).append("(Me)");
+            setBalance(balance);
             addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), getAccountNumber(), true, amount, balance, description.toString()));
             System.out.printf("%nDeposit successful! The interest rate is %.1f%%%n", INTEREST_RATE_PER_SECOND * 100.0 * 60.0 * 60.0 * 24.0 * 365.0);
         } else {
@@ -76,10 +75,9 @@ public abstract class BankAccount implements Transaction {
                 long balance = getBalance() - amount;
 
                 if (balance >= 0) {
-                    setBalance(balance);
-
                     StringBuilder description = new StringBuilder();
-                    description.append(getBankName()).append(" ").append(getAccountNumber()).append(" ").append(getName());
+                    description.append(getBankName()).append(" ").append(getAccountNumber()).append(" ").append(getName()).append("(Me)");
+                    setBalance(balance);
                     addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), getAccountNumber(), false, amount, balance, description.toString()));
                     System.out.printf("%nWithdrawal successful!%n");
                 } else {
@@ -95,6 +93,9 @@ public abstract class BankAccount implements Transaction {
 
     @Override
     public void receive(BankAccount srcBankAccount, BankAccount dstBankAccount, long amount) {
+        if (prevTime == 0) {
+            prevTime = convertDateTimeToSecond(getCurrentDateTime());
+        }
         long balance = getBalance() + amount;
         dstBankAccount.setBalance(balance);
         dstBankAccount.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), dstBankAccount.getAccountNumber(), true, amount, balance, srcBankAccount.getBankName() + " " + srcBankAccount.getAccountNumber()));
@@ -109,7 +110,7 @@ public abstract class BankAccount implements Transaction {
         if (interest > 0) {
             addTransactionData(new TransactionData("-", accountNumber, true, interest, getBalance(), "Toss Bank Interest"));
         }
-        System.out.printf("| %-13s: %20s |%n", accountNumber, MoneyFormatter.formatToWon(getBalance()));
+        System.out.printf("| %-16s: %21s |%n", accountNumber, MoneyFormatter.formatToWon(getBalance()));
     }
 
     public void showAllTransactionData() {

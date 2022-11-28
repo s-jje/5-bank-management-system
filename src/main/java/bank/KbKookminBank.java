@@ -33,7 +33,7 @@ public class KbKookminBank extends Bank {
 
     @Override
     protected BankAccount createBankAccount(String name, String id, String password, String newAccountNumber) {
-        return new KbKookminBankAccount(name, id, password, name, newAccountNumber, 0L);
+        return new KbKookminBankAccount(name, id, password, getName(), newAccountNumber, 0L);
     }
 
     @Override

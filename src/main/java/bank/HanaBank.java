@@ -35,7 +35,7 @@ public class HanaBank extends Bank {
 
     @Override
     protected BankAccount createBankAccount(String name, String id, String password, String newAccountNumber) {
-        return new HanaBankAccount(name, id, password, name, newAccountNumber, 0L);
+        return new HanaBankAccount(name, id, password, getName(), newAccountNumber, 0L);
     }
 
     @Override

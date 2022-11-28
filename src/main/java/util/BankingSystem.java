@@ -52,15 +52,15 @@ public class BankingSystem {
             return bankAccountList.get(0);
         }
 
-        System.out.printf("%n========================%n");
-        System.out.println("|       Accounts       |");
-        System.out.println("------------------------");
+        System.out.printf("%n=======================%n");
+        System.out.println("|      Accounts       |");
+        System.out.println("-----------------------");
 
         for (int i = 0; i < bankAccountList.size(); i++) {
             String accountNumber = bankAccountList.get(i).getAccountNumber();
             System.out.printf("| %d. %-16s |%n", i + 1, accountNumber);
         }
-        System.out.println("========================");
+        System.out.println("=======================");
         System.out.printf("Please select a account [1 ~ %d]: ", bankAccountList.size());
 
         int input = Integer.parseInt(scanner.nextLine());
@@ -114,13 +114,13 @@ public class BankingSystem {
     public static void checkBalance(Bank bank) {
         UserAccount userAccount = getValidUserAccount(bank);
         List<BankAccount> bankAccounts = bank.getIdBankAccountListMap().get(userAccount.getId());
-        System.out.printf("%n========================================%n");
-        System.out.println("|               Accounts               |");
-        System.out.println("----------------------------------------");
+        System.out.printf("%n===========================================%n");
+        System.out.println("|                 Balance                 |");
+        System.out.println("-------------------------------------------");
         for (BankAccount bankAccount : bankAccounts) {
             bankAccount.showBalance();
         }
-        System.out.println("========================================");
+        System.out.println("===========================================");
     }
 
     public static void checkAllTransactions(Bank bank) {
