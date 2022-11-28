@@ -67,20 +67,8 @@ public abstract class Bank {
         throw new NoSuchElementException("Account not found.");
     }
 
-    public BankAccount getBankAccount(String id, String password) {
-        for (BankAccount bankAccount : getBankAccountList()) {
-            if (bankAccount.getId().equals(id)) {
-                if (bankAccount.getPassword().equals(password)) {
-                    return bankAccount;
-                }
-                throw new NoSuchElementException("Incorrect password.");
-            }
-        }
-        throw new NoSuchElementException("Account not found.");
-    }
-
     public void showAllAccounts() {
-        System.out.printf(" %s%n", name);
+        System.out.printf("%s%n", name);
         System.out.println("===============================");
         System.out.println("   Name      Account Number    ");
         System.out.println("-------------------------------");
