@@ -67,15 +67,28 @@ public abstract class Bank {
         throw new NoSuchElementException("Account not found.");
     }
 
-    public void showAllAccounts() {
+    public void showAllUserAccounts() {
         System.out.printf("%s%n", name);
-        System.out.println("===============================");
-        System.out.println("   Name      Account Number    ");
-        System.out.println("-------------------------------");
-        for (BankAccount bankAccount : getBankAccountList()) {
-            System.out.printf(" %10s %15s %n", bankAccount.getName(), bankAccount.getAccountNumber());
+        System.out.println("=====================================");
+        System.out.println("       ID              Name          ");
+        System.out.println("-------------------------------------");
+        List<UserAccount> userAccountList = getUserAccountList();
+        for (UserAccount userAccount : userAccountList) {
+            System.out.printf(" %-15s %-20s %n", userAccount.getId(), userAccount.getName());
         }
-        System.out.println("===============================");
+        System.out.println("=====================================");
+    }
+
+    public void showAllBankAccounts() {
+        System.out.printf("%s%n", name);
+        System.out.println("=====================================");
+        System.out.println("      Name         Account Number    ");
+        System.out.println("-------------------------------------");
+        List<BankAccount> bankAccountList = getBankAccountList();
+        for (BankAccount bankAccount : bankAccountList) {
+            System.out.printf(" %-15s %-20s %n", bankAccount.getName(), bankAccount.getAccountNumber());
+        }
+        System.out.println("=====================================");
     }
 
     public String getName() {

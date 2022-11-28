@@ -11,7 +11,7 @@ public class BankingSystem {
 
     public static String chooseBank() {
         System.out.printf("%n======================%n");
-        System.out.println("|   Available banks   |");
+        System.out.println("|   Available banks  |");
         System.out.println("----------------------");
         System.out.println("| 1. Toss Bank       |");
         System.out.println("| 2. KB Kookmin Bank |");
@@ -28,7 +28,7 @@ public class BankingSystem {
 
     public static String chooseMenu() {
         System.out.printf("%n=============================%n");
-        System.out.println("|            Menu            |");
+        System.out.println("|           Menu            |");
         System.out.println("-----------------------------");
         System.out.println("| 1. Transaction            |");
         System.out.println("| 2. Check balance          |");
@@ -152,6 +152,27 @@ public class BankingSystem {
             bank.deleteAccount();
         } else if (input.equals("3")) {
             bank.withdraw();
+        } else {
+            throw new RuntimeException("Invalid Number.");
+        }
+    }
+
+    public static void admin(Bank bank) {
+        System.out.printf("%n==============================%n");
+        System.out.println("|       Administration        |");
+        System.out.println("------------------------------");
+        System.out.println("| 1. Check all user accounts |");
+        System.out.println("| 2. Check all bank accounts |");
+        System.out.println("==============================");
+        System.out.print("Please select a setting [1 ~ 2]: ");
+
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+
+        if (input.equals("1")) {
+            bank.showAllBankAccounts();
+        } else if (input.equals("2")) {
+            bank.showAllUserAccounts();
         } else {
             throw new RuntimeException("Invalid Number.");
         }
