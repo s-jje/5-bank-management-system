@@ -64,7 +64,7 @@ public class KbKookminBank extends Bank {
     }
 
     // 계정 정보 수정 메서드
-    public void updateAccount(BankAccount bankAccount) {
+    private void updateAccount(BankAccount bankAccount) {
         while (true) {
             System.out.println("Please press the number of jobs you want");
             System.out.println("The name change is 1");
