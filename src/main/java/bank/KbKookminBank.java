@@ -4,6 +4,7 @@ import bankaccount.BankAccount;
 import bankaccount.KbKookminBankAccount;
 import useraccount.UserAccount;
 
+import java.lang.reflect.AccessibleObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -23,6 +24,7 @@ public class KbKookminBank extends Bank {
         return instance;
     }
 
+    // 계정생성 메서드
     @Override
     public void register() {
         System.out.println("신규계좌 등록을 원할시 1번, 기존 계좌 정보 변경을 원하신다면 2번을 눌러주십쇼");
@@ -68,7 +70,8 @@ public class KbKookminBank extends Bank {
 
         System.out.printf("Account registration successful!%n");
         System.out.println("your accountNumber is " + accountNumber);
-    }
+
+        }
 
     private String makeAccountNumber() {
         String firstNumber = String.valueOf((int) (Math.random() * 1000));
@@ -116,16 +119,41 @@ public class KbKookminBank extends Bank {
         System.out.println("이용해주셔서 감사합니다");
     }
 
+    // 계좌 내 이름 / 비밀번호 변경 메서드
     @Override
     public void update() {
-
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("은행 업무상 현재는 이름 및 비밀번호만 수정이 가능합니다");
+        while (true) {
+            System.out.println("먼저 변경하고자 하는 계좌 주의 ID을 입력해주십시오");
+            String id = scanner.nextLine();
+            System.out.println("계좌의 비밀번호를 입력해주십시오");
+            String password = scanner.nextLine();
+            if (isExistId(id)) {
+                BankAccount bankAccount = getIdAccountListMap().get(id).get(0);
+                if (password.equals(bankAccount.getPassword())) {
+                    updateAccount(bankAccount);
+                    break;
+                }
+            }
+            else{
+                System.out.println("존재하지 않는 회원입니다. 처음으로 돌아갑니다.");
+                break;
+            }
+        }
     }
-
+    // 계좌 삭제 메서드
     @Override
     public void deleteAccount() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("please type your id");
+        String id = scanner.nextLine();
+        System.out.println("please type your password");
+        String pw = scanner.nextLine();
+
 
     }
-
+    // 회원탈퇴 메서드
     @Override
     public void withdraw() {
 
