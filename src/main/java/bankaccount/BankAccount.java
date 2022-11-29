@@ -5,25 +5,31 @@ import util.ScannerUtil;
 import util.Time;
 import util.TimeFormatter;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-// 추상 클래스
+import static util.Time.convertDateTimeToSecond;
+import static util.Time.getCurrentDateTime;
+
 public abstract class BankAccount {
 
-    // 클래스를 이루는 변수들
     private String name;
     private final String id;
     private String password;
     private final String bankName;
-    private final String accountNumber; // 계좌번호
-    private long balance; // 예금
-    private final List<TransactionData> transactionDataList; // 거래내역 저장을 위한 리스트
+    private final String accountNumber;
+    private long balance;
+    private final List<TransactionData> transactionDataList;
+
+    private final double INTEREST_RATE_PER_SECOND;
+    private final int TRANSFER_FEE;
+    private long prevTime;
 
     Scanner scanner = ScannerUtil.getScanner();
 
-    public BankAccount(String name, String id, String password, String bankName, String accountNumber, long balance) {
+    public BankAccount(String name, String id, String password, String bankName, String accountNumber, long balance, double interestRate, int transferFee) {
         this.name = name;
         this.id = id;
         this.password = password;
@@ -31,17 +37,80 @@ public abstract class BankAccount {
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.transactionDataList = new ArrayList<>();
+        this.INTEREST_RATE_PER_SECOND = interestRate;
+        this.TRANSFER_FEE = transferFee;
     }
 
-    public abstract void deposit();
+    public void deposit() {
+        System.out.print("Please enter the amount you want to deposit: ");
+        long amount = Long.parseLong(scanner.nextLine());
 
-    public abstract void withdrawal();
+        if (amount > 0) {
+            ZonedDateTime zonedDateTime = getCurrentDateTime();
+            long epochSecond = convertDateTimeToSecond(zonedDateTime);
+
+            if (prevTime == 0) {
+                prevTime = epochSecond;
+            }
+
+            long balance = getBalance() + amount;
+            StringBuilder description = new StringBuilder();
+            description.append(getBankName()).append(" ").append(getAccountNumber()).append(" ").append(getName()).append("(Me)");
+            setBalance(balance);
+            addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), getAccountNumber(), true, amount, balance, description.toString()));
+            System.out.printf("%nDeposit successful! The interest rate is %.1f%%%n", INTEREST_RATE_PER_SECOND * 100.0 * 60.0 * 60.0 * 24.0 * 365.0);
+        } else {
+            System.out.printf("%nYou can deposit more than ₩0.%n");
+        }
+    }
+
+    public void withdrawal() {
+        if (getBalance() > 0) {
+            System.out.print("Please enter the amount you want to withdrawal: ");
+            long amount = Long.parseLong(scanner.nextLine());
+
+            if (amount > 0) {
+                long balance = getBalance() - amount;
+
+                if (balance >= 0) {
+                    StringBuilder description = new StringBuilder();
+                    description.append(getBankName()).append(" ").append(getAccountNumber()).append(" ").append(getName()).append("(Me)");
+                    setBalance(balance);
+                    addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), getAccountNumber(), false, amount, balance, description.toString()));
+                    System.out.printf("%nWithdrawal successful!%n");
+                } else {
+                    System.out.printf("%nWithdrawal failed.%n");
+                }
+            } else {
+                System.out.printf("%nYou can deposit more than ₩0.%n");
+            }
+        } else {
+            System.out.printf("%nYou have no balance to withdrawal.%n");
+        }
+    }
 
     public abstract void transfer();
 
-    public abstract void receive(BankAccount srcBankAccount, BankAccount dstBankAccount, long amount);
+    public void receive(BankAccount srcBankAccount, BankAccount dstBankAccount, long amount) {
+        if (prevTime == 0) {
+            prevTime = convertDateTimeToSecond(getCurrentDateTime());
+        }
+        long balance = getBalance() + amount;
+        dstBankAccount.setBalance(balance);
+        dstBankAccount.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), dstBankAccount.getAccountNumber(), true, amount, balance, srcBankAccount.getBankName() + " " + srcBankAccount.getAccountNumber()));
+    }
 
-    public abstract void showBalance();
+    public void showBalance() {
+        ZonedDateTime zonedDateTime = getCurrentDateTime();
+        long epochSecond = convertDateTimeToSecond(zonedDateTime);
+        long interest = applyInterest(epochSecond);
+        String accountNumber = getAccountNumber();
+
+        if (interest > 0) {
+            addTransactionData(new TransactionData("-", accountNumber, true, interest, getBalance(), "Toss Bank Interest"));
+        }
+        System.out.printf("| %-16s: %21s |%n", accountNumber, MoneyFormatter.formatToWon(getBalance()));
+    }
 
     public void showAllTransactionData() {
         System.out.printf("%n%-16s%-20s%-16s%40s%40s%n", bankName, accountNumber, name, " ", TimeFormatter.format(Time.getCurrentDateTime()));
@@ -65,7 +134,15 @@ public abstract class BankAccount {
         System.out.printf("====================================================================================================================================%n");
     }
 
-    public void addTransactionData (TransactionData data){
+    private long applyInterest(long epochSecond) {
+        long balance = getBalance();
+        long interest = (long) (balance * (INTEREST_RATE_PER_SECOND * (epochSecond - prevTime)));
+        setBalance(balance + interest);
+        prevTime = epochSecond;
+        return interest;
+    }
+
+    public void addTransactionData(TransactionData data){
         transactionDataList.add(data);
     }
 
@@ -91,6 +168,10 @@ public abstract class BankAccount {
 
     public long getBalance() {
         return balance;
+    }
+
+    public int getTransferFee() {
+        return TRANSFER_FEE;
     }
 
     public void setName(String name){

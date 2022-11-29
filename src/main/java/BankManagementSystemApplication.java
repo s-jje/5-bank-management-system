@@ -1,19 +1,19 @@
 import bank.*;
 import util.BankingSystem;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 public class BankManagementSystemApplication {
 
     public static void main(String[] args) {
-        Map<String, Bank> banks = new HashMap<String, Bank>(){{
-            put("Toss Bank", TossBank.getInstance());
-            put("Kb Kookmin Bank", KbKookminBank.getInstance());
-            put("Shinhan Bank", ShinhanBank.getInstance());
-            put("Woori Bank", WooriBank.getInstance());
-            put("Hana Bank", HanaBank.getInstance());
-        }};
+        List<Bank> banks = new ArrayList<>(Arrays.asList(
+                TossBank.getInstance(), KbKookminBank.getInstance(),
+                ShinhanBank.getInstance(), WooriBank.getInstance(),
+                HanaBank.getInstance())
+        );
 
         System.out.println("Welcome to bank management system!");
 
@@ -24,15 +24,15 @@ public class BankManagementSystemApplication {
                 Bank bank;
 
                 if (bankNumber.equals("1")) {
-                    bank = banks.get("Toss Bank");
+                    bank = banks.get(0);
                 } else if (bankNumber.equals("2")) {
-                    bank = banks.get("Kb Kookmin Bank");
+                    bank = banks.get(1);
                 } else if (bankNumber.equals("3")) {
-                    bank = banks.get("Shinhan Bank");
+                    bank = banks.get(2);
                 } else if (bankNumber.equals("4")) {
-                    bank = banks.get("Woori Bank");
+                    bank = banks.get(3);
                 } else if (bankNumber.equals("5")) {
-                    bank = banks.get("Hana Bank");
+                    bank = banks.get(4);
                 } else if (bankNumber.equals("6")) {
                     break;
                 } else {
@@ -62,12 +62,16 @@ public class BankManagementSystemApplication {
                         } else {
                             throw new RuntimeException("Invalid number.");
                         }
+                    } catch (NoSuchElementException e) {
+                        System.out.printf("%n%s%n", e.getMessage());
                     } catch (NumberFormatException e) {
                         System.out.printf("%n%s%n", e.getMessage());
                     } catch (RuntimeException e) {
                         System.out.printf("%n%s%n", e.getMessage());
                     }
                 }
+            } catch (NoSuchElementException e) {
+                System.out.printf("%n%s%n", e.getMessage());
             } catch (NumberFormatException e) {
                 System.out.printf("%n%s%n", e.getMessage());
             } catch (RuntimeException e) {
