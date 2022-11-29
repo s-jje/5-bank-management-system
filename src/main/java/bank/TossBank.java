@@ -39,4 +39,12 @@ public class TossBank extends Bank {
         sb.append(first).append("-").append(second).append("-").append(third);
         return sb.toString();
     }
+
+    @Override
+    public String formatAccountNumber(String accountNumber) {
+        StringBuilder sb = new StringBuilder();
+        accountNumber = accountNumber.replace("-", "");
+        sb.append(accountNumber, 0, 3).append("-").append(accountNumber, 3, 8).append("-").append(accountNumber, 8, 11);
+        return sb.toString();
+    }
 }

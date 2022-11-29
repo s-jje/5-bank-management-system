@@ -36,4 +36,12 @@ public class KbKookminBank extends Bank {
 
         return firstNumber + "-" + middleNumber + "-" + lastNumber;
     }
+
+    @Override
+    public String formatAccountNumber(String accountNumber) {
+        StringBuilder sb = new StringBuilder();
+        accountNumber = accountNumber.replace("-", "");
+        sb.append(accountNumber, 0, 3).append("-").append(accountNumber, 3, 5).append("-").append(accountNumber, 5, 11);
+        return sb.toString();
+    }
 }

@@ -134,8 +134,6 @@ public abstract class BankAccount {
         System.out.printf("====================================================================================================================================%n");
     }
 
-    protected abstract String formatAccountNumber(String accountNumber);
-
     private long applyInterest(long epochSecond) {
         long balance = getBalance();
         long interest = (long) (balance * (INTEREST_RATE_PER_SECOND * (epochSecond - prevTime)));

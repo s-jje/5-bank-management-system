@@ -206,6 +206,8 @@ public abstract class Bank {
 
     protected abstract String generateAccountNumber();
 
+    public abstract String formatAccountNumber(String accountNumber);
+
     protected String[] inputIdAndPassword() {
         System.out.print("Please enter the ID: ");
         String id = scanner.nextLine();

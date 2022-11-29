@@ -37,7 +37,7 @@ public class ShinhanBankAccount extends BankAccount {
         } else if (!dstAccountNum.matches(pattern[0])) {
             throw new RuntimeException("Invalid input.");
         }
-        dstAccountNum = formatAccountNumber(dstAccountNum);
+        dstAccountNum = dstBank.formatAccountNumber(dstAccountNum);
 
         List<BankAccount> dstBankAccounts = dstBank.getIdBankAccountListMap().values().stream().flatMap(List::stream).collect(Collectors.toList());
 
@@ -53,7 +53,7 @@ public class ShinhanBankAccount extends BankAccount {
                         long amount = Long.parseLong(scanner.nextLine());
 
                         if (amount > 0) {
-                            StringBuilder dstDescription = new StringBuilder(dstBankAccount.getBankName() + " " + formatAccountNumber(dstAccountNum) + " " + dstBankAccount.getName());
+                            StringBuilder dstDescription = new StringBuilder(dstBankAccount.getBankName() + " " + dstAccountNum + " " + dstBankAccount.getName());
                             System.out.printf("Would you like to transfer to %s? [yes/no]: ", dstDescription);
                             String input = scanner.nextLine();
 
@@ -83,7 +83,7 @@ public class ShinhanBankAccount extends BankAccount {
             }
 
             if (i == dstBankAccounts.size()) {
-                System.out.printf("%nNot found account number: %s%n", formatAccountNumber(dstAccountNum));
+                System.out.printf("%nNot found account number: %s%n", dstAccountNum);
                 System.out.print("Do you want exit transfer process? [yes/no]: ");
                 String input = scanner.nextLine();
                 if (input.equalsIgnoreCase("y") || input.equalsIgnoreCase("yes")) {
@@ -97,13 +97,5 @@ public class ShinhanBankAccount extends BankAccount {
                 break;
             }
         }
-    }
-
-    @Override
-    protected String formatAccountNumber(String accountNumber) {
-        StringBuilder sb = new StringBuilder();
-        accountNumber = accountNumber.replace("-", "");
-        sb.append(accountNumber, 0, 3).append("-").append(accountNumber, 3, 6).append("-").append(accountNumber, 6, 12);
-        return sb.toString();
     }
 }

@@ -46,6 +46,7 @@ public class KbKookminBankAccount extends BankAccount {
             } else if (!dstNum.matches(pattern[0])) {
                 throw new RuntimeException("Invalid input.");
             }
+            dstNum = bank.formatAccountNumber(dstNum);
 
             Bank dstBank = BankingSystem.setDstBank(bankNumber);
             BankAccount accountReceive = dstBank.getBankAccount(dstNum);
@@ -55,7 +56,7 @@ public class KbKookminBankAccount extends BankAccount {
             if (checkBalance(amount)) {
                 receive(accountSend, accountReceive, amount);
                 ZonedDateTime zonedDateTime = getCurrentDateTime();
-                addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), getAccountNumber(), false, amount, getBalance(), "KB Bank"));
+                addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), getAccountNumber(), false, amount, getBalance(), "KB Bank " + accountReceive.getAccountNumber() + " " + accountReceive.getName()));
             }
         } else {
             System.out.println("You will be charged a fee for sending money to other banks");
@@ -82,23 +83,15 @@ public class KbKookminBankAccount extends BankAccount {
             if (checkBalance(amount)) {
                 int transferFee = getTransferFee();
 
-                accountSend.setBalance(accountSend.getBalance() - transferFee);
-                accountSend.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), accountReceive.getAccountNumber(), false, transferFee, accountSend.getBalance(), "Other bank fee"));
+                setBalance(accountSend.getBalance() - transferFee);
+                addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), getAccountNumber(), false, transferFee, accountSend.getBalance(), "Other bank fee"));
 
                 receive(accountSend, accountReceive, amount);
                 ZonedDateTime zonedDateTime = getCurrentDateTime();
-                addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), getAccountNumber(), false, amount, getBalance(), accountReceive.getBankName()));
+                addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), getAccountNumber(), false, amount, getBalance(), accountReceive.getBankName() + " " + accountReceive.getAccountNumber() + " " + accountReceive.getName()));
             }
         }
         System.out.println("============================================================================================");
-    }
-
-    @Override
-    protected String formatAccountNumber(String accountNumber) {
-        StringBuilder sb = new StringBuilder();
-        accountNumber = accountNumber.replace("-", "");
-        sb.append(accountNumber, 0, 3).append("-").append(accountNumber, 3, 5).append("-").append(accountNumber, 5, 11);
-        return sb.toString();
     }
 
     private BankAccount validation(Bank bank) {

@@ -38,4 +38,12 @@ public class ShinhanBank extends Bank {
         sb.append(first).append("-").append(second).append("-").append(third);
         return sb.toString();
     }
+
+    @Override
+    public String formatAccountNumber(String accountNumber) {
+        StringBuilder sb = new StringBuilder();
+        accountNumber = accountNumber.replace("-", "");
+        sb.append(accountNumber, 0, 3).append("-").append(accountNumber, 3, 6).append("-").append(accountNumber, 6, 12);
+        return sb.toString();
+    }
 }
