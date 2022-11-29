@@ -42,9 +42,12 @@ public class TossBankAccount extends BankAccount {
         List<BankAccount> dstBankAccounts = dstBank.getIdBankAccountListMap().values().stream().flatMap(List::stream).collect(Collectors.toList());
 
         while (true) {
-            int i;
-            for (i = 0; i < dstBankAccounts.size(); i++) {
+            boolean isExistAccount = false;
+
+            for (int i = 0; i < dstBankAccounts.size(); i++) {
                 if (dstAccountNum.equals(dstBankAccounts.get(i).getAccountNumber())) {
+                    isExistAccount = true;
+                    
                     BankAccount dstBankAccount = dstBankAccounts.get(i);
                     long balance = getBalance();
 
@@ -82,7 +85,7 @@ public class TossBankAccount extends BankAccount {
                 }
             }
 
-            if (i == dstBankAccounts.size()) {
+            if (!isExistAccount) {
                 System.out.printf("%nNot found account number: %s%n", dstAccountNum);
                 System.out.print("Do you want exit transfer process? [yes/no]: ");
                 String input = scanner.nextLine();
