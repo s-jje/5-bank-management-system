@@ -47,7 +47,7 @@ public class TossBankAccount extends BankAccount {
             for (int i = 0; i < dstBankAccounts.size(); i++) {
                 if (dstAccountNum.equals(dstBankAccounts.get(i).getAccountNumber())) {
                     isExistAccount = true;
-                    
+
                     BankAccount dstBankAccount = dstBankAccounts.get(i);
                     long balance = getBalance();
 

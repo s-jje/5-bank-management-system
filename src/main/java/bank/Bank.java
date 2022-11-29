@@ -177,7 +177,7 @@ public abstract class Bank {
     }
 
     public void showAllUserAccounts() {
-        System.out.printf("%s%n", name);
+        System.out.printf("%n%s%n", name);
         System.out.println("=====================================");
         System.out.println("       ID              Name          ");
         System.out.println("-------------------------------------");
@@ -189,7 +189,7 @@ public abstract class Bank {
     }
 
     public void showAllBankAccounts() {
-        System.out.printf("%s%n", name);
+        System.out.printf("%n%s%n", name);
         System.out.println("=====================================");
         System.out.println("      Name         Account Number    ");
         System.out.println("-------------------------------------");
