@@ -167,9 +167,9 @@ public class BankingSystem {
         String input = scanner.nextLine();
 
         if (input.equals("1")) {
-            bank.showAllBankAccounts();
-        } else if (input.equals("2")) {
             bank.showAllUserAccounts();
+        } else if (input.equals("2")) {
+            bank.showAllBankAccounts();
         } else {
             throw new RuntimeException("Invalid Number.");
         }
