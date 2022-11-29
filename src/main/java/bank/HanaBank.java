@@ -2,10 +2,7 @@ package bank;
 
 import bankaccount.BankAccount;
 import bankaccount.HanaBankAccount;
-import bankaccount.KbKookminBankAccount;
-import useraccount.UserAccount;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HanaBank extends Bank {
@@ -13,7 +10,7 @@ public class HanaBank extends Bank {
     static HanaBank instance;
 
     private HanaBank() {
-        super("Hana Bank");
+        super("Hana Bank", 2);
     }
 
     public static HanaBank getInstance() {
@@ -24,52 +21,17 @@ public class HanaBank extends Bank {
     }
 
     @Override
-    public void register() {
-        System.out.println("==============================");
-        System.out.println("★신규 회원등록★");
-        System.out.println("==============================");
-        System.out.print("고객님의 성함을 입력해주세요 : ");
-        String name = scanner.nextLine();
-        System.out.print("등록하실 ID를 입력해주세요 : ");
-        String id = scanner.nextLine();
-        System.out.print("등록하실 PW를 입력해주세요 : ");
-        String pw = scanner.nextLine();
-        long balance = 0;
-        String ano = createAno();
-
-        UserAccount userAccount = new UserAccount(name, id, pw);
-        BankAccount bankAccount = new HanaBankAccount(name, id, pw, getName(), ano, balance);
-
-        List<BankAccount> list = new ArrayList<>();
-        list.add(new KbKookminBankAccount(name, id, pw, getName(), ano, 0L));
-        getIdBankAccountListMap().put(id, list);
-        getUserAccountList().add(userAccount);
-
-        System.out.println("============[가입정보]===========");
-        System.out.println("- 성함 : " + bankAccount.getName());
-        System.out.println("- 아이디 : " + bankAccount.getId());
-        System.out.println("- 계좌번호 : " + bankAccount.getAccountNumber());
-        System.out.println(bankAccount.getName() + "님! 하나은행의 회원이 되신걸 환영합니다 :)");
-        System.out.println("==============================");
+    public String[] getAccountNumberRegex() {
+        return new String[]{"\\d{3}\\d{6}\\d{5}", "\\d{3}-\\d{6}-\\d{5}"};
     }
 
     @Override
-    public void update() {
-
+    protected BankAccount createBankAccount(String name, String id, String password, String newAccountNumber) {
+        return new HanaBankAccount(name, id, password, getName(), newAccountNumber, 0L);
     }
 
     @Override
-    public void deleteAccount() {
-
-    }
-
-    @Override
-    public void withdraw() {
-
-    }
-
-    private String createAno() {
-
+    protected String generateAccountNumber() {
         List<BankAccount> bankAccountList = getBankAccountList();
         int size = bankAccountList.size();
 
@@ -90,5 +52,13 @@ public class HanaBank extends Bank {
                 return ano;
             }
         }
+    }
+
+    @Override
+    public String formatAccountNumber(String accountNumber) {
+        StringBuilder sb = new StringBuilder();
+        accountNumber = accountNumber.replace("-", "");
+        sb.append(accountNumber, 0, 3).append("-").append(accountNumber, 3, 9).append("-").append(accountNumber, 9, 14);
+        return sb.toString();
     }
 }

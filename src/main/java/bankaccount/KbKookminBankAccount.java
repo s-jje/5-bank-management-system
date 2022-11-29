@@ -1,6 +1,7 @@
 package bankaccount;
 
 import bank.*;
+import util.BankingSystem;
 import util.TimeFormatter;
 
 import java.time.ZonedDateTime;
@@ -13,49 +14,7 @@ public class KbKookminBankAccount extends BankAccount {
     private String grade;
 
     public KbKookminBankAccount(String name, String id, String password, String bankName, String accountNumber, long balance) {
-        super(name, id, password, bankName, accountNumber, balance);
-    }
-
-    @Override //입금
-    public void deposit() {
-        System.out.println("============================================================================================");
-        System.out.println("This business is a deposit");
-        System.out.println("account number is " + getAccountNumber() + " account owner : " + getName() );
-        System.out.print("Please enter the amount: ");
-        long amount = Long.parseLong(scanner.nextLine());
-        System.out.println("Is the amount you want to deposit" + amount);
-        System.out.println("If it's correct, press 1. If it's not, press 2");
-        String check = scanner.nextLine();
-        if (check.equals("1")) {
-            setBalance(getBalance() + amount);
-            System.out.println("The deposit has been made.");
-            addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), getAccountNumber(), true, amount, getBalance(), "KB Bank"));
-            System.out.println("The current amount in the account is " + getBalance() +"₩");
-        } else {
-            System.out.println("Please start from the beginning");
-            return;
-        }
-        System.out.println("============================================================================================");
-    }
-
-    @Override // 출금
-    public void withdrawal() {
-        System.out.println("============================================================================================");
-        System.out.println("The job is withdrawal");
-        System.out.println("account number is " + getAccountNumber() + " account owner : " + getName() );
-        System.out.println("Please enter the amount you wish to withdraw");
-        long amount = Long.parseLong(scanner.nextLine());
-
-        if (checkBalance(amount)) {
-            setBalance(getBalance() - amount);
-            System.out.println(amount + "₩ has been withdrawn.");
-            ZonedDateTime zonedDateTime = getCurrentDateTime();
-            addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), getAccountNumber(), false, amount, getBalance(), "KB Bank"));
-
-            System.out.println("The current amount in the account is " + getBalance() +"₩");
-            System.out.println("Thank you for using it");
-        }
-        System.out.println("============================================================================================");
+        super(name, id, password, bankName, accountNumber, balance, 2.536783e-9, 500); // 8.0%
     }
 
     @Override // 송금
@@ -68,68 +27,75 @@ public class KbKookminBankAccount extends BankAccount {
                 HanaBank.getInstance()
         ));
         printBankList();
-        String num = scanner.nextLine();
-        Bank bank = chooseBankInstance(bankList, num);
+        String bankNumber = scanner.nextLine();
+        Bank bank = chooseBankInstance(bankList, bankNumber);
         System.out.println("The bank I'm trying to transfer money to is " + bank.getName());
         KbKookminBank instance = KbKookminBank.getInstance();
         if (bank.equals(instance)) {
             System.out.println("There is no fee between the same banks");
             System.out.println("Please enter your own account");
-            BankAccount accountSend = validation(scanner, instance);
-            System.out.println("Please enter account number to transfer:");
-            BankAccount accountReceive = validation(scanner, bank);
+            BankAccount accountSend = validation(instance);
+
+            System.out.print("Please enter the account number to transfer: ");
+            String dstNum = scanner.nextLine();
+
+            String[] pattern = bank.getAccountNumberRegex();
+
+            if (dstNum.matches(pattern[1])) {
+                dstNum = dstNum.replace("-", "");
+            } else if (!dstNum.matches(pattern[0])) {
+                throw new RuntimeException("Invalid input.");
+            }
+            dstNum = bank.formatAccountNumber(dstNum);
+
+            Bank dstBank = BankingSystem.setDstBank(bankNumber);
+            BankAccount accountReceive = dstBank.getBankAccount(dstNum);
             System.out.print("Please enter the amount: ");
             long amount = Long.parseLong(scanner.nextLine());
 
             if (checkBalance(amount)) {
                 receive(accountSend, accountReceive, amount);
                 ZonedDateTime zonedDateTime = getCurrentDateTime();
-                addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), getAccountNumber(), false, amount, getBalance(), "KB Bank"));
-
+                addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), getAccountNumber(), false, amount, getBalance(), "KB Bank " + accountReceive.getAccountNumber() + " " + accountReceive.getName()));
             }
-
         } else {
             System.out.println("You will be charged a fee for sending money to other banks");
             System.out.println("Please enter your own account");
-            BankAccount accountSend = validation(scanner, instance);
-            System.out.println("Please enter account number to transfer:");
-            BankAccount accountReceive = validation(scanner, bank);
+            BankAccount accountSend = validation(instance);
+
+            System.out.print("Please enter the account number to transfer: ");
+            String dstNum = scanner.nextLine();
+
+            String[] pattern = bank.getAccountNumberRegex();
+
+            if (dstNum.matches(pattern[1])) {
+                dstNum = dstNum.replace("-", "");
+            } else if (!dstNum.matches(pattern[0])) {
+                throw new RuntimeException("Invalid input.");
+            }
+
+            Bank dstBank = BankingSystem.setDstBank(bankNumber);
+            BankAccount accountReceive = dstBank.getBankAccount(dstNum);
+
             System.out.print("Please enter the amount: ");
             long amount = Long.parseLong(scanner.nextLine());
-            if (checkBalance(amount)) {
 
-                accountSend.setBalance(accountSend.getBalance() - 500);
-                accountSend.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), accountReceive.getAccountNumber(), false, 500, accountSend.getBalance(), "Other bank fee"));
+            if (checkBalance(amount)) {
+                int transferFee = getTransferFee();
+
+                setBalance(accountSend.getBalance() - transferFee);
+                addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), getAccountNumber(), false, transferFee, accountSend.getBalance(), "Other bank fee"));
 
                 receive(accountSend, accountReceive, amount);
                 ZonedDateTime zonedDateTime = getCurrentDateTime();
-                addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), getAccountNumber(), false, amount, getBalance(), accountReceive.getBankName()));
+                addTransactionData(new TransactionData(TimeFormatter.format(zonedDateTime), getAccountNumber(), false, amount, getBalance(), accountReceive.getBankName() + " " + accountReceive.getAccountNumber() + " " + accountReceive.getName()));
             }
         }
         System.out.println("============================================================================================");
     }
 
-    @Override
-    public void receive(BankAccount accountSend, BankAccount accountReceive, long amount) {
-        String accountNumber = accountReceive.getAccountNumber();
-        System.out.println("보내고자 하는 금액 : " + amount + " 보내고자 하는 계좌 번호 : " + accountNumber);
-        accountSend.setBalance(accountSend.getBalance() - amount);
-        accountReceive.setBalance(accountReceive.getBalance() + amount);
-        StringBuilder description = new StringBuilder();
-        description.append(accountSend.getBankName()).append(" ").append(accountSend.getAccountNumber()).append(" ").append(accountSend.getName());
-        accountReceive.addTransactionData(new TransactionData(TimeFormatter.format(getCurrentDateTime()), accountReceive.getAccountNumber(), true, amount, accountReceive.getBalance(), description.toString()));
-
-        System.out.println("송금이 완료되었습니다");
-    }
-
-    @Override
-    public void showBalance() {
-        long balance = getBalance();
-        System.out.printf("| %36s |%n", "₩" + balance);
-    }
-
-    private BankAccount validation(Scanner scanner, Bank bank) {
-        System.out.println("계좌의 id를 입력해주십시오");
+    private BankAccount validation(Bank bank) {
+        System.out.print("Please enter your ID: ");
         String id = scanner.nextLine();
         System.out.print("Please enter your Password: ");
         String pw = scanner.nextLine();

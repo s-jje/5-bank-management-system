@@ -2,18 +2,14 @@ package bank;
 
 import bankaccount.BankAccount;
 import bankaccount.ShinhanBankAccount;
-import useraccount.UserAccount;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
+import util.RandomNumberGenerator;
 
 public class ShinhanBank extends Bank {
 
     static ShinhanBank instance;
 
     private ShinhanBank() {
-        super("Shinhan Bank");
+        super("Shinhan Bank", 4);
     }
 
     public static ShinhanBank getInstance() {
@@ -24,56 +20,30 @@ public class ShinhanBank extends Bank {
     }
 
     @Override
-    public void register() {
-        System.out.printf("%n");
-        System.out.print("이름을 입력해 주세요: ");
-        String name = scanner.nextLine();
-        System.out.print("사용하실 ID를 입력해 주세요: ");
-        String id = scanner.nextLine();
-
-        System.out.print("사용하실 PASSWORD를 입력해 주세요: ");
-        String pw = scanner.nextLine();
-        System.out.print("한 번 더 입력해 주세요: ");
-        String pwCheck = scanner.nextLine();
-
-        // 비밀번호 일치하는지 확인
-        if (!pw.equals(pwCheck)) {
-            System.out.println("비밀번호가 일치하지 않습니다.");
-            return;
-        }
-
-        // 계좌번호 정규표현식으로 입력
-        String pattern = "110-\\d{3}-\\d{6}";
-        System.out.println("사용하실 계좌번호를 입력해 주세요");
-        System.out.print("형식) 110-xxx-xxxxxx : ");
-        String accountNumber = scanner.next();
-        if(!Pattern.matches(pattern,accountNumber)){
-            System.out.println("잘못된 형식입니다.");
-            return ;
-        }
-
-        // 계좌번호 랜덤 생성
-//        String accountNumber = "110-" + (int) ((Math.random() * 999) + 1) + "-" + (int) ((Math.random() * 999999) + 1);
-        List<BankAccount> list = new ArrayList<>();
-        list.add(new ShinhanBankAccount(name, id, pw, getName(), accountNumber, 0L));
-        getIdBankAccountListMap().put(id, list);
-        getUserAccountList().add(new UserAccount(name, id, pw));
-        // 계좌번호 출력
-        System.out.printf("Account registration successful! Account Number is %s%n%n", accountNumber);
+    public String[] getAccountNumberRegex() {
+        return new String[]{"\\d{3}\\d{3}\\d{6}", "\\d{3}-\\d{3}-\\d{6}"};
     }
 
     @Override
-    public void update() {
+    protected BankAccount createBankAccount(String name, String id, String password, String newAccountNumber) {
+        return new ShinhanBankAccount(name, id, password, getName(), newAccountNumber, 0L);
+    }
+    @Override
+    protected String generateAccountNumber() {
+        String first = "110";
+        String second = RandomNumberGenerator.generateGivenLengthNumber(3);
+        String third = RandomNumberGenerator.generateGivenLengthNumber(6);
 
+        StringBuilder sb = new StringBuilder();
+        sb.append(first).append("-").append(second).append("-").append(third);
+        return sb.toString();
     }
 
     @Override
-    public void deleteAccount() {
-
-    }
-
-    @Override
-    public void withdraw() {
-
+    public String formatAccountNumber(String accountNumber) {
+        StringBuilder sb = new StringBuilder();
+        accountNumber = accountNumber.replace("-", "");
+        sb.append(accountNumber, 0, 3).append("-").append(accountNumber, 3, 6).append("-").append(accountNumber, 6, 12);
+        return sb.toString();
     }
 }
