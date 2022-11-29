@@ -2,6 +2,7 @@ package bank;
 
 import bankaccount.BankAccount;
 import bankaccount.KbKookminBankAccount;
+import util.RandomNumberGenerator;
 
 public class KbKookminBank extends Bank {
 
@@ -28,13 +29,16 @@ public class KbKookminBank extends Bank {
         return new KbKookminBankAccount(name, id, password, getName(), newAccountNumber, 0L);
     }
 
+
     @Override
     protected String generateAccountNumber() {
-        String firstNumber = String.valueOf((int) (Math.random() * 1000));
-        String middleNumber = String.valueOf((int) (Math.random() * 100));
-        String lastNumber = String.valueOf((int) (Math.random() * 1000000));
+        String first = RandomNumberGenerator.generateGivenLengthNumber(3);
+        String second = RandomNumberGenerator.generateGivenLengthNumber(2);
+        String third = RandomNumberGenerator.generateGivenLengthNumber(6);
 
-        return firstNumber + "-" + middleNumber + "-" + lastNumber;
+        StringBuilder sb = new StringBuilder();
+        sb.append(first).append("-").append(second).append("-").append(third);
+        return sb.toString();
     }
 
     @Override
