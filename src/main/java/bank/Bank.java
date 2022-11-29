@@ -202,6 +202,8 @@ public abstract class Bank {
 
     public abstract String[] getAccountNumberRegex();
 
+    public abstract String formatAccountNumber(String accountNumber);
+
     protected abstract BankAccount createBankAccount(String name, String id, String password, String newAccountNumber);
 
     protected abstract String generateAccountNumber();

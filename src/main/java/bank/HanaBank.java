@@ -26,6 +26,14 @@ public class HanaBank extends Bank {
     }
 
     @Override
+    public String formatAccountNumber(String accountNumber) {
+        StringBuilder sb = new StringBuilder();
+        accountNumber = accountNumber.replace("-", "");
+        sb.append(accountNumber, 0, 3).append("-").append(accountNumber, 3, 9).append("-").append(accountNumber, 9, 14);
+        return sb.toString();
+    }
+
+    @Override
     protected BankAccount createBankAccount(String name, String id, String password, String newAccountNumber) {
         return new HanaBankAccount(name, id, password, getName(), newAccountNumber, 0L);
     }
