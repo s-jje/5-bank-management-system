@@ -21,10 +21,6 @@ test {
 
 jar {
     manifest {
-<<<<<<< HEAD
-        attributes 'Main-class': 'BankManagementSystemApplication'
-=======
         attributes 'Main-Class': 'BankManagementSystemApplication'
->>>>>>> 1f47790604c84d60cf01ddadf4ca151005178a7c
     }
 }
