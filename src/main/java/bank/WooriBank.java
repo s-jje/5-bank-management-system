@@ -1,13 +1,15 @@
 package bank;
 
-import account.Account;
+import bankaccount.BankAccount;
+import bankaccount.WooriBankAccount;
+import util.RandomNumberGenerator;
 
 public class WooriBank extends Bank {
 
     static WooriBank instance;
 
     private WooriBank() {
-        super("Woori Bank");
+        super("Woori Bank", 2);
     }
 
     public static WooriBank getInstance() {
@@ -16,13 +18,33 @@ public class WooriBank extends Bank {
         }
         return instance;
     }
-    @Override
-    public void register() {
 
+    @Override
+    public String[] getAccountNumberRegex() {
+        return new String[]{"\\d{3}\\d{6}\\d{2}", "\\d{3}-\\d{6}-\\d{2}"};
     }
 
     @Override
-    public void updateAccount(Account account) {
+    protected BankAccount createBankAccount(String name, String id, String password, String newAccountNumber) {
+        return new WooriBankAccount(name, id, password, getName(), newAccountNumber, 0L);
+    }
 
+    @Override
+    protected String generateAccountNumber() {
+        String first = RandomNumberGenerator.generateGivenLengthNumber(3);
+        String second = RandomNumberGenerator.generateGivenLengthNumber(6);
+        String third = RandomNumberGenerator.generateGivenLengthNumber(2);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(first).append("-").append(second).append("-").append(third);
+        return sb.toString();
+    }
+
+    @Override
+    public String formatAccountNumber(String accountNumber) {
+        StringBuilder sb = new StringBuilder();
+        accountNumber = accountNumber.replace("-", "");
+        sb.append(accountNumber, 0, 3).append("-").append(accountNumber, 3, 9).append("-").append(accountNumber, 9, 11);
+        return sb.toString();
     }
 }

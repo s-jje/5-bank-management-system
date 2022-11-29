@@ -1,15 +1,15 @@
 package bank;
 
-import account.Account;
-
-import java.util.Scanner;
+import bankaccount.BankAccount;
+import bankaccount.ShinhanBankAccount;
+import util.RandomNumberGenerator;
 
 public class ShinhanBank extends Bank {
 
     static ShinhanBank instance;
 
     private ShinhanBank() {
-        super("Shinhan Bank");
+        super("Shinhan Bank", 4);
     }
 
     public static ShinhanBank getInstance() {
@@ -20,38 +20,30 @@ public class ShinhanBank extends Bank {
     }
 
     @Override
-    public void register() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Enter your Name: ");
-        String name = scanner.nextLine();
-
-        System.out.println("Enter your Id: ");
-        String id = scanner.nextLine();
-
-        System.out.println("Enter your Password: ");
-        String password = scanner.nextLine();
-
-        System.out.println("Enter your BankName: ");
-        String bankName = scanner.nextLine();
-
-        System.out.println("Enter your AccountNumber: ");
-        System.out.println("###-###### 이 형식으로 적어주세요");
-        String accountNumber = scanner.nextLine();
-
-//        DecimalFormat df = new DecimalFormat();
-//        Number num = df.parse("000-000000");
-//
-//        System.out.println("Enter your Balance: ");
-//        long balance = Long.parseLong(scanner.nextLine());
-//
-//        this.accountList.add(new Account(name, id, password, bankName, accountNumber, balance));
-//        System.out.println("Your account has been created!");
-//        System.out.printf("ID: %s name: %s account number: %s%n", id, name, accountNumber);
+    public String[] getAccountNumberRegex() {
+        return new String[]{"\\d{3}\\d{3}\\d{6}", "\\d{3}-\\d{3}-\\d{6}"};
     }
 
     @Override
-    public void updateAccount(Account account) {
+    protected BankAccount createBankAccount(String name, String id, String password, String newAccountNumber) {
+        return new ShinhanBankAccount(name, id, password, getName(), newAccountNumber, 0L);
+    }
+    @Override
+    protected String generateAccountNumber() {
+        String first = "110";
+        String second = RandomNumberGenerator.generateGivenLengthNumber(3);
+        String third = RandomNumberGenerator.generateGivenLengthNumber(6);
 
+        StringBuilder sb = new StringBuilder();
+        sb.append(first).append("-").append(second).append("-").append(third);
+        return sb.toString();
+    }
+
+    @Override
+    public String formatAccountNumber(String accountNumber) {
+        StringBuilder sb = new StringBuilder();
+        accountNumber = accountNumber.replace("-", "");
+        sb.append(accountNumber, 0, 3).append("-").append(accountNumber, 3, 6).append("-").append(accountNumber, 6, 12);
+        return sb.toString();
     }
 }
