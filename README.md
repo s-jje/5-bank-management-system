@@ -20,3 +20,6 @@
     2. 계좌 잔고 확인 시 잔고(기존 잔고 + 입금 금액 x 적용 이율)가 표시됨.
 2. 출금 수수료 계산
 3. 계좌 송금 기능
+
+## 프로젝트 구조
+![UML](https://user-images.githubusercontent.com/117354616/204438052-dbff3e90-8a08-44d3-8b16-3a64d2cd1fef.png)
